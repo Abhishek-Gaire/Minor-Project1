@@ -57,7 +57,9 @@ const server = http.createServer((req, res) => {
         await client.close();
       }
     });
-  } else if (req.method === "GET" && req.url === "/login.html") {
+  }
+  // Serve login.html file when redirected
+  else if (req.method === "GET" && req.url === "/login.html") {
     fs.readFile(__dirname + "/login.html", "utf8", (err, data) => {
       if (err) {
         res.writeHead(500, { "content-Type": "text/plain" });
