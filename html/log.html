@@ -1,67 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link rel="stylesheet" href="../css/log.css" /> -->
-    <style>
-      * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-      }
-      .container {
-        width: 300px;
-        height: 300px;
-        position: absolute;
-        background-color: antiquewhite;
-      }
-      .back {
-        color: white;
-        position: relative;
-        background: #000;
-        width: 50%;
-        height: 100%;
-        display: flex;
-        overflow: hidden;
-        z-index: 1;
-      }
-
-      button .left,
-      .right {
-        /* background-color: red; */
-        /* height: 100px; */
-        position: absolute;
-        /* top: 20rem; */
-        z-index: 2;
-      }
-      .right {
-        color: blue;
-        margin-left: 16rem;
-      }
-      #btn {
-        position: absolute;
-        top: 20rem;
-      }
-    </style>
-  </head>
-  <body>
+    <link rel="stylesheet" href="../css/log.css">
+</head>
+<body>
     <div class="container">
-      <div class="back">
-        <button class="left">Left</button>
-        <button class="right">Right</button>
-      </div>
+        <div class="mover"></div>
     </div>
-    <div>
-      <button id="btn">Click</button>
+
+        <div class="signin">
+            <div class="left">
+                <form action="#" method="#">
+                    <h1 id="left">Sign in to DYD</h1>
+                    <div class="link">
+                        <div class="facebook"></div>
+                        <div class="gmail"></div>
+                        <div class="linkedin"></div>
+                    </div>
+                    <p>or use your email account</p>
+                    <div class="inputs">
+                        <input type="email" placeholder="Email">
+                        <input type="password" placeholder="Password">
+
+                    </div>
+                    <p id="forgot">Forgot your password?</p>
+                    <button class="formsignin">SIGN IN</button>
+                </form>
+            </div>
+                <div class="right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details</p>
+                    <p>and start journey with us</p>
+                    <button class="signupbtn">
+                        SIGN UP
+                    </button>
+                </div>
+        </div>
+        
+        
     </div>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"
-      integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script type="module" src="../script/log.js"></script>
-  </body>
+    <div class="signup">
+    <div class="left">
+        <h1>Welcome Back!</h1>
+        <p>To keep connected with us please</p>
+        <p>login with your personal info</p>
+        <button class="signinbtn">
+            SIGN IN
+        </button>
+    </div>
+    <div class="right">
+        <form action="/log" method="post">
+            <h1 id="right">Sign up to DYD</h1>
+            <div class="link">
+                <div class="facebook"></div>
+                <div class="gmail"></div>
+                <div class="linkedin"></div>
+            </div>
+            <p>or use your email for registration</p>
+            <div class="inputs">
+                <input type="text" placeholder="Name" name="username">
+                <input type="email" placeholder="Email" name="email">
+                <input type="password" placeholder="Password" name="password">
+
+            </div>
+            <!-- <p id="forgot">Forgot your password?</p> -->
+            <button class="formsignup">SIGN UP</button>
+        </form>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../script/log.js" type="module"></script>
+</body>
 </html>
