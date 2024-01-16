@@ -2,8 +2,10 @@ const http = require("http");
 const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
-const connectDB = require("./script/db");
+const { MongoClient } = require("mongodb");
+const { parse } = require("querystring");
 
+const mongourl = "mongodb://localhost:27017";
 const serveFile = async (filePath, contentType, response) => {
   const rawData = await fsPromises.readFile(
     filePath,
@@ -64,17 +66,44 @@ const server = http.createServer((req, res) => {
     serveFile(filePath, contentType, res);
   }
   // POST request handling
-  server.on("request", (req, res) => {
-    if (req.method === "POST" && req.url === "/log") {
+  if (req.method === "POST" && req.url === "/log") {
+    let requestBody = "";
+    req.on("data", (chunk) => {
+      requestBody += chunk.toString();
+    });
+    req.on("end", async () => {
+      const formData = parse(requestBody);
+
+      // connect to MongoDB's URL\ localhost
+      const client = new MongoClient(mongourl);
       try {
-        connectDB(req, res);
-        serveFile(filePath, contentType, res);
+        await client.connect();
+        const db = client.db("signupForm");
+        const collection = db.collection("users");
+
+        // Create a new user document
+        const newUser = {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        };
+        // Insert the new users document into MongoDB's collection
+        await collection.insertOne(newUser);
+        res.writeHead(302, {
+          Location: "/html/log.html#login",
+        });
+        res.end();
       } catch (err) {
-        console.err(err);
+        res.writeHead(500, { "Content-Type": "text/plain" });
+        res.end("Internal Server Error");
+      } finally {
+        await client.close();
+        // serveFile(filePath, contentType, res);
       }
-    }
-  });
+    });
+  }
 });
+server.setMaxListeners(100);
 const PORT = process.env.PORT || 5173;
 server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
