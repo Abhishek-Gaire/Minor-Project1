@@ -39,7 +39,11 @@
     <div class="bgvideo">
       <video src=""></video>
     </div>
-    <div class="models"></div>
+    <div class="models">
+      <% data.forEach(name => { %>
+      <p><%= name %></p>
+      <% }); %>
+    </div>
     <footer>
       <div class="contact">
         <div class="contactup">

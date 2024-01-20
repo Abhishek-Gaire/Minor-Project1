@@ -2,23 +2,51 @@ const http = require("http");
 const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
-const { MongoClient } = require("mongodb");
-const { parse } = require("querystring");
 
-const mongourl = "mongodb://localhost:27017";
+const signUP = require("./script/signup");
+const renderHTML = require("./script/loadHomePage");
+
 const serveFile = async (filePath, contentType, response) => {
-  const rawData = await fsPromises.readFile(
-    filePath,
-    !contentType.includes("image") ? "utf8" : ""
-  );
-  const data =
-    contentType === "application/json" ? JSON.parse(rawData) : rawData;
-  response.writeHead(filePath.includes("404.html") ? 404 : 200, {
-    "Content-Type": contentType,
-  });
-  response.end(
-    contentType === "application/json" ? JSON.stringify(data) : data
-  );
+  const validContentTypes = [
+    "text/plain",
+    "text/html",
+    "application/json",
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "text/css",
+    "application/javascript",
+  ];
+
+  if (!validContentTypes.includes(contentType)) {
+    console.error(`Invalid content type: ${contentType}`);
+    response.writeHead(400, {
+      "Content-Type": "text/plain",
+    });
+    response.end("Bad Request");
+    return;
+  }
+
+  try {
+    const rawData = await fsPromises.readFile(
+      filePath,
+      !contentType.includes("image") ? "utf8" : ""
+    );
+    const data =
+      contentType === "application/json" ? JSON.parse(rawData) : rawData;
+    response.writeHead(filePath.includes("404.html") ? 404 : 200, {
+      "Content-Type": contentType,
+    });
+    response.end(
+      contentType === "application/json" ? JSON.stringify(data) : data
+    );
+  } catch (err) {
+    console.error(err);
+    response.writeHead(500, {
+      "Content-Type": "text/plain",
+    });
+    response.end("Internal Server Error");
+  }
 };
 
 //serve static files
@@ -68,60 +96,28 @@ const server = http.createServer((req, res) => {
     //serve the file
     serveFile(filePath, contentType, res);
   }
-  // connect to MongoDB's URL\ localhost
-  const client = new MongoClient(mongourl);
+
   // POST request handling
   if (req.method === "POST" && req.url === "/log") {
-    let requestBody = "";
-    req.on("data", (chunk) => {
-      requestBody += chunk.toString();
-    });
-    req.on("end", async () => {
-      const formData = parse(requestBody);
-
-      try {
-        await client.connect();
-        const db = client.db("signupForm");
-        const collection = db.collection("users");
-
-        // Create a new user document
-        const newUser = {
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        };
-        // Insert the new users document into MongoDB's collection
-        await collection.insertOne(newUser);
-        res.writeHead(302, {
-          Location: "/html/log.html#login",
-        });
-        res.end();
-      } catch (err) {
-        res.writeHead(500, { "Content-Type": "text/plain" });
-        res.end("Internal Server Error");
-      } finally {
-        await client.close();
-        // serveFile(filePath, contentType, res);
-      }
-    });
+    if (!res.headersSent) {
+      signUP(req, res);
+    }
   }
-  // Get the database collection
-  const collection = client.db("Project").collection("models");
 
-  // Find all documents in the collection
-  collection.find({}).toArray((err, documents) => {
-    if (err) throw err;
-
-    // Render the EJS template with the data
-    ejs.renderFile("./index.ejs", { data: documents }, (err, html) => {
-      if (err) throw err;
-
-      // Replace the contents of the div with the class "database" with the rendered HTML
-      const databaseDiv = document.querySelector(".models");
-      databaseDiv.innerHTML = html;
-    });
-  });
+  // Handle rendering the homepage
+  if (
+    (req.url === "/",
+    async (req, res) => {
+      try {
+        await renderHTML(res);
+      } catch (err) {
+        console.err(err);
+        res.status(500), send("Internal Server Error");
+      }
+    })
+  );
 });
+
 server.setMaxListeners(100);
 const PORT = process.env.PORT || 5173;
 server.listen(PORT, () => {
