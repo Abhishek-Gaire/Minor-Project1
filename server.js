@@ -3,8 +3,9 @@ const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
 
-const signUP = require("./script/signup");
-const renderHTML = require("./script/loadHomePage");
+const signUP = require("./script/signup.js");
+const renderHTML = require("./script/renderModels.js");
+const collection = require("./script/connectDB.js");
 
 const serveFile = async (filePath, contentType, response) => {
   const validContentTypes = [
@@ -28,18 +29,25 @@ const serveFile = async (filePath, contentType, response) => {
   }
 
   try {
-    const rawData = await fsPromises.readFile(
-      filePath,
-      !contentType.includes("image") ? "utf8" : ""
-    );
-    const data =
-      contentType === "application/json" ? JSON.parse(rawData) : rawData;
-    response.writeHead(filePath.includes("404.html") ? 404 : 200, {
-      "Content-Type": contentType,
-    });
-    response.end(
-      contentType === "application/json" ? JSON.stringify(data) : data
-    );
+    if (
+      contentType === "text/html" &&
+      path.basename(filePath) === "index.ejs"
+    ) {
+      renderHTML(response, collection, filePath);
+    } else {
+      const rawData = await fsPromises.readFile(
+        filePath,
+        !contentType.includes("image") ? "utf8" : ""
+      );
+      const data =
+        contentType === "application/json" ? JSON.parse(rawData) : rawData;
+      response.writeHead(filePath.includes("404.html") ? 404 : 200, {
+        "Content-Type": contentType,
+      });
+      response.end(
+        contentType === "application/json" ? JSON.stringify(data) : data
+      );
+    }
   } catch (err) {
     console.error(err);
     response.writeHead(500, {
@@ -50,8 +58,9 @@ const serveFile = async (filePath, contentType, response) => {
 };
 
 //serve static files
-const server = http.createServer((req, res) => {
-  const extension = path.extname(req.url);
+const server = http.createServer(async (req, res) => {
+  const urlPath = req.url.split("?")[0]; // Remove query parameters for simplicity
+  const extension = path.extname(urlPath);
   let contentType;
   switch (extension) {
     case ".css":
@@ -84,14 +93,18 @@ const server = http.createServer((req, res) => {
       : contentType === "text/html" && req.url.slice(-1) === "/"
       ? path.join(__dirname, req.url, "index.ejs")
       : contentType === "text/html"
-      ? path.join(__dirname, "html", req.url)
+      ? path.join(__dirname, req.url)
       : //default
         path.join(__dirname, req.url);
+  console.log(filePath);
   // makes .html extension not required in the browser
-  if (!extension && req.url.slice(-1) !== "/") filePath += ".ejs";
+  if (!extension && req.url.slice(-1) !== "/") filePath += ".html";
 
   //fileExists or not
-  const fileExists = fs.existsSync(filePath);
+  const fileExists = await fsPromises
+    .access(filePath, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
   if (fileExists) {
     //serve the file
     serveFile(filePath, contentType, res);
@@ -103,22 +116,9 @@ const server = http.createServer((req, res) => {
       signUP(req, res);
     }
   }
-
-  // Handle rendering the homepage
-  if (
-    (req.url === "/",
-    async (req, res) => {
-      try {
-        await renderHTML(res);
-      } catch (err) {
-        console.err(err);
-        res.status(500), send("Internal Server Error");
-      }
-    })
-  );
 });
 
-server.setMaxListeners(100);
+// server.setMaxListeners(1000);
 const PORT = process.env.PORT || 5173;
 server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);

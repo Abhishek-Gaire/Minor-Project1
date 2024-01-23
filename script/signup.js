@@ -1,5 +1,5 @@
 const { parse } = require("querystring");
-const { connectToMongoDB, closeMongoDB, getClient } = require("./db");
+const { connectToMongoDB, closeMongoDB, getClient } = require("./mongoConnect");
 
 const signUP = async (req, res) => {
   let requestBody = "";
@@ -26,12 +26,15 @@ const signUP = async (req, res) => {
       await collection.insertOne(newUser);
 
       // Set the response headers and status code
-      res.writeHead(202, { Location: "/html/log.ejs" });
+      res.writeHead(302, {
+        Location: "/html/log.ejs",
+      });
       res.end();
     } catch (err) {
       // Set the response headers and status code for error cases
-      res.writeHead(500, { "Content-Type": "text/plain" });
-      res.end("Internal Server Error");
+      console.log(err);
+      // res.writeHead(500, { ContentType: "text/plain" });
+      // res.end("Internal Server Error");
     } finally {
       closeMongoDB();
     }
