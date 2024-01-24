@@ -1,7 +1,5 @@
 const ejs = require("ejs");
-
 const fsPromises = require("fs").promises;
-const { closeMongoDB } = require("./mongoConnect");
 
 const renderHTML = async (res, collection, filePath) => {
   try {
@@ -10,9 +8,7 @@ const renderHTML = async (res, collection, filePath) => {
     const models = modelsData.map((model) => model.name);
     console.log(models);
     const renderedHTML = ejs.render(ejsData, { models });
-    // console.log(renderedHTML);
     res.end(renderedHTML);
-    closeMongoDB();
   } catch (err) {
     console.error(err);
   }

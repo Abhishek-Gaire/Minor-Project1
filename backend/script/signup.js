@@ -1,5 +1,9 @@
 const { parse } = require("querystring");
-const { connectToMongoDB, closeMongoDB, getClient } = require("./mongoConnect");
+const {
+  connectToMongoDB,
+  closeMongoDB,
+  getClient,
+} = require("../DBConnect/mongoConnect");
 
 const signUP = async (req, res) => {
   let requestBody = "";

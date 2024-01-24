@@ -3,9 +3,20 @@ const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
 
-const signUP = require("./script/signup.js");
-const renderHTML = require("./script/renderModels.js");
-const collection = require("./script/connectDB.js");
+const signUP = require("./backend/script/signup.js");
+const renderHTML = require("./backend/script/renderModels.js");
+const {
+  connectToModelsDB,
+  closeModelsDB,
+  collection,
+  getModelsDB,
+} = require("./backend/DBConnect/modelsDB.js");
+const {
+  connectToAuthDB,
+  closeAuthDB,
+  Users,
+  getAuthDB,
+} = require("./backend/DBConnect/authDB.js");
 
 const serveFile = async (filePath, contentType, response) => {
   const validContentTypes = [
@@ -28,6 +39,18 @@ const serveFile = async (filePath, contentType, response) => {
     return;
   }
 
+  // Check if Models Database is connected
+  if (!getModelsDB) {
+    //if not connected, try connecting
+    try {
+      await connectToModelsDB();
+    } catch (err) {
+      // If connection fails, handle the server
+      response.writeHead(500, { ConetntType: "text/plain" });
+      response.end("Cant connect to Models Databse");
+      return;
+    }
+  }
   try {
     if (
       contentType === "text/html" &&
@@ -111,15 +134,44 @@ const server = http.createServer(async (req, res) => {
   }
 
   // POST request handling
-  if (req.method === "POST" && req.url === "/log") {
-    if (!res.headersSent) {
-      signUP(req, res);
-    }
+  if (req.method === "POST" && req.url === "/signup") {
+    signUP(req, res);
+  } else if (req.method === "POST" && req.url === "/login") {
+    Login(req, res);
+  } else {
+    serveFile(filePath, contentType, res);
   }
 });
 
-// server.setMaxListeners(1000);
 const PORT = process.env.PORT || 5173;
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+// Connect to Models Database when the server starts
+connectToModelsDB().then(() => {
+  //Start the server once Models Database is connected
+  server.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}/`);
+  });
+});
+
+// Connect to Auth Database when the server starts
+connectToAuthDB().then(() => {
+  console.log("Connected to Auth Database");
+});
+
+// Handles server shutdown to close the Models and Auth Database Connection
+process.on("exit", async () => {
+  await closeModelsDB();
+  await closeAuthDB();
+  console.log("Server Shutting Down");
+});
+
+process.on("SIGINT", async () => {
+  await closeModelsDB();
+  await closeAuthDB();
+  process.exit();
+});
+
+process.on("SIGTERM", async () => {
+  await closeModelsDB();
+  await closeAuthDB();
+  process.exit();
 });
