@@ -1,0 +1,22 @@
+h1 {
+    text-align: left;
+    margin-left: 90px;
+}
+
+.container {
+    
+    
+    font-size: smaller;
+    align-items: center;
+    height: 20vh;
+    margin: 0;
+    
+
+}
+
+.container h2 {
+    margin: 0;
+    margin-left: 120px;
+}
+
+
