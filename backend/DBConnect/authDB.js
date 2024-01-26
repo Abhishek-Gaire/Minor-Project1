@@ -1,6 +1,6 @@
 const { MongoClient, ObjectId } = require("mongodb");
 const mongourl = "mongodb://localhost:27017";
-const dbName = "authDB";
+const dbName = "Authorization";
 
 let db;
 
@@ -20,7 +20,27 @@ const closeAuthDB = async () => {
     console.log("Authentication Database Closed");
   }
 };
+const getCollectionName = () => {
+  const collection = db.collection("users");
+  return collection;
+};
 
-const Users = db.collection("Users");
+const getUserByEmail = async (Users, email) => {
+  return Users.findOne({ email });
+};
 
-module.exports = { connectToAuthDB, closeAuthDB, Users, getAuthDB: () => db };
+const createUser = async (Users, userData) => {
+  return Users.insertOne(userData);
+};
+const getUserByID = async (Users, userID) => {
+  return Users.findOne({ _id: new ObjectId(userID) });
+};
+module.exports = {
+  connectToAuthDB,
+  closeAuthDB,
+  getCollectionName,
+  getUserByEmail,
+  createUser,
+  getUserByID,
+  getAuthDB: () => db,
+};

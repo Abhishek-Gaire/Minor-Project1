@@ -4,12 +4,13 @@ const fs = require("fs");
 const fsPromises = require("fs").promises;
 
 const signUP = require("./backend/script/signup.js");
+const Login = require("./backend/script/login.js");
 const renderHTML = require("./backend/script/renderModels.js");
 const {
   connectToModelsDB,
   closeModelsDB,
-  collection,
   getModelsDB,
+  getCollectionName,
 } = require("./backend/DBConnect/modelsDB.js");
 const {
   connectToAuthDB,
@@ -46,8 +47,21 @@ const serveFile = async (filePath, contentType, response) => {
       await connectToModelsDB();
     } catch (err) {
       // If connection fails, handle the server
-      response.writeHead(500, { ConetntType: "text/plain" });
+      response.writeHead(500, { contentType: "text/plain" });
       response.end("Cant connect to Models Databse");
+      console.log(err);
+      return;
+    }
+  }
+
+  //check if the auth database is connected
+  if (!getAuthDB) {
+    try {
+      await connectToAuthDB();
+    } catch (err) {
+      response.writeHead(500, { contentType: "text/palin" });
+      response.end("Cant connect to auth database");
+      console.log(err);
       return;
     }
   }
@@ -56,6 +70,7 @@ const serveFile = async (filePath, contentType, response) => {
       contentType === "text/html" &&
       path.basename(filePath) === "index.ejs"
     ) {
+      const collection = getCollectionName();
       renderHTML(response, collection, filePath);
     } else {
       const rawData = await fsPromises.readFile(
@@ -138,8 +153,6 @@ const server = http.createServer(async (req, res) => {
     signUP(req, res);
   } else if (req.method === "POST" && req.url === "/login") {
     Login(req, res);
-  } else {
-    serveFile(filePath, contentType, res);
   }
 });
 
@@ -149,6 +162,8 @@ connectToModelsDB().then(() => {
   //Start the server once Models Database is connected
   server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
+    //const collection = getCollectionName();
+    //console.log(collection);
   });
 });
 

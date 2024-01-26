@@ -1,10 +1,9 @@
 const { parse } = require("querystring");
 const {
-  connectToMongoDB,
-  closeMongoDB,
-  getClient,
-} = require("../DBConnect/mongoConnect");
-
+  getUserByEmail,
+  getCollectionName,
+  createUser,
+} = require("../DBConnect/authDB");
 const signUP = async (req, res) => {
   let requestBody = "";
   req.on("data", (chunk) => {
@@ -12,35 +11,29 @@ const signUP = async (req, res) => {
   });
   req.on("end", async () => {
     const formData = parse(requestBody);
+    const userName = formData.username;
+    const email = formData.email;
+    const password = formData.password;
+    const Users = getCollectionName();
+    const existingUser = await getUserByEmail(email);
 
-    try {
-      connectToMongoDB();
-      const client = getClient();
-      const db = client.db("signupForm");
-      const collection = db.collection("users");
-
-      // Create a new user document
+    if (existingUser) {
+      res.writeHead(409, { Location: "../../frontend/html/log.html" });
+      res.end();
+    } else {
       const newUser = {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
+        username: userName,
+        email: email,
+        password: password,
       };
-
       // Insert the new user document into MongoDB's collection
-      await collection.insertOne(newUser);
+      await createUser(Users, newUser);
 
       // Set the response headers and status code
       res.writeHead(302, {
-        Location: "/html/log.ejs",
+        Location: "../../frontend/html/log.html",
       });
       res.end();
-    } catch (err) {
-      // Set the response headers and status code for error cases
-      console.log(err);
-      // res.writeHead(500, { ContentType: "text/plain" });
-      // res.end("Internal Server Error");
-    } finally {
-      closeMongoDB();
     }
   });
 };

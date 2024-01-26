@@ -1,11 +1,13 @@
 const { MongoClient, ObjectID } = require("mongodb");
+
 const mongourl = "mongodb://localhost:27017";
 const dbName = "Project";
 
 let db;
+const client = new MongoClient(mongourl);
 const connectToModelsDB = async () => {
   try {
-    const client = await MongoClient.connect(mongourl);
+    await client.connect();
     db = client.db(dbName);
     console.log("Connected to Models Database");
   } catch (err) {
@@ -20,10 +22,14 @@ const closeModelsDB = async () => {
     console.log("Models Database Connection Closed");
   }
 };
-const collection = db.collection("Models");
+
+const getCollectionName = () => {
+  const collection = db.collection("Models");
+  return collection;
+};
 module.exports = {
   connectToModelsDB,
   closeModelsDB,
-  collection,
+  getCollectionName,
   getModelsDB: () => db,
 };

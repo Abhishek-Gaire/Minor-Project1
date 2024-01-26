@@ -13,7 +13,7 @@
 
         <div class="signin " id="login">
             <div class="left">
-                <form action="#" method="#">
+                <form action="/login" method="POST">
                     <h1 id="left">Sign in to DYD</h1>
                     <div class="link">
                         <div class="facebook"></div>
@@ -22,8 +22,8 @@
                     </div>
                     <p>or use your email account</p>
                     <div class="inputs">
-                        <input type="email" placeholder="Email">
-                        <input type="password" placeholder="Password">
+                        <input type="email" name="email" placeholder="Email">
+                        <input type="password"  placeholder="Password" name="password">
 
                     </div>
                     <p id="forgot">Forgot your password?</p>
@@ -52,7 +52,7 @@
         </button>
     </div>
     <div class="right">
-        <form action="/log" method="POST">
+        <form action="/signup" method="POST">
             <h1 id="right">Sign up to DYD</h1>
             <div class="link">
                 <div class="facebook"></div>
