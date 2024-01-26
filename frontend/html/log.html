@@ -13,7 +13,7 @@
 
         <div class="signin " id="login">
             <div class="left">
-                <form action="#" method="#">
+                <form action="/login" method="POST">
                     <h1 id="left">Sign in to DYD</h1>
                     <div class="link">
                         <div class="facebook"></div>
@@ -22,8 +22,8 @@
                     </div>
                     <p>or use your email account</p>
                     <div class="inputs">
-                        <input type="email" placeholder="Email">
-                        <input type="password" placeholder="Password">
+                        <input type="email" name="email" placeholder="Email">
+                        <input type="password"  placeholder="Password" name="password">
 
                     </div>
                     <p id="forgot">Forgot your password?</p>
@@ -52,7 +52,7 @@
         </button>
     </div>
     <div class="right">
-        <form action="/log" method="POST">
+        <form action="/signup" method="POST">
             <h1 id="right">Sign up to DYD</h1>
             <div class="link">
                 <div class="facebook"></div>
@@ -74,6 +74,6 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js" integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="../script/log.js" type="module"></script>
+    <script src="../js/log.js" type="module"></script>
 </body>
 </html>
