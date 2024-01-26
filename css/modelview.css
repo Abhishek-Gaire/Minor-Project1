@@ -10,7 +10,7 @@
   width: 100%;
   position: absolute;
   /* background: black; */
-  visibility: visible;
+  /* visibility: visible; */
   display: flex;
   justify-content: space-between;
 }

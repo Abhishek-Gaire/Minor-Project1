@@ -20,7 +20,7 @@
 
     /* background-color: red; */
     z-index: 3;
-    background-color: #3ab19b;
+    background-color: #22333b;
     border-radius:15px 0 0 15px;
 }
 
@@ -51,7 +51,7 @@
     position: relative;
 }
 .signin .left form h1{
-    color: #3ab19a;
+    color: #22333b;
     padding-left: 10%;
 }
 .signin .left h1{
@@ -93,7 +93,7 @@
     width: 13rem;
     margin-top: 5vh;
     margin-left: 15%;
-    background-color: #3ab19b;
+    background-color: #22333b;
     border: none;
     border-radius: 20px;
     color: white;
@@ -110,7 +110,6 @@
     align-items: center;
     justify-content: center;
     position: relative;
-        /* z-in                             dex: 6; */
 }
 .signin .right > * {
     margin-bottom: 10px;
@@ -124,7 +123,7 @@
     width: 10rem;
     border: 2px solid white;
     border-radius: 25px;
-    background-color: #3ab19b;
+    background-color: #22333b;
     color: white;
     margin-top: 4vh;
 }
@@ -132,32 +131,6 @@
 .signinbtn, .signupbtn{
     cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -208,17 +181,10 @@
     width: 10rem;
     border: 2px solid white;
     border-radius: 25px;
-    background-color: #3ab19b;
+    background-color: #22333b;
     color: white;
     margin-top: 4vh;
 }
-
-
-
-
-
-
-
 
 
 
@@ -234,7 +200,7 @@
     /* background-color: white; */
 }
 .signup .right  h1{
-    color: #3ab19a;
+    color: #22333b;
     padding-left: 10%;
 }
 .signup .right  p{
@@ -282,7 +248,7 @@
     width: 11rem;
     margin-top: 3.2vh;
     margin-left: 22%;
-    background-color: #3ab19b;
+    background-color: #22333b;
     border: none;
     border-radius: 20px;
     color: white;
