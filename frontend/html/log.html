@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/log.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -22,11 +25,11 @@
                     </div>
                     <p>or use your email account</p>
                     <div class="inputs">
-                        <input type="email" name="email" placeholder="Email">
-                        <input type="password"  placeholder="Password" name="password">
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="password"  placeholder="Password" name="password" required>
 
                     </div>
-                    <p id="forgot">Forgot your password?</p>
+                    <p id="forgot"><a href="#">Forgot your password?</a></p>
                     <button class="formsignin">SIGN IN</button>
                 </form>
             </div>
@@ -61,9 +64,9 @@
             </div>
             <p>or use your email for registration</p>
             <div class="inputs">
-                <input type="text" placeholder="Name" name="username">
-                <input type="email" placeholder="Email" name="email">
-                <input type="password" placeholder="Password" name="password">
+                <input type="text" placeholder="Name" name="username" required>
+                <input type="email" placeholder="Email" name="email" required>
+                <input type="password" placeholder="Password" name="password" required>
 
             </div>
             <!-- <p id="forgot">Forgot your password?</p> -->

@@ -4,6 +4,7 @@
   box-sizing: border-box;
   color: rgb(153, 83, 83);
   background-color: transparent;
+  font-family: 'Playfair Display', serif;
 }
 .overlay {
   height: 100vh;
