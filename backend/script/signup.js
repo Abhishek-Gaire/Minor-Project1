@@ -15,7 +15,7 @@ const signUP = async (req, res) => {
     const email = formData.email;
     const password = formData.password;
     const Users = getCollectionName();
-    const existingUser = await getUserByEmail(email);
+    const existingUser = await getUserByEmail(Users, email);
 
     if (existingUser) {
       res.writeHead(409, { Location: "../../frontend/html/log.html" });
