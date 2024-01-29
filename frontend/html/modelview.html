@@ -4,26 +4,100 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="../css/log.css">
     <link rel="stylesheet" href="../css/modelview.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="view_back">
+    <div class="view_back_b">
       <a href="">Back</a>
     </div>
-    <div class="overlay">
-      <div class="left">
+    <div class="overlay_b">
+      <div class="left_b">
         <a href="../../index.ejs">Back</a>
       </div>
-      <div class="middle">
+      <div class="middle_b">
         <h2>Tesla Model S</h2>
         <p>Feeling cute today might switch to electric</p>
       </div>
-      <div class="right">
-        <p id="view">Perspective View</p>
+      <div class="right_b">
+        <p id="view_b">Perspective View</p>
         <!-- <p id="buy">Buy Car</p> -->
-        <a href="./log.html" id="buy">Buy Car</a>
+        <h1  id="buy_b">Buy Car</h1>
       </div>
     </div>
+
+    <div class="log">
+      <div class="container">
+        <div class="mover"></div>
+    </div>
+
+        <div class="signin " id="login">
+            <div class="left">
+                <form action="/login" method="POST">
+                    <h1 id="left">Sign in to DYD</h1>
+                    <div class="link">
+                        <div class="facebook"></div>
+                        <div class="gmail"></div>
+                        <div class="linkedin"></div>
+                    </div>
+                    <p>or use your email account</p>
+                    <div class="inputs">
+                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="password"  placeholder="Password" name="password" required>
+
+                    </div>
+                    <p id="forgot"><a href="#">Forgot your password?</a></p>
+                    <button class="formsignin">SIGN IN</button>
+                </form>
+            </div>
+                <div class="right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details</p>
+                    <p>and start journey with us</p>
+                    <button class="signupbtn">
+                        SIGN UP
+                    </button>
+                </div>
+        </div>
+        
+        
+        <div class="signup">
+            <div class="left">
+                <h1>Welcome Back!</h1>
+                <p>To keep connected with us please</p>
+                <p>login with your personal info</p>
+                <button class="signinbtn">
+                    SIGN IN
+                </button>
+            </div>
+            <div class="right">
+        <form action="/signup" method="POST">
+            <h1 id="right">Sign up to DYD</h1>
+            <div class="link">
+                <div class="facebook"></div>
+                <div class="gmail"></div>
+                <div class="linkedin"></div>
+            </div>
+            <p>or use your email for registration</p>
+            <div class="inputs">
+                <input type="text" placeholder="Name" name="username" required>
+                <input type="email" placeholder="Email" name="email" required>
+                <input type="password" placeholder="Password" name="password" required>
+                
+            </div>
+            <!-- <p id="forgot">Forgot your password?</p> -->
+            <button class="formsignup">SIGN UP</button>
+        </form>
+    </div>
+
+</div>
+    
+    </div>
+
+    
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
       integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
@@ -31,5 +105,6 @@
       referrerpolicy="no-referrer"
     ></script>
     <script src="../js/modelview.js" type="module"></script>
+    <script src="../js/log.js" type="module"></script>
   </body>
 </html>
