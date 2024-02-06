@@ -5,95 +5,16 @@ const fsPromises = require("fs").promises;
 
 const signUP = require("./backend/script/signup.js");
 const Login = require("./backend/script/login.js");
-const renderHTML = require("./backend/script/renderModels.js");
 const {
   connectToModelsDB,
   closeModelsDB,
-  getModelsDB,
-  getCollectionName,
 } = require("./backend/DBConnect/modelsDB.js");
 const {
   connectToAuthDB,
   closeAuthDB,
-  Users,
-  getAuthDB,
 } = require("./backend/DBConnect/authDB.js");
+const serveFile = require("./backend/script/serveFile.js")
 
-const serveFile = async (filePath, contentType, response) => {
-  const validContentTypes = [
-    "text/plain",
-    "text/html",
-    "application/json",
-    "image/jpeg",
-    "image/png",
-    "image/gif",
-    "text/css",
-    "application/javascript",
-  ];
-
-  if (!validContentTypes.includes(contentType)) {
-    console.error(`Invalid content type: ${contentType}`);
-    response.writeHead(400, {
-      "Content-Type": "text/plain",
-    });
-    response.end("Bad Request");
-    return;
-  }
-
-  // Check if Models Database is connected
-  if (!getModelsDB) {
-    //if not connected, try connecting
-    try {
-      await connectToModelsDB();
-    } catch (err) {
-      // If connection fails, handle the server
-      response.writeHead(500, { contentType: "text/plain" });
-      response.end("Cant connect to Models Databse");
-      console.log(err);
-      return;
-    }
-  }
-
-  //check if the auth database is connected
-  if (!getAuthDB) {
-    try {
-      await connectToAuthDB();
-    } catch (err) {
-      response.writeHead(500, { contentType: "text/palin" });
-      response.end("Cant connect to auth database");
-      console.log(err);
-      return;
-    }
-  }
-  try {
-    if (
-      contentType === "text/html" &&
-      path.basename(filePath) === "index.ejs"
-    ) {
-      const collection = getCollectionName();
-      renderHTML(response, collection, filePath);
-    } else {
-      const rawData = await fsPromises.readFile(
-        filePath,
-        !contentType.includes("image") ? "utf8" : ""
-      );
-      const data =
-        contentType === "application/json" ? JSON.parse(rawData) : rawData;
-      response.writeHead(filePath.includes("404.html") ? 404 : 200, {
-        "Content-Type": contentType,
-      });
-      response.end(
-        contentType === "application/json" ? JSON.stringify(data) : data
-      );
-    }
-  } catch (err) {
-    console.error(err);
-    response.writeHead(500, {
-      "Content-Type": "text/plain",
-    });
-    response.end("Internal Server Error");
-  }
-};
 
 //serve static files
 const server = http.createServer(async (req, res) => {
@@ -129,14 +50,17 @@ const server = http.createServer(async (req, res) => {
     contentType === "text/html" && req.url === "/"
       ? path.join(__dirname, "index.ejs")
       : contentType === "text/html" && req.url.slice(-1) === "/"
-      ? path.join(__dirname, req.url, "index.ejs")
-      : contentType === "text/html"
-      ? path.join(__dirname, req.url)
-      : //default
-        path.join(__dirname, req.url);
+        ? path.join(__dirname, req.url, "index.ejs")
+        // : contentType === "text/html" && req.url === "/admin"
+        //   ? path.join(__dirname, "/admin.ejs")
+        : contentType === "text/html"
+          ? path.join(__dirname, req.url)
+          : //default
+          path.join(__dirname, req.url);
   console.log(filePath);
+  // console.log(path.basename(filePath))
   // makes .html extension not required in the browser
-  if (!extension && req.url.slice(-1) !== "/") filePath += ".html";
+  if (!extension && req.url.slice(-1) !== "/") filePath += ".ejs";
 
   //fileExists or not
   const fileExists = await fsPromises
@@ -144,6 +68,7 @@ const server = http.createServer(async (req, res) => {
     .then(() => true)
     .catch(() => false);
   if (fileExists) {
+    // console.log(fileExists)
     //serve the file
     serveFile(filePath, contentType, res);
   }
@@ -154,6 +79,7 @@ const server = http.createServer(async (req, res) => {
   } else if (req.method === "POST" && req.url === "/login") {
     Login(req, res);
   }
+
 });
 
 const PORT = process.env.PORT || 5173;
