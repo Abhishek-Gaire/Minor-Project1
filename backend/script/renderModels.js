@@ -6,9 +6,10 @@ const renderHTML = async (res, collection, filePath) => {
     const ejsData = await fsPromises.readFile(filePath, "utf8");
 
     const modelsData = await collection.find({}).toArray();
-    const models = modelsData.map((model) => model.name);
-    // console.log(models);
-    const renderedHTML = ejs.render(ejsData, { models });
+    const names = modelsData.map((item) => item.name);
+    const imageUrls = modelsData.map((item) => item.imageUrl)
+
+    const renderedHTML = ejs.render(ejsData, { names, imageUrls });
     res.end(renderedHTML);
   } catch (err) {
     console.error(err);
