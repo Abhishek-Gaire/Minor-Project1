@@ -1,6 +1,7 @@
 
 document.querySelector('#buy_b').addEventListener('click', ()=>{
   document.querySelector('.log').style.visibility = 'visible'
+  document.querySelector('.bg').style.visibility = 'visible'
 })
 
 let tl = gsap.timeline();
