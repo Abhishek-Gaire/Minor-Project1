@@ -101,8 +101,6 @@ html body {
 
 .carmodels{
   width: 100%;
-  height: 60vh;
-  /* background-color: black; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -110,36 +108,23 @@ html body {
   padding: 2rem 2rem 2rem 2rem;
 }
 .carmodels .models{
-  height: 100%;
   width: 100%;
-  /* background-color: aqua; */
+  padding-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr ;
+  justify-content: space-around;
+}
+.carmodels .models .model{
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  margin-top: 1rem;
 }
-
-.carmodels .models .image-container{
-  /* height: 40vh; */
-  /* width: 20%; */
-  /* background-color: #2a9135; */
-  /* display: flex; */
-  justify-content: space-around;
-  align-items: center;
-  /* flex-direction: column; */
-  /* cursor: pointer; */
-  /* height: 200; */
+.carmodels .models .model img{
+  height: 90px;
 }
-.carmodels .models .image-container img{
-  max-width: 200px;
-  margin: 10px;
-}
-.carmodels .models .name-container{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}.carmodels .models .name-container a{
-  text-decoration: none;
-  margin: 10px;
+.carmodels .models .model h3{
+  margin-top: 0.5rem;
 }
 
 
