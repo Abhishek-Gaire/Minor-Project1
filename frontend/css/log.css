@@ -4,13 +4,26 @@
     box-sizing: border-box;
     font-family: 'Playfair Display', serif;
 }
-.container{
+.bg{
     width: 783px;
     height: 69vh;
     min-height: 450px;
     position: absolute;
     top: 17%;
-    left: 25%;
+    left: 23%;
+    border-radius: 15px;
+    background-color: white;
+    visibility:hidden ;
+    z-index: 1;
+}
+.container{
+    width: 783px;
+    height: 69vh;
+    min-height: 450px;
+    /* position: absolute;
+    top: 17%;
+    left: 20%; */
+    z-index: 2;
     /* background-color: rgb(53, 41, 41); */
 }
 .mover{
@@ -31,8 +44,8 @@
     height: 69vh;
     min-height: 450px;
     position: absolute;
-    top: 17%;
-    left: 25%;
+    top: 0%;
+    left: 0%;
     border: 1px solid black;
     display: flex;
     border-radius: 15px;
@@ -147,8 +160,8 @@
     height: 69vh;
     min-height: 450px;
     position: absolute;
-    top: 17%;
-    left: 25%;
+    top: 0;
+    left: 0;
     /* min-height: 450px; */
     /* position: absolute; */
     border: 1px solid black;
@@ -194,7 +207,7 @@
 .signup .right{
     width: 63%;
     height: 100%;
-    padding-top: 10vh;
+    padding-top: 7vh;
     padding-left: 2vw;
     display: flex;
     justify-content: center;
