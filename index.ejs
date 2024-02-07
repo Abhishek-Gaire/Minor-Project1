@@ -49,31 +49,27 @@
 
   <div class="carmodels">
     <h1>Latest Vehicles</h1>
-    <div class="models">
-      <div class="image-container">
-        <% if (imageUrls && imageUrls.length>0) { %>
-          <% imageUrls.forEach(function(imageUrl) { %>
-            <img src="<%= imageUrl %>" alt="Image from Database">
-            <% }); %>
+    <% if (imageUrls && imageUrls.length>0  && names && names.length> 0) { %>
+      <div class="models">
+        <% for(let i=0; i<names.length;i++) {%>
+        <div class="model">
+            <img src="<%= imageUrls[i] %>" alt="">
+            <h3><a href="">
+              <%=names[i]%>
+            </a></h3>
+          </div>
+            <% }; %>
+
               <% } else { %>
                 <p>No images found in the Database</p>
                 <%} %>
-      </div>
-      <div class="name-container">
-        <% if(names && names.length> 0) { %>
-          <%names.forEach(function(names) {%>
-            <h3><a href="">
-                <%=names%>
-              </a></h3>
-            <%}); %>
-              <%} else {%>
-                <h3>Names not available</h3>
-                <% }%>
-      </div>
-    </div>
+            </div>
+
+                
+     
   </div>
 
-  <footer>
+   <footer>
     <div class="contact">
       <div class="contactup">
         <div class="left">DYD</div>
@@ -108,10 +104,10 @@
         <a href="./frontend/html/modelview.html">Car</a>
       </div>
     </div>
-  </footer>
-  <!-- <div>
+  </footer> 
+  <div>
       <a href="./frontend/html/modelview.html">ModelVIew</a>
-    </div> -->
+    </div> 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"
     integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q=="
