@@ -10,6 +10,8 @@ const renderHTML = async (res, collection, filePath) => {
     const imageUrls = modelsData.map((item) => item.imageUrl)
 
     const renderedHTML = ejs.render(ejsData, { names, imageUrls });
+    console.log(imageUrls[0])
+    console.log(names[0])
     res.end(renderedHTML);
   } catch (err) {
     console.error(err);

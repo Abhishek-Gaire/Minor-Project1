@@ -15,6 +15,53 @@ h1 {
     
 
 }
+h1 {
+    text-align: left;
+    margin-left: 90px;
+    font-family: 'Times New Roman', Times, serif;
+   
+    
+}
+
+.container {
+    display: flex;
+    font-size: smaller;
+    align-items: center;
+    height: 15vh;
+    margin-left: 60px;
+    
+
+}
+
+.container h2 {
+    margin: 0px;
+    margin-left: 60px;
+}
+.Carss {
+    display: flex;
+    align-items: center;
+    height: 60vh;
+    margin-left: 90px;
+}
+
+.Carss h3 {
+    margin: 0;
+    margin-right: 175px;
+}
+.Carss h3 p {
+    font-weight: lighter;
+    font-size: medium;
+}
+
+ h4 {  
+    text-align: center;
+    width: 125px; 
+    margin: -100px auto ; 
+    padding: 10px ; 
+    border: 2px  solid;   
+    font-weight: lighter;
+    border-color: rgba(0, 0, 0, 0.747);
+}
 
 .container h2 {
     margin: 0px;
