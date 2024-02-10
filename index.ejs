@@ -49,27 +49,24 @@
 
   <div class="carmodels">
     <h1>Latest Vehicles</h1>
-    <% if (imageUrls && imageUrls.length>0  && names && names.length> 0) { %>
+    <% if (imageUrls && imageUrls.length>0 && names && names.length> 0) { %>
       <div class="models">
         <% for(let i=0; i<names.length;i++) {%>
-        <div class="model">
+          <div class="model">
             <img src="<%= imageUrls[i] %>" alt="">
             <h3><a href="">
-              <%=names[i]%>
-            </a></h3>
+                <%=names[i]%>
+              </a></h3>
           </div>
-            <% }; %>
+          <% }; %>
 
-              <% } else { %>
-                <p>No images found in the Database</p>
-                <%} %>
-            </div>
-
-                
-     
+            <% } else { %>
+              <p>No images found in the Database</p>
+              <%} %>
+      </div>
   </div>
 
-   <footer>
+  <footer>
     <div class="contact">
       <div class="contactup">
         <div class="left">DYD</div>
@@ -104,10 +101,10 @@
         <a href="./frontend/html/modelview.html">Car</a>
       </div>
     </div>
-  </footer> 
+  </footer>
   <div>
-      <a href="./frontend/html/modelview.html">ModelVIew</a>
-    </div> 
+    <a href="./frontend/html/modelview.html">ModelVIew</a>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"
     integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q=="
