@@ -10,7 +10,36 @@
    
 </head>
 <body >
-    <h1 >Latest Vehicles </h1>
+   <div class="title">
+    <h1>Vehicles</h1>
+   </div>
+   <div class="container">
+    <div class="nav">
+      <ul>
+        <li>Crossovers & SUVs</li>
+        <li>Cars</li>
+        <li>Hybrid</li>
+        <li>Electric</li>
+        <li>Sports Cars</li>
+      </ul>
+    </div>
+      <% if (imageUrls && imageUrls.length>0 && names && names.length> 0) { %>
+            <div class="models">
+              <% for(let i=0; i<names.length; i=i+2) {%>
+                <div class="model">
+                  <img src="<%= imageUrls[i] %>" alt="Image From Database">
+                  <h2><%=names[i]%></h2>
+                  <h2><%=prices[i]%></h2>
+                </div>
+                <% }; %>
+      
+                  <% } else { %>
+                    <p>No images found in the Database</p>
+                    <%} %>
+        </div>
+    
+   </div>
+    <!-- <h1 >Latest Vehicles </h1>
     <div  class="container">
         
         <h2>Crossovers & SUVs</h2>
@@ -26,7 +55,7 @@
         <h3>Arcticon Aurora<p>$ 37,800.00 USD</p> <p>MSRP : $35,600</p></h3>   
         </div>
         
-        <h4>Discover More</h4>
+        <h4>Discover More</h4> -->
 
         <!-- <% if (imageUrls && imageUrls.length>0 && names && names.length> 0) { %>
             <div class="models">
