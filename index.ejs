@@ -51,10 +51,10 @@
     <h1>Latest Vehicles</h1>
     <% if (imageUrls && imageUrls.length>0 && names && names.length> 0) { %>
       <div class="models">
-        <% for(let i=0; i<names.length;i++) {%>
+        <% for(let i=0; i<names.length; i++) {%>
           <div class="model">
-            <img src="<%= imageUrls[i] %>" alt="">
-            <h3><a href="">
+            <img src="<%= imageUrls[i] %>" alt="Image From Database">
+            <h3><a href="./frontend//html/modelview.html:id">
                 <%=names[i]%>
               </a></h3>
           </div>
