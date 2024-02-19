@@ -1,134 +1,207 @@
-* {
-  margin: 0;
+*{
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
-  font-family: 'Playfair Display', serif;
 }
-html body {
+html,body{
   height: 100%;
   width: 100%;
 }
-.loadpage {
-  position: absolute;
+
+.main{
+  background-color: black;
+}
+
+.loader{
+  height: 100vh;
+  width: 100%;
   color: white;
   background-color: black;
+  position: fixed;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
-  letter-spacing: 5px;
-  z-index: 3;
-}
+  justify-content: center;
+  text-align: center; 
+  z-index: 99;
+  font-family: 'freight big pro';
 
-.bgvideo {
-  /* background-color: red; */
-  height: 100vh;
+  /* display: none; */
 }
-
-.homepage {
-  height: 100vh;
+.yellow1{
+  height: 100%;
   width: 100%;
-  color: #22333b;
-  background-color: #d0d0d0;
-  text-decoration: none;
+  background-color: #F5E41B;
+  position: fixed;
+  z-index: 7;
+  /* display: none; */
+}
+.yellow2{
+  height: 100%;
+  width: 100%;
+  background-color: #F5E41B;
+  position: fixed;
+  z-index: 4;
+  /* display: none; */
+}
+.loader video{
+  height: 100%;
+  width: 100%;
   position: absolute;
-  /* z-index: 3; */
+  z-index: 3;
+  object-fit: cover;
+}
+.loader h1{
+  font-weight: 200;
+  font-size: 6.9vw;
+  line-height: 5vw;
+  letter-spacing: -3px;
+  position: relative;
+  z-index: 5;
+
 }
 
-/* Navigation Bar */
-
-.homepage nav {
-  height: 13vh;
-  padding: 2rem;
+.nav{
+  position: fixed;
+  width: 100%;
+  z-index: 10;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid #adb0b2;
-  overflow: hidden;
+  padding: 10px 40px;
+  font-family: 'Neue Montreal';
 }
-.homepage nav a {
-  font-weight: 600;
-  font-size: 4vh;
-  color: #22333b;
+.nav img{
+  height: 5rem;
+}
+
+.nav a{
   text-decoration: none;
+  color: black;
 }
 
-.homepage nav .navr a {
-  font-size: 1.2rem;
-  margin-right: 2rem;
-}
-
-/* Hero Section */
-.homepage .hero {
-  /* font-size:13rem; */
-  font-size: 14vw;
-  /* background-color: rgb(110, 97, 97); */
-  height: 87vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.homepage .hero .herobottom,
-.herotop {
-  overflow: hidden;
-}
-
-.homepage .hero .herotop {
-  margin: -2rem 13rem 0 0;
-}
-
-.homepage .hero .herobottom {
-  display: flex;
-  /* align-items: center; */
-  margin-left: 3rem;
-}
-.homepage .hero .herobottom button {
+.navr{
+  font-weight: 250;
   font-size: 1rem;
-  height: 8vh;
-  width: 10rem;
-  border: 2px solid #9ba0a3;
-  border-radius: 30px;
-  margin: 3.5vw 0 0 10vw;
+  width: 30vw;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  /* background-color: red; */
+  gap: 3rem;
+}
+.navr a{
+overflow: hidden;
+/* background: black; */
+}
+.navr a{
+/* background-color: blue; */
 }
 
-.homepage .hero .herobottom p {
-  overflow: hidden;
-  margin-left: 5vw;
+#circle i{
+font-size: 2.5rem;
+font-weight: 0;
+rotate: 45deg;
 }
 
-.carmodels{
-  width: 100%;
+.page1{
+  height: 100vh;
+  background-color: #F5E41B;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 2rem 2rem 2rem;
+  text-align: center;
 }
-.carmodels .models{
+
+.page1 h1{
+  font-weight: 200;
+  font-size: 6.9vw;
+  line-height: 5vw;
+  letter-spacing: -3px;
+  font-family: 'freight big pro';
+
+}
+
+.page2{
+  /* height: 100vh; */
+  color: white;
+  background-color: black;
+  font-family: 'Neue Montreal';
+}
+.head{
+/* background-color: red; */
+text-align: center;
+}
+.page2 h1{
+padding: 2rem 0;
+/* background-color: red; */
+width: 100%;
+/* text-align: center; */
+}
+.car{
+display: flex;
+width: 100%;
+}
+
+.car{
+  /* background-color:#F5E41B; */
   width: 100%;
-  padding-top: 2rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr ;
-  justify-content: space-around;
+  /* display: flex; */
 }
-.carmodels .models .model{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-}
-.carmodels .models .model img{
-  height: 90px;
-}
-.carmodels .models .model h3{
-  margin-top: 0.5rem;
+.car .content{
+position: relative;
+height: 55vh;
+left: 5rem;
+z-index: 5;
+padding: 1rem 3rem;
+align-items: left;
+/* background-color: red; */
+width: 45%;
 }
 
 
-/* Footer Section */
+.content p{
+margin-top: 2rem;
+/* text-align: center; */
+/* background-color: red; */
+}
+
+.content .btn{
+margin-top: 2rem;
+/* background: red; */
+text-align: center;
+}
+.btn button{
+font-size: 1.5rem;
+font-weight: 550;
+padding: 10px 0;
+width: 20rem;
+
+}
+
+.car h3{
+/* text-align: center; */
+background-color: black;
+font-size: 1.4rem;
+font-weight: 500;
+}
+
+.car img{
+position: absolute;
+right: 9rem;
+top: 4rem;
+z-index: 4;
+height: 30rem;
+rotate: -2deg;
+}
+
+
+
+
+
+
+
+/* footer section */
 
 footer {
   color: white;
@@ -143,7 +216,6 @@ footer .contact {
 
 /* Upper div */
 footer .contactup {
-  /* background-color: red; */
   height: 30vh;
   display: flex;
   justify-content: space-between;
@@ -170,7 +242,6 @@ footer .contactup .right .cl a {
 footer .contactup .right .cl div {
   width: 70px;
   height: 70px;
-  /* margin-left: 7rem; */
   border-radius: 100%;
   background-color: #192023;
 }
@@ -178,11 +249,9 @@ footer .contactup .right .cl div {
 /* Lower div */
 
 footer .contactdown {
-  /* background-color: red; */
   height: 30vh;
   display: flex;
   justify-content: space-between;
-  /* border-bottom: 1px solid #1e2426; */
 }
 
 footer .contactdown p {
@@ -200,7 +269,6 @@ footer .contactdown #email {
 }
 footer .contactdown .bottomright div {
   margin-top: 3rem;
-  /* background-color: aquamarine; */
 }
 
 footer .contactdown .bottomright .up {

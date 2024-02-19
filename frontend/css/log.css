@@ -2,24 +2,25 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Neue Montreal';
 }
 .bg{
-    width: 783px;
-    height: 69vh;
+    width: 850px;
+    height: 500px;
     min-height: 450px;
     position: absolute;
-    top: 17%;
-    left: 23%;
-    border-radius: 15px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 13px;
     background-color: white;
-    visibility:hidden ;
+    /* visibility:hidden ; */
     z-index: 1;
 }
 .container{
-    width: 783px;
-    height: 69vh;
-    min-height: 450px;
+    width: 850px;
+    height: 500px;
+    /* min-height: 450px; */
     /* position: absolute;
     top: 17%;
     left: 20%; */
@@ -27,28 +28,28 @@
     /* background-color: rgb(53, 41, 41); */
 }
 .mover{
-    width: 37%;
-    height: 69vh;
+    width: 40%;
+    height: 100% ;
     min-height: 450px;
     position: relative;
 
     /* background-color: red; */
     z-index: 3;
     background-color: #22333b;
-    border-radius:15px 0 0 15px;
+    border-radius:13px 0 0 13px;
 }
 
 /* signin section hya samma */
 .signin{
-    width: 783px;
-    height: 69vh;
-    min-height: 450px;
+    width: 850px;
+    height: 500px;
     position: absolute;
-    top: 0%;
-    left: 0%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     border: 1px solid black;
     display: flex;
-    border-radius: 15px;
+    border-radius: 13px;
     justify-content: space-between;
     z-index: 6;
     visibility: hidden;
@@ -58,8 +59,7 @@
 .signin .left{
     width: 63%;
     height: 100%;
-    padding-top: 10vh;
-    padding-left: 2vw;
+    padding: 7vh 0 0 2vw;
     display: flex;
     justify-content: center;
     position: relative;
@@ -74,15 +74,18 @@
 .signin .left .link{
     display: flex;
     justify-content: center;
-
+    gap: 2rem;
+    margin-top: 6vh;
 }
-.signin .left .link div{
+.signin .left .link a{
     height: 40px;
-    width: 40px;
-    background-color: rgb(166, 213, 166);
+    width: 40px; 
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    /* background-color: rgb(166, 213, 166); */
     border-radius: 100%;
-    margin-top: 15px;
-    margin-right: 4px;
 }
 .signin .left p{
     padding-left: 22%;
@@ -119,7 +122,7 @@
     color: white;
     width: 37%;
     /* background-color: #3ab19b; */
-    border-radius:0 15px 15px 0;
+    border-radius:0 13px 13px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -137,7 +140,7 @@
     height: 3rem;
     width: 10rem;
     border: 2px solid white;
-    border-radius: 25px;
+    border-radius: 30px;
     background-color: #22333b;
     color: white;
     margin-top: 4vh;
@@ -156,17 +159,18 @@
 
 /* SignUp section */
 .signup{
-    width: 783px;
-    height: 69vh;
+    width: 850px;
+    height: 500px;
     min-height: 450px;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     /* min-height: 450px; */
     /* position: absolute; */
     border: 1px solid black;
     display: flex;
-    border-radius: 15px;
+    border-radius: 13px;
     justify-content: space-between;
     z-index: 9;
     /* visibility: hidden; */
@@ -175,7 +179,7 @@
         color: white;
         width: 37%;
         /* background-color: #3ab19b; */
-        border-radius:15px 0 0 15px;
+        border-radius:13px 0 0 13px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -195,7 +199,7 @@
     height: 3rem;
     width: 10rem;
     border: 2px solid white;
-    border-radius: 25px;
+    border-radius: 30px;
     background-color: #22333b;
     color: white;
     margin-top: 4vh;
@@ -226,17 +230,21 @@
     display: flex;
     justify-content: center;
     margin-top: 6vh;
-    
-
+    gap: 2rem;
 }
-.signup .right .link div{
+.signup .right .link a{
     height: 40px;
-    width: 40px;
-    
-    background-color: rgb(166, 213, 166);
+    width: 40px; 
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    /* background-color: rgb(166, 213, 166); */
     border-radius: 100%;
-    margin: -10px 4px 5px 0;
 }
+/* .signup .right .link i{
+    font-size: ;
+} */
 .signup .right p{
     padding-left: 19%;
     margin-top: 15px;

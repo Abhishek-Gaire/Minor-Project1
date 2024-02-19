@@ -1,18 +1,13 @@
 
-document.querySelector('#buy_b').addEventListener('click', ()=>{
-  document.querySelector('.log').style.visibility = 'visible'
-  document.querySelector('.bg').style.visibility = 'visible'
-})
-
 let tl = gsap.timeline();
-
+  
 document.querySelector(".signinbtn").addEventListener("click", () => {
   tl.to(".signup .right", {
     opacity: 0,
     duration: 0,
   });
   tl.to(".mover", {
-    x: 493,
+    x: 510,
     duration: 1.2,
   });
   gsap.from(".signin .left", {

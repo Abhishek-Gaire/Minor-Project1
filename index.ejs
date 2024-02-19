@@ -2,117 +2,108 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link rel="stylesheet" href="./frontend/css/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DYD</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
+    <link rel="stylesheet" href="./frontend/css/style.css">
 </head>
 
-<body>
-  <div class="loadpage">
-    <p>DRIVE</p>
-    <p>YOUR</p>
-    <p>DREAM</p>
-  </div>
-  <div class="homepage">
-    <header>
-      <nav>
-        <div class="navl">
-          <a href="#">DYD</a>
+<body >
+
+    <div class="loader">
+        <div class="yellow1">
         </div>
-        <div class="navr">
-          <a href="#">Brand Journal</a>
-          <a href="./frontend/html/vehicles.html">Vehicles</a>
-          <a href="#">Contact</a>
+        <div class="yellow2">
         </div>
-      </nav>
-    </header>
-    <div class="hero">
-      <div class="herotop">
-        <p>Drive your</p>
-      </div>
-      <div class="herobottom">
-        <button>View Models</button>
-        <p>Dream</p>
-      </div>
+        <video autoplay loop muted src="https://works.studio/uploads/images/home/4_version1_200911_024106.mp4"></video>
+        <h1><em>We</em><em> are a </em>CREATIVE<em> studio<br>
+        </em>DEDICATED <em>to </em>CULTURAL<br>
+        ADVANCEMENT <em>through</em> <br>
+        STRATEGY <em>and </em>DESIGN.
+    </h1>
     </div>
-  </div>
 
-  <div class="bgvideo">
-    <video src=""></video>
-  </div>
-
-
-
-  <div class="carmodels">
-    <h1>Latest Vehicles</h1>
-    <% if (imageUrls && imageUrls.length>0  && names && names.length> 0) { %>
-      <div class="models">
-        <% for(let i=0; i<names.length;i++) {%>
-        <div class="model">
-            <img src="<%= imageUrls[i] %>" alt="">
-            <h3><a href="">
-              <%=names[i]%>
-            </a></h3>
+    
+        <div class="nav">
+          <div class="navl">
+            <img src="./assets/logo-removebg-preview.png" alt="">
           </div>
-            <% }; %>
+          <div class="navr">
+            <a href="#" id="moveall"><h3>Brand Journal</h3></a>
+            <a id="move" href="./frontend/html/vehicles.html"><h3>Vehicles</h3></a>
+            <a id="move" href="#"><h3>Contact</h3></a>
+            <div id='circle'><i class="fa-solid fa-plus"></i></div>
+          </div>
+        </div>
+      
+    <div class="main" >
+        <div class="page1" data-scroll data-scroll-speed="-3">
+            <h1><em>We</em><em> are a </em>CREATIVE<em> studio<br>
+                </em>DEDICATED <em>to </em>CULTURAL<br>
+                ADVANCEMENT <em>through</em> <br>
+                STRATEGY <em>and </em>DESIGN.
+            </h1>
+        </div>
+        <div class="page2" data-scroll data-scroll-speed="2">
+          <h1 class="head">Our Top Selling</h1>
+            <div class="car">
+              <div class="content">
+                <h1>GRAND i10</h1>
+                <h3>Dynamic Space in Compact Dimension</h3>
+                <p>Generous dimension of GRAND i10 boasts its dynamic comfort with class-leading roominess
+                  and smart technology features that elevate the confidence and pleasure of your driving experience.</p>
+                  <div class="btn"><button>Explore More</button></div>
+              </div>
+              <img src="./assets/i10.png" alt=""> 
 
-              <% } else { %>
-                <p>No images found in the Database</p>
-                <%} %>
             </div>
-
-                
-     
-  </div>
-
-   <footer>
-    <div class="contact">
-      <div class="contactup">
-        <div class="left">DYD</div>
-        <div class="right">
-          <div class="cl">
-            <p>Contact</p>
-            <a href="#">Whatsapp</a>
-            <a href="#">Email</a>
-          </div>
-          <div class="cl">
-            <p>Services</p>
-            <a href="#">Web Design</a>
-            <a href="#">Web Development</a>
-          </div>
-          <div class="cl social">
-            <p>Socials</p>
-            <div></div>
-            <div></div>
-          </div>
+          
         </div>
-      </div>
-
-      <div class="contactdown">
-        <div class="bottomleft">
-          <p id="msg">Send an email T_T</p>
-          <p id="email">minorproject_I@gmail.com</p>
-        </div>
-        <div class="bottomright">
-          <div class="up"></div>
-          <div>@ Drive Your Dream 2024</div>
-        </div>
-        <a href="./frontend/html/modelview.html">Car</a>
-      </div>
+        
+        <footer>
+            <div class="contact">
+              <div class="contactup">
+                <div class="left">DYD</div>
+                <div class="right">
+                  <div class="cl">
+                    <p>Contact</p>
+                    <a href="#">Whatsapp</a>
+                    <a href="#">Email</a>
+                  </div>
+                  <div class="cl">
+                    <p>Services</p>
+                    <a href="#">Web Design</a>
+                    <a href="#">Web Development</a>
+                  </div>
+                  <div class="cl social">
+                    <p>Socials</p>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              </div>
+        
+              <div class="contactdown">
+                <div class="bottomleft">
+                  <p id="msg">Send an email T_T</p>
+                  <p id="email">minorproject_I@gmail.com</p>
+                </div>
+                <div class="bottomright">
+                  <div class="up"></div>
+                  <div>@ Drive Your Dream 2024</div>
+                </div>
+                <a href="./frontend/html/modelview.html">Car</a>
+              </div>
+            </div>
+          </footer>
     </div>
-  </footer> 
-  <div>
-      <a href="./frontend/html/modelview.html">ModelVIew</a>
-    </div> 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"
-    integrity="sha512-EZI2cBcGPnmR89wTgVnN3602Yyi7muWo8y1B3a8WmIv1J9tYG+udH4LvmYjLiGp37yHB7FfaPBo8ly178m9g4Q=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script type="module" src="./frontend/js/script.js"></script>
+
+    <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./frontend/js/script.js"></script>
 </body>
 
 </html>
