@@ -7,11 +7,11 @@ const renderHTML = async (res, collection, filePath) => {
 
     const modelsData = await collection.find({}).toArray();
     const names = modelsData.map((item) => item.name);
+    const heads = modelsData.map((item) => item.head);
+    const descriptions = modelsData.map((item) => item.description);
     const imageUrls = modelsData.map((item) => item.imageUrl)
 
-    const renderedHTML = ejs.render(ejsData, { names, imageUrls });
-    // console.log(imageUrls[0])
-    // console.log(names[0])
+    const renderedHTML = ejs.render(ejsData, { names,heads,descriptions , imageUrls});
     res.end(renderedHTML);
   } catch (err) {
     console.error(err);
