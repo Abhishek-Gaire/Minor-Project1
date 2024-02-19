@@ -51,14 +51,11 @@ const server = http.createServer(async (req, res) => {
       ? path.join(__dirname, "index.ejs")
       : contentType === "text/html" && req.url.slice(-1) === "/"
         ? path.join(__dirname, req.url, "index.ejs")
-        // : contentType === "text/html" && req.url === "/admin"
-        //   ? path.join(__dirname, "/admin.ejs")
         : contentType === "text/html"
           ? path.join(__dirname, req.url)
           : //default
           path.join(__dirname, req.url);
-  // console.log(filePath);
-  // console.log(path.basename(filePath))
+  
   // makes .html extension not required in the browser
   if (!extension && req.url.slice(-1) !== "/") filePath += ".ejs";
 
@@ -67,8 +64,8 @@ const server = http.createServer(async (req, res) => {
     .access(filePath, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false);
+
   if (fileExists) {
-    // console.log(fileExists)
     //serve the file
     serveFile(filePath, contentType, res);
   }

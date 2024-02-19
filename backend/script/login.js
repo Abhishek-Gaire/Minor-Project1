@@ -17,8 +17,8 @@ const Login = async (req, res) => {
 
       // Successful Login
 
-      const sessionId = generateSessionId();
-            sessions[sessionId] = user._id;
+      // const sessionId = generateSessionId();
+      // sessions[sessionId] = user._id;
       res.writeHead(302, { Location:"../../index.ejs" });
       res.end();
     } else {
@@ -28,7 +28,7 @@ const Login = async (req, res) => {
     }
   });
 };
-const generateSessionId = () => {
-  return Math.random().toString(36).substring(2, 15);
-};
+// const generateSessionId = () => {
+//   return Math.random().toString(36).substring(2, 15);
+// };
 module.exports = Login;

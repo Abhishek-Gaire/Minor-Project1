@@ -8,7 +8,7 @@ const connectToAuthDB = async () => {
   try {
     const client = await MongoClient.connect(mongourl);
     db = client.db(dbName);
-    console.log("Connected to Authentication Database");
+    // console.log("Connected to Authentication Database");
   } catch (err) {
     console.error(err);
     throw err;
@@ -28,7 +28,7 @@ const getCollectionName = () => {
 const getUserByEmail = async (Users, email) => {
   try {
     // Retrieve user data from the database by email
-    const user = await Users.findOne({ email });
+    const user = await Users.findOne({ email }) || null;
 
     // If user exists, return user data
     if (user) {
