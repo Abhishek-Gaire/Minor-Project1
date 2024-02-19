@@ -3,8 +3,10 @@ const path = require("path");
 const fsPromises = require("fs").promises;
 
 const { getModelsDB, connectToModelsDB, getCollectionName } = require("../DBConnect/modelsDB")
-const renderHTML = require("./renderModels")
 const { getAuthDB, connectToAuthDB } = require("../DBConnect/authDB")
+
+const renderHTML = require("./renderModels");
+const renderVehicles = require("./renderVehicles");
 const serveFile = async (filePath, contentType, response) => {
     const validContentTypes = [
         "text/plain",
@@ -59,13 +61,10 @@ const serveFile = async (filePath, contentType, response) => {
             const collection = getCollectionName();
             renderHTML(response, collection, filePath);
         }
-        // } else if (path.basename(filePath) === "admin.ejs") {
-        //     console.log(filePath)
-        //     const adminData = await fsPromises.readFile(filePath, "utf8");
-        //     console.log(adminData)
-        //     response.writeHead(200, { "Content-Type": "text/html" });
-        //     response.end(adminData);
-        // }
+         else if (contentType==="text/html" && path.basename(filePath) === "vehicles.ejs") {
+            const collection = getCollectionName();
+            renderVehicles(response,collection,filePath);
+        }
         else {
             const rawData = await fsPromises.readFile(
                 filePath,
