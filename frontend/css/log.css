@@ -42,7 +42,8 @@
 
     /* background-color: red; */
     z-index: 3;
-    background-color: #22333b;
+    /* #22333b */
+    background-color: rgb(85, 84, 84);
     border-radius: 13px 0 0 13px;
 }
 
@@ -126,7 +127,7 @@
     width: 13rem;
     margin-top: 5vh;
     margin-left: 15%;
-    background-color: #22333b;
+    background-color: grey;
     border: none;
     border-radius: 20px;
     color: white;
@@ -158,7 +159,7 @@
     width: 10rem;
     border: 2px solid white;
     border-radius: 30px;
-    background-color: #22333b;
+    background-color: grey;
     color: white;
     margin-top: 4vh;
 }
@@ -221,7 +222,7 @@
     width: 10rem;
     border: 2px solid white;
     border-radius: 30px;
-    background-color: #22333b;
+    background-color: grey;
     color: white;
     margin-top: 4vh;
 }
@@ -301,7 +302,7 @@
     width: 11rem;
     margin-top: 3.2vh;
     margin-left: 22%;
-    background-color: #22333b;
+    background-color: grey;
     border: none;
     border-radius: 20px;
     color: white;

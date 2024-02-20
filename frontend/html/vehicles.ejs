@@ -26,11 +26,11 @@
       <% if (imageUrls  && names) { %>
             <div class="models">
               <% for(let i=0; i<imageUrls.length; i++ ) { %>
-                <div class="model">
+                <a href="../html/modelview.html" class="model">
                   <img src="<%= imageUrls[i] %>" alt="Image From Database">
                   <h2><%= names[i] %></h2>
                   <h2><%= prices[i] %></h2>
-                </div>
+                </a>
               <% }; %>
       
       <% } else { %>
