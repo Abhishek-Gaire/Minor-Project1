@@ -4,6 +4,8 @@ const {
   getCollectionName,
   createUser,
 } = require("../DBConnect/authDB");
+
+
 const signUP = async (req, res) => {
   let requestBody = "";
   req.on("data", (chunk) => {
@@ -21,7 +23,7 @@ const signUP = async (req, res) => {
       res.writeHead(409, { Location: "../../frontend/html/log.html" });
       res.end();
     } else {
-    const newUser = {
+      const newUser = {
         username: userName,
         email: email,
         password: password,
@@ -31,7 +33,7 @@ const signUP = async (req, res) => {
 
       // Set the response headers and status code
       res.writeHead(302, {
-        Location: "../../frontend/html/log.html",
+        Location: "../../frontend/html/verify.html",
       });
       res.end();
     }

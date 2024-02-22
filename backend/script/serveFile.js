@@ -7,6 +7,8 @@ const { getAuthDB, connectToAuthDB } = require("../DBConnect/authDB")
 
 const renderHTML = require("./renderModels");
 const renderVehicles = require("./renderVehicles");
+
+
 const serveFile = async (filePath, contentType, response) => {
     const validContentTypes = [
         "text/plain",
@@ -36,7 +38,7 @@ const serveFile = async (filePath, contentType, response) => {
         } catch (err) {
             // If connection fails, handle the server
             response.writeHead(500, { contentType: "text/plain" });
-            response.end("Cant connect to Models Databse");
+            response.end("Cant connect to Models Database");
             console.log(err);
             return;
         }
@@ -47,7 +49,7 @@ const serveFile = async (filePath, contentType, response) => {
         try {
             await connectToAuthDB();
         } catch (err) {
-            response.writeHead(500, { contentType: "text/palin" });
+            response.writeHead(500, { contentType: "text/plain" });
             response.end("Cant connect to auth database");
             console.log(err);
             return;
