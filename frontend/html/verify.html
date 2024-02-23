@@ -14,21 +14,31 @@
             </div>
             <h1>Verify your email address</h1>
             <p>Enter 6-digit  code sent to your email: <%=email%><span id="email"></span></p>
-            <div class="inputs">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-                <input type="text">
-            </div>
-            <p>Didn't receive the code? Resend </p>
-            <div class="btn">
-                <button>Verify</button>
-            </div>
+            <form action="/verify" method="POST">
+                <div class="inputs">
+                    <input type="number" id="digit1" name="digit1" inputmode="numeric" pattern="[0-9]" autofocus required oninput="moveToNextField(this, 'digit2')">
+                    <input type="number" id="digit2" name="digit2" inputmode="numeric" pattern="[0-9]" required oninput="moveToNextField(this, 'digit3')">
+                    <input type="number" id="digit3" name="digit3" inputmode="numeric" pattern="[0-9]" required oninput="moveToNextField(this, 'digit4')">
+                    <input type="number" id="digit4" name="digit4" inputmode="numeric" pattern="[0-9]" required oninput="moveToNextField(this, 'digit5')">
+                    <input type="number" id="digit5" name="digit5" inputmode="numeric" pattern="[0-9]" required oninput="moveToNextField(this, 'digit6')">
+                    <input type="number" id="digit6" name="digit6" inputmode="numeric" pattern="[0-9]" required >
+                    <input type="hidden" name="email" value="<%=email %>">
+                </div>
+                <p>Didn't receive the code? Resend </p>
+                <div class="btn">
+                    <button type="submit">Verify</button>
+                </div>
+            </form>
         </div>
     </div>
 
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
+    <script>
+        function moveToNextField(currentField, nextFieldId) {
+            if (currentField.value.length === 1) {
+                document.getElementById(nextFieldId).focus();
+            }
+        }
+        </script>
 </body>
 </html>

@@ -37,6 +37,16 @@ html,body{
     font-size: 3.5rem;
     background-color: #7453AE;
 }
+/* Hide up and down arrow controls */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* input[type="number"] {
+    -moz-appearance: textfield; /* Firefox */
+/* } */ */
 h1{
     font-size: 3rem;
     /* background-color: aqua; */
