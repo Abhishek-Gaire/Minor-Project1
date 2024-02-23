@@ -8,7 +8,6 @@ const connectToAuthDB = async () => {
   try {
     const client = await MongoClient.connect(mongourl);
     db = client.db(dbName);
-    // console.log("Connected to Authentication Database");
   } catch (err) {
     console.error(err);
     throw err;
