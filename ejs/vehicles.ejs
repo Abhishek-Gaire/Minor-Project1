@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/vehicles.css">
+    <link rel="stylesheet" href="../frontend/css/vehicles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
       <% if (imageUrls  && names) { %>
             <div class="models">
               <% for(let i=0; i<imageUrls.length; i++ ) { %>
-                <a href="../html/modelview.html" class="model">
+                <a href="../frontend/html/modelview.html" class="model">
                   <img src="<%= imageUrls[i] %>" alt="Image From Database">
                   <h2><%= names[i] %></h2>
                   <h2><%= prices[i] %></h2>
