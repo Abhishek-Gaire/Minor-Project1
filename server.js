@@ -55,7 +55,7 @@ const server = http.createServer(async (req, res) => {
           ? path.join(__dirname, req.url)
           : //default
           path.join(__dirname, req.url);
-  
+
   // makes .html extension not required in the browser
   if (!extension && req.url.slice(-1) !== "/") filePath += ".ejs";
 
