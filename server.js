@@ -85,8 +85,6 @@ connectToModelsDB().then(() => {
   //Start the server once Models Database is connected
   server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
-    //const collection = getCollectionName();
-    //console.log(collection);
   });
 });
 

@@ -56,6 +56,7 @@ const serveFile = async (filePath, contentType, response) => {
         }
     }
     try {
+        // console.log(filePath);
         if (
             contentType === "text/html" &&
             path.basename(filePath) === "index.ejs"
@@ -64,6 +65,7 @@ const serveFile = async (filePath, contentType, response) => {
             renderHTML(response, collection, filePath);
         }
          else if (contentType==="text/html" && path.basename(filePath) === "vehicles.ejs") {
+
             const collection = getCollectionName();
             renderVehicles(response,collection,filePath);
         }

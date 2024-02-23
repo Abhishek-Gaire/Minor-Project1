@@ -22,7 +22,7 @@ const signUP = async (req, res) => {
     const existingUser = await getUserByEmail(Users, email);
 
     if (existingUser) {
-      res.writeHead(409, { Location: "../../frontend/html/log.html" });
+      res.writeHead(409, { Location: "../../frontend/html/login.html" });
       res.end();
     } else {
       const newUser = {
