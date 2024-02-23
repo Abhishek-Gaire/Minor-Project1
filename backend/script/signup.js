@@ -6,7 +6,9 @@ const {
 } = require("../DBConnect/authDB");
 
 
+
 const signUP = async (req, res) => {
+  
   let requestBody = "";
   req.on("data", (chunk) => {
     requestBody += chunk.toString();
