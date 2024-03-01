@@ -82,10 +82,15 @@ button{
     margin-top: 1rem;
     width: 10rem;
     color: white;
-    background-color: #ac7dfd;
+    background-color: green;
     padding: 10px 20px;
     border: none;
     border-radius: 12px;
     font-size: 1.5rem;
     font-weight: 600;
+}
+.btn button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #ac7dfd;
 }
