@@ -2,6 +2,8 @@ const http = require("http");
 const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
+require("dotenv").config();
+const flash = require("connect-flash");
 
 const signUP = require("./backend/script/signup.js");
 const Login = require("./backend/script/login.js");
@@ -13,7 +15,8 @@ const {
   connectToAuthDB,
   closeAuthDB,
 } = require("./backend/DBConnect/authDB.js");
-const serveFile = require("./backend/script/serveFile.js")
+const serveFile = require("./backend/script/serveFile.js");
+const verify= require("./backend/renderScript/verification");
 
 
 //serve static files
@@ -49,8 +52,6 @@ const server = http.createServer(async (req, res) => {
   let filePath =
     contentType === "text/html" && req.url === "/"
       ? path.join(__dirname,"ejs", "index.ejs")
-      // : contentType === "text/html" && req.url.slice(-1) === "/"
-      //   ? path.join(__dirname, req.url, "index.ejs")
         : contentType === "text/html" && req.url==="/vehicles.ejs"
           ? path.join(__dirname,"/ejs", req.url)
           : contentType === "text/html" && req.url === "/admin"
@@ -77,10 +78,12 @@ const server = http.createServer(async (req, res) => {
     signUP(req, res);
   } else if (req.method === "POST" && req.url === "/login") {
     Login(req, res);
+  } else if(req.method === "POST" && req.url === "/verify"){
+    verify(req,res);
   }
+  // else{}
 
 });
-
 const PORT = process.env.PORT || 5173;
 // Connect to Models Database when the server starts
 connectToModelsDB().then(() => {

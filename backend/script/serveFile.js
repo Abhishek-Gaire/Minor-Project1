@@ -5,8 +5,8 @@ const fsPromises = require("fs").promises;
 const { getModelsDB, connectToModelsDB, getCollectionName } = require("../DBConnect/modelsDB")
 const { getAuthDB, connectToAuthDB } = require("../DBConnect/authDB")
 
-const renderHTML = require("./renderModels");
-const renderVehicles = require("./renderVehicles");
+const renderHTML = require("../renderScript/renderModels");
+const renderVehicles = require("../renderScript/renderVehicles");
 
 
 const serveFile = async (filePath, contentType, response) => {
@@ -69,6 +69,9 @@ const serveFile = async (filePath, contentType, response) => {
             const collection = getCollectionName();
             renderVehicles(response,collection,filePath);
         }
+        // else if(contentType === "text/html" && path.basename(filePath) === "verify"){
+
+        // }
         else {
             const rawData = await fsPromises.readFile(
                 filePath,
