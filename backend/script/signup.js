@@ -66,9 +66,11 @@ const signUP = async (req, res) => {
         verified: false,
         verificationCode: verificationCode,
       };
+
       // Insert the new user document into MongoDB's collection
       await createUser(Users, newUser);
-      console.log(__dirname);
+
+      // console.log(__dirname);
       const verificationPage = fs.readFileSync(__dirname + "../../../ejs/verify.ejs" ,"utf8");
       const renderedPage = ejs.render(verificationPage, {email,
         digit1:'',
@@ -77,6 +79,7 @@ const signUP = async (req, res) => {
         digit4:'',
         digit5:'',
         digit6:'',
+        message:null,
       });
       res.writeHead(200, {"Content-Type": "text/html"});
       res.end(renderedPage);

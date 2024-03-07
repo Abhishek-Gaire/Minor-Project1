@@ -46,6 +46,9 @@ const getUserByEmail = async (Users, email) => {
 const createUser = async (Users, userData) => {
   return Users.insertOne(userData);
 };
+const updateUser = async(Users,email) =>{
+  return Users.updateOne({ email }, { $set: { verified: true } });
+}
 const getUserByID = async (Users, userID) => {
   return Users.findOne({ _id: new ObjectId(userID) });
 };
@@ -56,5 +59,6 @@ module.exports = {
   getUserByEmail,
   createUser,
   getUserByID,
+  updateUser,
   getAuthDB: () => db,
 };

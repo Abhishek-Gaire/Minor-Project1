@@ -24,6 +24,9 @@
                     <input type="number" id="digit6" name="digit6" inputmode="numeric" pattern="[0-9]" required value="<%= digit6 || '' %>">
                     <input type="hidden" name="email" value="<%= email %>">
                 </div>
+                <% if (message) { %>
+                    <p class="error-message"><%= message %></p> <!-- Display message for wrong verification code -->
+                <% } %>
                 <p>Didn't receive the code? Resend </p>
                 <div class="btn">
                     <button id="verifyButton" type="submit">Verify</button>

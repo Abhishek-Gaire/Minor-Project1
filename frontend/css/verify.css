@@ -94,3 +94,12 @@ button{
     cursor: not-allowed;
     background-color: #ac7dfd;
 }
+p.error-message{
+    border: 1px solid red;
+    background-color: rgb(235, 132, 132);
+    color:black;
+    /* text-align:center; */
+    padding: 5px;
+    margin: 1rem 0 1rem 0;
+    width: 500px;
+}

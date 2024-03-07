@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
 require("dotenv").config();
-const flash = require("connect-flash");
+
 
 const signUP = require("./backend/script/signup.js");
 const Login = require("./backend/script/login.js");
