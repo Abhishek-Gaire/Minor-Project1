@@ -46,9 +46,24 @@ const getUserByEmail = async (Users, email) => {
 const createUser = async (Users, userData) => {
   return Users.insertOne(userData);
 };
+
 const updateUser = async(Users,email) =>{
   return Users.updateOne({ email }, { $set: { verified: true } });
 }
+
+const addToken = async (token,users, userId) => {
+  try {
+    const userID = new ObjectId(userId);
+    // Update the user document where the userId matches
+    await users.updateOne({_id:userID},{ $set: { resetToken: token } },{ upsert: true });
+    console.log("Update Successful");
+    return true;    
+  } catch (error) {
+    // An error occurred during the update
+    console.error("Error adding token:", error);
+    return false;
+  }
+};
 const getUserByID = async (Users, userID) => {
   return Users.findOne({ _id: new ObjectId(userID) });
 };
@@ -60,5 +75,6 @@ module.exports = {
   createUser,
   getUserByID,
   updateUser,
+  addToken,
   getAuthDB: () => db,
 };

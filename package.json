@@ -13,7 +13,7 @@
     "vite": "^5.0.10"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon app.js"
   },
   "name": "minor-project1",
   "description": "jpt",

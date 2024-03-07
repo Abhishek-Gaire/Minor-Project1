@@ -65,6 +65,7 @@ const signUP = async (req, res) => {
         password: password,
         verified: false,
         verificationCode: verificationCode,
+        resetToken:'',
       };
 
       // Insert the new user document into MongoDB's collection
@@ -87,4 +88,4 @@ const signUP = async (req, res) => {
   });
 };
 
-module.exports = signUP;
+module.exports = {signUP,transporter};

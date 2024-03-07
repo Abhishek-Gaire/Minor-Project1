@@ -5,8 +5,8 @@ const fsPromises = require("fs").promises;
 require("dotenv").config();
 
 
-const signUP = require("./backend/script/signup.js");
-const Login = require("./backend/script/login.js");
+const {signUP} = require("./backend/controllers/signup.js");
+const Login = require("./backend/controllers/login.js");
 const {
   connectToModelsDB,
   closeModelsDB,
@@ -16,7 +16,8 @@ const {
   closeAuthDB,
 } = require("./backend/DBConnect/authDB.js");
 const serveFile = require("./backend/script/serveFile.js");
-const verify= require("./backend/renderScript/verification");
+const verify= require("./backend/controllers/verification.js");
+const postReset = require("./backend/controllers/resetpassword.js")
 
 
 //serve static files
@@ -80,11 +81,13 @@ const server = http.createServer(async (req, res) => {
     Login(req, res);
   } else if(req.method === "POST" && req.url === "/verify"){
     verify(req,res);
+  } else if(req.method === "POST" && req.url ==="/reset-password"){
+    postReset(req,res);
   }
   // else{}
 
 });
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 3000;
 // Connect to Models Database when the server starts
 connectToModelsDB().then(() => {
   //Start the server once Models Database is connected
