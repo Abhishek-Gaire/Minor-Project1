@@ -20,8 +20,7 @@ const closeAuthDB = async () => {
   }
 };
 const getCollectionName = () => {
-  const collection = db.collection("users");
-  return collection;
+  return db.collection("users");
 };
 
 const getUserByEmail = async (Users, email) => {
@@ -49,9 +48,7 @@ const createUser = async (Users, userData) => {
 const getUserByToken = async(Users,token) => {
   return Users.findOne({ resetToken:token });
 }
-const updateUser = async(Users,email) =>{
-  return Users.updateOne({ email }, { $set: { verified: true } });
-}
+
 
 const addToken = async (token,users, userId) => {
   try {
@@ -76,7 +73,6 @@ module.exports = {
   getUserByEmail,
   createUser,
   getUserByID,
-  updateUser,
   addToken,
   getUserByToken,
   getAuthDB: () => db,

@@ -3,8 +3,7 @@ const queryString = require("querystring");
 const fs = require("fs");
 
 const {getUserByEmail,
-  getCollectionName,
-  updateUser
+  getCollectionName
 } = require("../DBConnect/authDB");
 
 const verify = async(req,res) => {
@@ -21,16 +20,16 @@ const verify = async(req,res) => {
       const user = await getUserByEmail(collection ,email);
 
       if(user.verificationCode === parseInt(verificationCode)){
-        // Update user's verified status in MongoDB
-        updateUser(collection,email);
         
-        res.writeHead(302, { Location: "../../frontend/html/login.html" });
+        // Update the user document in the database
+        await collection.updateOne({ _id: user._id }, { $set: { verified: true, verificationCode:null } });
+            
+        // Redirect to the login page
+        res.writeHead(302, { Location: "/login" });
         res.end();
-
-        return;
       }else {
         // Verification failed
-        const verificationPage = fs.readFileSync(__dirname + "../../../ejs/verify.ejs" ,"utf8");
+        const verificationPage = fs.readFileSync(__dirname + "../../../views/auth/verify.ejs" ,"utf8");
         const renderedPage = ejs.render(verificationPage, {email,
           digit1:formData.digit1,
           digit2:formData.digit2,

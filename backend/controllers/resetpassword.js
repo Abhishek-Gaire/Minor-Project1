@@ -43,7 +43,7 @@ const postReset  = async(req,res) => {
                     subject: "Password Reset Token",
                     html: `
                         <p> You requested a password reset </p>
-                        <p> Click this <a href="http://localhost:5173/reset-password/${token}">link </a> to set up a new password
+                        <p> Click this <a href="http://localhost:5173/reset-password?${token}">link </a> to set up a new password
                     `,
                 };
                 transporter.sendMail(mailOptions, (error, info) => {

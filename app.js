@@ -19,6 +19,7 @@ const {
 const serveFile = require("./helper/serveFile.js");
 const verify= require("./backend/controllers/verification.js");
 const {getReset,postReset} = require("./backend/controllers/resetpassword.js");
+const {getUpdatePassword,postUpdatePassword} = require("./backend/controllers/newpassword.js")
 const renderVehicles = require("./backend/renderScript/renderVehicles.js");
 
 //serve static files
@@ -26,8 +27,8 @@ const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split("?")[0]; // Remove query parameters for simplicity
   
   const parsedUrl = url.parse(req.url);
-  const { pathname, query } = parsedUrl;
-
+  const { pathname} = parsedUrl;
+  // console.log(pathname);
   if (req.method === "POST") {
     if (req.url === "/signup") {
         return postSignUP(req, res);
@@ -37,16 +38,20 @@ const server = http.createServer(async (req, res) => {
         return verify(req, res);
     } else if (req.url === "/reset-password") {
         return postReset(req, res);
+    } else if(req.url === "/update-password"){
+      return postUpdatePassword(req,res);
     }
   } else if (req.method === "GET") {
+    // console.log("inside GET")
     if (req.url === "/signup") {
         return getSignUP(req, res);
     } else if (req.url === "/login") {
         return getLogin(req, res);
     } else if (req.url === "/forgot-password") {
         return getReset(req, res);
-    } else if (pathname === "/reset-password/:token") {
-        return getNewPassword(req, res);
+    } else if (pathname === "/reset-password") {
+      // console.log("Inside again");
+        return getUpdatePassword(req, res);
     } else if(req.url === "/vehicles"){
       return renderVehicles(req,res);
     }

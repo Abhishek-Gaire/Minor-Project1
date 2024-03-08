@@ -41,7 +41,7 @@ const postSignUP = async (req, res) => {
 
     if (existingUser) {
       // req.flash()
-      res.writeHead(409, { Location: "../../frontend/html/login.html" });
+      res.writeHead(409, { Location: "/login" });
       res.end();
       return;
     } else {
@@ -68,14 +68,14 @@ const postSignUP = async (req, res) => {
         password: password,
         verified: false,
         verificationCode: verificationCode,
-        resetToken:'',
+        resetToken:null,
       };
 
       // Insert the new user document into MongoDB's collection
       await createUser(Users, newUser);
 
       // console.log(__dirname);
-      const verificationPage = fs.readFileSync(__dirname + "../../../ejs/verify.ejs" ,"utf8");
+      const verificationPage = fs.readFileSync(__dirname + "../../../views/auth/verify.ejs" ,"utf8");
       const renderedPage = ejs.render(verificationPage, {email,
         digit1:'',
         digit2:'',
