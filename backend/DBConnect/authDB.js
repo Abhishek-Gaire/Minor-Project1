@@ -46,7 +46,9 @@ const getUserByEmail = async (Users, email) => {
 const createUser = async (Users, userData) => {
   return Users.insertOne(userData);
 };
-
+const getUserByToken = async(Users,token) => {
+  return Users.findOne({ resetToken:token });
+}
 const updateUser = async(Users,email) =>{
   return Users.updateOne({ email }, { $set: { verified: true } });
 }
@@ -76,5 +78,6 @@ module.exports = {
   getUserByID,
   updateUser,
   addToken,
+  getUserByToken,
   getAuthDB: () => db,
 };

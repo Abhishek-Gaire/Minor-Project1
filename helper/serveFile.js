@@ -2,11 +2,11 @@
 const path = require("path");
 const fsPromises = require("fs").promises;
 
-const { getModelsDB, connectToModelsDB, getCollectionName } = require("../DBConnect/modelsDB")
-const { getAuthDB, connectToAuthDB } = require("../DBConnect/authDB")
+const { getModelsDB, connectToModelsDB, getCollectionName } = require("../backend/DBConnect/modelsDB")
+const { getAuthDB, connectToAuthDB } = require("../backend/DBConnect/authDB")
 
-const renderHTML = require("../renderScript/renderModels");
-const renderVehicles = require("../renderScript/renderVehicles");
+const renderHTML = require("../backend/renderScript/renderModels");
+const renderVehicles = require("../backend/renderScript/renderVehicles");
 
 
 const serveFile = async (filePath, contentType, response) => {
@@ -64,11 +64,11 @@ const serveFile = async (filePath, contentType, response) => {
             const collection = getCollectionName();
             renderHTML(response, collection, filePath);
         }
-         else if (contentType==="text/html" && path.basename(filePath) === "vehicles.ejs") {
+        //  else if (contentType==="text/html" && path.basename(filePath) === "vehicles.ejs") {
 
-            const collection = getCollectionName();
-            renderVehicles(response,collection,filePath);
-        }
+        //     const collection = getCollectionName();
+        //     renderVehicles(response,collection,filePath);
+        // }
         // else if(contentType === "text/html" && path.basename(filePath) === "verify"){
 
         // }

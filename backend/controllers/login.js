@@ -1,8 +1,11 @@
 const { parse } = require("querystring");
+const fs = require("fs");
+const path = require("path");
+const ejs = require("ejs");
 
 const { getUserByEmail, getCollectionName } = require("../DBConnect/authDB");
 
-const Login = async (req, res) => {
+const postLogin = async (req, res) => {
   let requestBody = "";
   req.on("data", (chunk) => {
     requestBody += chunk;
@@ -30,7 +33,9 @@ const Login = async (req, res) => {
     }
   });
 };
-// const generateSessionId = () => {
-//   return Math.random().toString(36).substring(2, 15);
-// };
-module.exports = Login;
+const getLogin = async(req,res) => {
+  const filePath = fs.readFileSync(path.join(__dirname + "../../../views/auth/login.html"),"utf8");
+  const renderPage = ejs.render(filePath);
+  res.end(renderPage);
+}
+module.exports = {postLogin,getLogin};

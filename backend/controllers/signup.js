@@ -2,6 +2,9 @@ const { parse } = require("querystring");
 const nodemailer = require("nodemailer");
 const ejs = require("ejs");
 const fs = require("fs");
+const path = require("path");
+
+
 const {
   getUserByEmail,
   getCollectionName,
@@ -20,7 +23,7 @@ function generateVerificationCode(){
   return Math.floor(100000 + Math.random() * 900000);
 };
 
-const signUP = async (req, res) => {
+const postSignUP = async (req, res) => {
   
   let requestBody = "";
   req.on("data", (chunk) => {
@@ -88,4 +91,10 @@ const signUP = async (req, res) => {
   });
 };
 
-module.exports = {signUP,transporter};
+const getSignUP = async(req,res) => {
+  const filePath = fs.readFileSync(path.join(__dirname + "../../../views/auth/signup.html"),"utf8");
+  const renderPage = ejs.render(filePath);
+  res.end(renderPage);
+}
+
+module.exports = {postSignUP,transporter,getSignUP};

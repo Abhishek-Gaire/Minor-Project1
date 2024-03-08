@@ -1,5 +1,8 @@
 const crypto = require("crypto");
 const queryString = require("querystring");
+const fs = require("fs");
+const path = require("path");
+const ejs = require("ejs");
 
 const {transporter} = require("./signup");
 const {getCollectionName, getUserByEmail,addToken} = require("../DBConnect/authDB");
@@ -40,7 +43,7 @@ const postReset  = async(req,res) => {
                     subject: "Password Reset Token",
                     html: `
                         <p> You requested a password reset </p>
-                        <p> Click this <a href="http://localhost:3000/reset/${token}">link </a> to set up a new password
+                        <p> Click this <a href="http://localhost:5173/reset-password/${token}">link </a> to set up a new password
                     `,
                 };
                 transporter.sendMail(mailOptions, (error, info) => {
@@ -53,7 +56,7 @@ const postReset  = async(req,res) => {
                       console.log('Reset token email sent:', info.response);
                     }
                 });
-                res.writeHead(302, {Location: "../../views/login.html"});
+                res.writeHead(302, {Location: "/login"});
                 res.end();
             } else{
                 console.log("Error Sending Token");
@@ -64,37 +67,10 @@ const postReset  = async(req,res) => {
         })
     });
 };
+const getReset = async(req,res) => {
+    const filePath = fs.readFileSync(path.join(__dirname + "../../../views/auth/forgot-password.html"),"utf8");
+    const renderPage = ejs.render(filePath);
+    res.end(renderPage);
+}
+module.exports = {getReset,postReset};
 
-module.exports = postReset;
-// exports.getNewPassword = (req,res,next) => {
-//     const token = req.params.token;
-//     User.findOne(
-//         {
-//             resetToken:token, 
-//             resetTokenExpiration:{
-//                 $gt:Date.now()
-//             }
-//         }
-//     )
-//     .then(user => {
-//         let message = req.flash("error");
-//         if(message.length > 0){
-//             message = message[0];
-//         } else{
-//             message = null;
-//         }
-//         res.render("auth/reset-password", {
-//         path:"/reset-password",
-//         pageTitle: "Update Password",
-//         errorMessage: message,
-//         passwordToken: token,
-//         userId: user._id.toString(),
-//         })
-//     })
-//     .catch(err =>{
-//         const error = new Error(err);
-//             error.httpStatusCode = 500;
-//             return next(error);
-//     })
-    
-// };

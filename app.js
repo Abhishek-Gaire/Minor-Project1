@@ -1,12 +1,13 @@
 const http = require("http");
+const url = require("url");
 const path = require("path");
 const fs = require("fs");
 const fsPromises = require("fs").promises;
 require("dotenv").config();
 
 
-const {signUP} = require("./backend/controllers/signup.js");
-const Login = require("./backend/controllers/login.js");
+const {getSignUP,postSignUP} = require("./backend/controllers/signup.js");
+const {getLogin,postLogin} = require("./backend/controllers/login.js");
 const {
   connectToModelsDB,
   closeModelsDB,
@@ -15,14 +16,41 @@ const {
   connectToAuthDB,
   closeAuthDB,
 } = require("./backend/DBConnect/authDB.js");
-const serveFile = require("./backend/script/serveFile.js");
+const serveFile = require("./helper/serveFile.js");
 const verify= require("./backend/controllers/verification.js");
-const postReset = require("./backend/controllers/resetpassword.js")
-
+const {getReset,postReset} = require("./backend/controllers/resetpassword.js");
+const renderVehicles = require("./backend/renderScript/renderVehicles.js");
 
 //serve static files
 const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split("?")[0]; // Remove query parameters for simplicity
+  
+  const parsedUrl = url.parse(req.url);
+  const { pathname, query } = parsedUrl;
+
+  if (req.method === "POST") {
+    if (req.url === "/signup") {
+        return postSignUP(req, res);
+    } else if (req.url === "/login") {
+        return postLogin(req, res);
+    } else if (req.url === "/verify") {
+        return verify(req, res);
+    } else if (req.url === "/reset-password") {
+        return postReset(req, res);
+    }
+  } else if (req.method === "GET") {
+    if (req.url === "/signup") {
+        return getSignUP(req, res);
+    } else if (req.url === "/login") {
+        return getLogin(req, res);
+    } else if (req.url === "/forgot-password") {
+        return getReset(req, res);
+    } else if (pathname === "/reset-password/:token") {
+        return getNewPassword(req, res);
+    } else if(req.url === "/vehicles"){
+      return renderVehicles(req,res);
+    }
+  }
   const extension = path.extname(urlPath);
   let contentType;
   switch (extension) {
@@ -52,16 +80,13 @@ const server = http.createServer(async (req, res) => {
   }
   let filePath =
     contentType === "text/html" && req.url === "/"
-      ? path.join(__dirname,"ejs", "index.ejs")
+      ? path.join(__dirname,"views", "page","index.ejs")
         : contentType === "text/html" && req.url==="/vehicles.ejs"
           ? path.join(__dirname,"/ejs", req.url)
           : contentType === "text/html" && req.url === "/admin"
             ? path.join(__dirname, "/ejs", req.url)
               : //default
               path.join(__dirname, req.url);
-  
-  // makes .html extension not required in the browser
-  if (!extension && req.url.slice(-1) !== "/") filePath += ".ejs";
 
   //fileExists or not
   const fileExists = await fsPromises
@@ -73,20 +98,8 @@ const server = http.createServer(async (req, res) => {
     //serve the file
     serveFile(filePath, contentType, res);
   }
-
-  // POST request handling
-  if (req.method === "POST" && req.url === "/signup") {
-    signUP(req, res);
-  } else if (req.method === "POST" && req.url === "/login") {
-    Login(req, res);
-  } else if(req.method === "POST" && req.url === "/verify"){
-    verify(req,res);
-  } else if(req.method === "POST" && req.url ==="/reset-password"){
-    postReset(req,res);
-  }
-  // else{}
-
 });
+
 const PORT = process.env.PORT || 3000;
 // Connect to Models Database when the server starts
 connectToModelsDB().then(() => {

@@ -1,8 +1,12 @@
 const ejs = require("ejs");
 const fsPromises = require("fs").promises;
+const path = require("path");
 
-const renderVehicles = async(response,collection,filePath) =>{
+const {getCollectionName} = require("../DBConnect/modelsDB")
+const renderVehicles = async(req,res) =>{
     try{
+        const collection = await getCollectionName();
+        const filePath = path.join(__dirname+"../../../views/page/vehicles.ejs")
         const ejsData = await fsPromises.readFile(filePath, "utf8");
         
         const vehiclesData = await collection.find({}).toArray();
@@ -12,7 +16,7 @@ const renderVehicles = async(response,collection,filePath) =>{
         const prices = vehiclesData.map((item => item.price));
         
         const renderedVehicles = ejs.render(ejsData,{imageUrls,names,prices}); 
-        response.end(renderedVehicles);
+        res.end(renderedVehicles);
         
     } catch(err){
         console.error(err);
