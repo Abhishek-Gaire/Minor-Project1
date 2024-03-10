@@ -1,12 +1,15 @@
 const ejs = require("ejs");
 const fsPromises = require("fs").promises;
+const path = require('path');
 
-const renderHTML = async (res, collection, filePath) => {
+const {getCollectionName} = require("../DBConnect/modelsDB");
+const renderHomePage = async (req,res) => {
   try {
+    const filePath = path.join(__dirname + "../../../views/page/index.ejs");
     const ejsData = await fsPromises.readFile(filePath, "utf8");
-
+    const collection = await getCollectionName();
     const modelsData = await collection.find({}).toArray();
-
+    // console.log(modelsData);
     const names = modelsData.map((item) => item.name);
     const heads = modelsData.map((item) => item.head);
     const descriptions = modelsData.map((item) => item.description);
@@ -21,4 +24,4 @@ const renderHTML = async (res, collection, filePath) => {
   }
 };
 
-module.exports = renderHTML;
+module.exports = renderHomePage;

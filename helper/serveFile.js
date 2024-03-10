@@ -6,8 +6,6 @@ const { getModelsDB, connectToModelsDB, getCollectionName } = require("../backen
 const { getAuthDB, connectToAuthDB } = require("../backend/DBConnect/authDB")
 
 const renderHTML = require("../backend/renderScript/renderModels");
-const renderVehicles = require("../backend/renderScript/renderVehicles");
-
 
 const serveFile = async (filePath, contentType, response) => {
     const validContentTypes = [
@@ -57,13 +55,13 @@ const serveFile = async (filePath, contentType, response) => {
     }
     try {
         // console.log(filePath);
-        if (
-            contentType === "text/html" &&
-            path.basename(filePath) === "index.ejs"
-        ) {
-            const collection = getCollectionName();
-            renderHTML(response, collection, filePath);
-        }
+        // if (
+        //     contentType === "text/html" &&
+        //     path.basename(filePath) === "index.ejs"
+        // ) {
+        //     const collection = getCollectionName();
+        //     renderHTML(response, collection, filePath);
+        // }
         //  else if (contentType==="text/html" && path.basename(filePath) === "vehicles.ejs") {
 
         //     const collection = getCollectionName();
@@ -72,7 +70,6 @@ const serveFile = async (filePath, contentType, response) => {
         // else if(contentType === "text/html" && path.basename(filePath) === "verify"){
 
         // }
-        else {
             const rawData = await fsPromises.readFile(
                 filePath,
                 !contentType.includes("image") ? "utf8" : ""
@@ -85,7 +82,6 @@ const serveFile = async (filePath, contentType, response) => {
             response.end(
                 contentType === "application/json" ? JSON.stringify(data) : data
             );
-        }
     } catch (err) {
         console.error(err);
         response.writeHead(500, {

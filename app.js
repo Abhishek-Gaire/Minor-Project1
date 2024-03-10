@@ -5,9 +5,7 @@ const fs = require("fs");
 const fsPromises = require("fs").promises;
 require("dotenv").config();
 
-
-const {getSignUP,postSignUP} = require("./backend/controllers/signup.js");
-const {getLogin,postLogin} = require("./backend/controllers/login.js");
+const routes = require("./helper/routes.js");
 const {
   connectToModelsDB,
   closeModelsDB,
@@ -17,45 +15,25 @@ const {
   closeAuthDB,
 } = require("./backend/DBConnect/authDB.js");
 const serveFile = require("./helper/serveFile.js");
-const verify= require("./backend/controllers/verification.js");
-const {getReset,postReset} = require("./backend/controllers/resetpassword.js");
-const {getUpdatePassword,postUpdatePassword} = require("./backend/controllers/newpassword.js")
-const renderVehicles = require("./backend/renderScript/renderVehicles.js");
 
-//serve static files
+//create a server
 const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split("?")[0]; // Remove query parameters for simplicity
-  
   const parsedUrl = url.parse(req.url);
-  const { pathname} = parsedUrl;
-  // console.log(pathname);
-  if (req.method === "POST") {
-    if (req.url === "/signup") {
-        return postSignUP(req, res);
-    } else if (req.url === "/login") {
-        return postLogin(req, res);
-    } else if (req.url === "/verify") {
-        return verify(req, res);
-    } else if (req.url === "/reset-password") {
-        return postReset(req, res);
-    } else if(req.url === "/update-password"){
-      return postUpdatePassword(req,res);
-    }
-  } else if (req.method === "GET") {
-    // console.log("inside GET")
-    if (req.url === "/signup") {
-        return getSignUP(req, res);
-    } else if (req.url === "/login") {
-        return getLogin(req, res);
-    } else if (req.url === "/forgot-password") {
-        return getReset(req, res);
-    } else if (pathname === "/reset-password") {
-      // console.log("Inside again");
-        return getUpdatePassword(req, res);
-    } else if(req.url === "/vehicles"){
-      return renderVehicles(req,res);
+  
+  const {pathname } = parsedUrl;
+  const {method} = req;
+  // Check if the method exists in routes
+  if (routes[method]) {
+        
+    // Check if the URL exists in routes[method]
+    const handler = routes[method][pathname];
+    if (handler) {
+      // If the handler exists, call it passing req and res
+      return handler(req, res);
     }
   }
+
   const extension = path.extname(urlPath);
   let contentType;
   switch (extension) {
@@ -74,24 +52,8 @@ const server = http.createServer(async (req, res) => {
     case ".png":
       contentType = "image/png";
       break;
-    case ".txt":
-      contentType = "text/plain";
-      break;
-    case ".ejs":
-      contentType = "text/html";
-      break;
-    default:
-      contentType = "text/html";
   }
-  let filePath =
-    contentType === "text/html" && req.url === "/"
-      ? path.join(__dirname,"views", "page","index.ejs")
-        : contentType === "text/html" && req.url==="/vehicles.ejs"
-          ? path.join(__dirname,"/ejs", req.url)
-          : contentType === "text/html" && req.url === "/admin"
-            ? path.join(__dirname, "/ejs", req.url)
-              : //default
-              path.join(__dirname, req.url);
+  let filePath =path.join(__dirname, req.url);
 
   //fileExists or not
   const fileExists = await fsPromises
@@ -100,7 +62,7 @@ const server = http.createServer(async (req, res) => {
     .catch(() => false);
   console.log(fileExists,filePath);
   if (fileExists) {
-    //serve the file
+    //serve static file
     serveFile(filePath, contentType, res);
   }
 });
