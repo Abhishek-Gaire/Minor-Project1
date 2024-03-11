@@ -1,12 +1,10 @@
-const verify= require("../backend/controllers/verification.js");
-const {getReset,postReset} = require("../backend/controllers/resetpassword.js");
-const {getUpdatePassword,postUpdatePassword} = require("../backend/controllers/newpassword.js")
-const renderVehicles = require("../backend/renderScript/renderVehicles.js");
-const renderHomePage = require("../backend/renderScript/renderModels.js");
-const renderModelView = require("../backend/renderScript/modelView");
+import {verify} from"../controllers/verification.js";
+import {getReset,postReset,getUpdatePassword,postUpdatePassword} from"../controllers/resetpassword.js";
 
-const {getSignUP,postSignUP} = require("../backend/controllers/signup.js");
-const {getLogin,postLogin} = require("../backend/controllers/login.js");
+import {renderVehicles,renderModelView,renderHomePage} from"../controllers/render.js";
+
+
+import {getLogin,postLogin,getSignUP,postSignUP} from"../controllers/login.js";
 
 const routes = {
     "POST": {
@@ -27,4 +25,4 @@ const routes = {
     }
 }; 
 
-module.exports = routes;
+export {routes};

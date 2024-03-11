@@ -1,10 +1,13 @@
-const ejs = require("ejs");
-const queryString = require("querystring");
-const fs = require("fs");
+import ejs from"ejs";
+import queryString from"querystring";
+import fs from"fs";
+import path from "path";
 
-const {getUserByEmail,
+import{getUserByEmail,
   getCollectionName
-} = require("../DBConnect/authDB");
+} from"../Models/user.js";
+
+const __dirname = path.resolve();
 
 const verify = async(req,res) => {
     let body='';
@@ -44,4 +47,4 @@ const verify = async(req,res) => {
       }
     });
 }
-module.exports = verify;
+export {verify};

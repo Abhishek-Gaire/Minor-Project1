@@ -1,21 +1,17 @@
-const http = require("http");
-const url = require("url");
-const path = require("path");
-const fs = require("fs");
-const fsPromises = require("fs").promises;
-require("dotenv").config();
+import http from "http";
+import url from "url";
+import path from "path";
+import fs from "fs";
+import "dotenv/config";
 
-const routes = require("./helper/routes.js");
-const {
-  connectToModelsDB,
-  closeModelsDB,
-} = require("./backend/DBConnect/modelsDB.js");
-const {
-  connectToAuthDB,
-  closeAuthDB,
-} = require("./backend/DBConnect/authDB.js");
-const serveFile = require("./helper/serveFile.js");
+import {routes} from "./helper/routes.js";
+import {
+  connectToDB,
+  closeDB,
+} from "./helper/database.js";
 
+import {serveFile} from "./helper/serveFile.js";
+const __dirname = path.resolve();
 //create a server
 const server = http.createServer(async (req, res) => {
   const urlPath = req.url.split("?")[0]; // Remove query parameters for simplicity
@@ -56,7 +52,7 @@ const server = http.createServer(async (req, res) => {
   let filePath =path.join(__dirname, req.url);
 
   //fileExists or not
-  const fileExists = await fsPromises
+  const fileExists = await fs.promises
     .access(filePath, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false);
@@ -68,34 +64,26 @@ const server = http.createServer(async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-// Connect to Models Database when the server starts
-connectToModelsDB().then(() => {
-  //Start the server once Models Database is connected
+// Connect toDatabase when the server starts
+connectToDB().then(() => {
+  //Start the server once Database is connected
   server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}/`);
   });
 });
 
-// Connect to Auth Database when the server starts
-connectToAuthDB().then(() => {
-  console.log("Connected to Auth Database");
-});
-
-// Handles server shutdown to close the Models and Auth Database Connection
+// Handles server shutdown to close the Database Connection
 process.on("exit", async () => {
-  await closeModelsDB();
-  await closeAuthDB();
+  await closeDB();
   console.log("Server Shutting Down");
 });
 
 process.on("SIGINT", async () => {
-  await closeModelsDB();
-  await closeAuthDB();
+  await closeDB();
   process.exit();
 });
 
 process.on("SIGTERM", async () => {
-  await closeModelsDB();
-  await closeAuthDB();
+  await closeDB();
   process.exit();
 });

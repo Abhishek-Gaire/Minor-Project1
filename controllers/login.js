@@ -1,15 +1,14 @@
-const { parse } = require("querystring");
-const nodemailer = require("nodemailer");
-const ejs = require("ejs");
-const fs = require("fs");
-const path = require("path");
+import{ parse } from"querystring";
+import fs from"fs";
+import path from"path";
+import ejs from"ejs";
+import nodemailer from"nodemailer";
 
-
-const {
+import{
   getUserByEmail,
   getCollectionName,
   createUser,
-} = require("../DBConnect/authDB");
+} from"../Models/user.js";
 
 const transporter = nodemailer.createTransport({
   service :"gmail",
@@ -22,9 +21,44 @@ const transporter = nodemailer.createTransport({
 function generateVerificationCode(){
   return Math.floor(100000 + Math.random() * 900000);
 };
+const __dirname = path.resolve();
+
+const postLogin = async (req, res) => {
+  let requestBody = "";
+  req.on("data", (chunk) => {
+    requestBody += chunk;
+  });
+  req.on("end", async () => {
+    const loginData = parse(requestBody);
+    
+    const email = loginData.email;
+    const password = loginData.password;
+    const Users = getCollectionName();
+    // Fetch user from the database by email
+    const user = await getUserByEmail(Users, email);
+
+    if (user && user.password === password) {
+
+      // Successful Login
+
+      // const sessionId = generateSessionId();
+      // sessions[sessionId] = user._id;
+      res.writeHead(302, { Location:"/" });
+      res.end();
+    } else {
+      //Invalid Credentials
+      res.writeHead(401, { "Content-Type": "text/plain" });
+      res.end("Invalid credentials");
+    }
+  });
+};
+const getLogin = async(req,res) => {
+  const filePath = fs.readFileSync(path.join(__dirname , "views/auth/login.html"),"utf8");
+  const renderPage = ejs.render(filePath);
+  res.end(renderPage);
+}
 
 const postSignUP = async (req, res) => {
-  
   let requestBody = "";
   req.on("data", (chunk) => {
     requestBody += chunk.toString();
@@ -75,7 +109,7 @@ const postSignUP = async (req, res) => {
       await createUser(Users, newUser);
 
       // console.log(__dirname);
-      const verificationPage = fs.readFileSync(__dirname + "../../../views/auth/verify.ejs" ,"utf8");
+      const verificationPage = fs.readFileSync(__dirname , "views/auth/verify.ejs" ,"utf8");
       const renderedPage = ejs.render(verificationPage, {email,
         digit1:'',
         digit2:'',
@@ -92,9 +126,10 @@ const postSignUP = async (req, res) => {
 };
 
 const getSignUP = async(req,res) => {
-  const filePath = fs.readFileSync(path.join(__dirname + "../../../views/auth/signup.html"),"utf8");
+  const filePath = fs.readFileSync(path.join(__dirname , "views/auth/signup.html"),"utf8");
   const renderPage = ejs.render(filePath);
   res.end(renderPage);
 }
 
-module.exports = {postSignUP,transporter,getSignUP};
+export {postSignUP,postLogin,transporter,getLogin,getSignUP};
+
