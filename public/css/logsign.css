@@ -92,3 +92,6 @@ button:hover {
 .signup-done a:hover{
     text-decoration: underline;
 }
+.centered{
+    text-align: center;
+}

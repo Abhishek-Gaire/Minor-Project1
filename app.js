@@ -1,5 +1,5 @@
 import http from "http";
-import url from "url";
+import {URL} from "url";
 import path from "path";
 import fs from "fs";
 import "dotenv/config";
@@ -11,13 +11,15 @@ import {
 } from "./helper/database.js";
 
 import {serveFile} from "./helper/serveFile.js";
+import { parse } from "dotenv";
 const __dirname = path.resolve();
 //create a server
 const server = http.createServer(async (req, res) => {
-  const urlPath = req.url.split("?")[0]; // Remove query parameters for simplicity
-  const parsedUrl = url.parse(req.url);
+
+  const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
   
   const {pathname } = parsedUrl;
+
   const {method} = req;
   // Check if the method exists in routes
   if (routes[method]) {
@@ -30,7 +32,7 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  const extension = path.extname(urlPath);
+  const extension = path.extname(pathname);
   let contentType;
   switch (extension) {
     case ".css":
@@ -64,7 +66,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-// Connect toDatabase when the server starts
+// Connect toDatabase
 connectToDB().then(() => {
   //Start the server once Database is connected
   server.listen(PORT, () => {

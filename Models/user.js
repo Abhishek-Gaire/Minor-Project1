@@ -4,8 +4,8 @@ import {db} from "../helper/database.js";
 // console.log(db);
 
 const getCollectionName = () => {
-  console.log(db)
-  return db.collection("users");
+  const collection = db.collection("users");
+  return collection;
 };
 
 const getUserByEmail = async (Users, email) => {
