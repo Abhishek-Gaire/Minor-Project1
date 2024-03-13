@@ -55,16 +55,11 @@ const postLogin = async (req, res) => {
   });
 };
 const getLogin = async(req,res) => {
-  const query = req.url.split('?')[1];
-  const filePath = fs.readFileSync(path.join(__dirname , "views/auth/login.html"),"utf8");
-  if (!query) {
-    const renderPage = ejs.render(filePath,{message:''});
+  const query = req.url.split("?")[1];
+    const filePath = fs.readFileSync(path.join(__dirname, "views/auth/login.html"), "utf8");
+    const message = query ? "User Already Exists" : "";
+    const renderPage = ejs.render(filePath, { message });
     res.end(renderPage);
-    return;
-  }
-  const message = "User Already Exists"
-  const renderPage = ejs.render(filePath,{message})
-  res.end(renderPage);
 }
 
 
@@ -82,25 +77,25 @@ const postSignUP = async (req, res) => {
     const password = formData.password;
    
     // // Validation for username
-    // if (!validator.isAlphanumeric(userName) || validator.isEmpty(userName)) {
-    //   res.writeHead(400, { 'Content-Type': 'text/plain' });
-    //   res.end('Invalid username');
-    //   return;
-    // }
+    if (!validator.isAlphanumeric(userName) || validator.isEmpty(userName)) {
+      res.writeHead(400, { 'Content-Type': 'text/plain' });
+      res.end('Invalid username');
+      return;
+    }
 
-    // // Validation for email
-    // if (!validator.isEmail(email)) {
-    //   res.writeHead(400, { 'Content-Type': 'text/plain' });
-    //   res.end('Invalid email');
-    //   return;
-    // }
+    // Validation for email
+    if (!validator.isEmail(email)) {
+      res.writeHead(400, { 'Content-Type': 'text/plain' });
+      res.end('Invalid email');
+      return;
+    }
 
-    // // Validation for password
-    // if (!validator.isStrongPassword(password)) {
-    //   res.writeHead(400, { 'Content-Type': 'text/plain' });
-    //   res.end('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.');
-    //   return;
-    // }
+    // Validation for password
+    if (!validator.isStrongPassword(password)) {
+      res.writeHead(400, { 'Content-Type': 'text/plain' });
+      res.end('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.');
+      return;
+    }
 
     const Users = getCollectionName();
     

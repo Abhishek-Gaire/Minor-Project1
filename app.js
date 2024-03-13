@@ -1,91 +1,74 @@
 import http from "http";
-import {URL} from "url";
+import { URL } from "url";
 import path from "path";
-import fs from "fs";
-import "dotenv/config";
+import dotenv from "dotenv";
+import { connectToDB, closeDB } from "./helper/database.js";
+import { serveFile } from "./helper/serveFile.js";
+import { routes } from "./helper/routes.js";
 
-import {routes} from "./helper/routes.js";
-import {
-  connectToDB,
-  closeDB,
-} from "./helper/database.js";
+dotenv.config();
 
-import {serveFile} from "./helper/serveFile.js";
-import { parse } from "dotenv";
-const __dirname = path.resolve();
-//create a server
-const server = http.createServer(async (req, res) => {
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+// console.log(__dirname);
+const getContentType = (extension) => {
+    const contentTypeMap = {
+        ".css": "text/css",
+        ".js": "application/javascript",
+        ".json": "application/json",
+        ".jpg": "image/jpeg",
+        ".png": "image/png",
+    };
+    return contentTypeMap[extension] || "application/octet-stream";
+};
 
-  const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-  
-  const {pathname } = parsedUrl;
-
-  const {method} = req;
-  // Check if the method exists in routes
-  if (routes[method]) {
-        
-    // Check if the URL exists in routes[method]
-    const handler = routes[method][pathname];
-    if (handler) {
-      // If the handler exists, call it passing req and res
-      return handler(req, res);
+const serveStaticFile = async (req, res, filePath) => {
+    try {
+        const extension = path.extname(filePath);
+        const contentType = getContentType(extension);
+        serveFile(filePath, contentType, res);
+    } catch (err) {
+        res.statusCode = 404;
+        res.end("File not found");
     }
-  }
+};
 
-  const extension = path.extname(pathname);
-  let contentType;
-  switch (extension) {
-    case ".css":
-      contentType = "text/css";
-      break;
-    case ".js":
-      contentType = "application/javascript";
-      break;
-    case ".json":
-      contentType = "application/json";
-      break;
-    case ".jpg":
-      contentType = "image/jpeg";
-      break;
-    case ".png":
-      contentType = "image/png";
-      break;
-  }
-  let filePath =path.join(__dirname, req.url);
+const server = http.createServer(async (req, res) => {
+    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+    const { pathname } = parsedUrl;
+    const { method } = req;
 
-  //fileExists or not
-  const fileExists = await fs.promises
-    .access(filePath, fs.constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
-  console.log(fileExists,filePath);
-  if (fileExists) {
-    //serve static file
-    serveFile(filePath, contentType, res);
-  }
+    if (routes[method] && routes[method][pathname]) {
+      return routes[method][pathname](req, res);
+    }
+
+    let filePath;
+
+    // Adjust file paths for assets and public files
+    if (pathname.startsWith("/public")) {
+        filePath = path.join(__dirname, pathname);
+    } else if (pathname.startsWith("/assets")) {
+        filePath = path.join(__dirname, pathname);
+    }
+    // Remove leading backslashes
+    filePath = filePath.replace(/^\\/, '');
+
+    await serveStaticFile(req, res, filePath);
 });
 
 const PORT = process.env.PORT || 3000;
-// Connect toDatabase
+
 connectToDB().then(() => {
-  //Start the server once Database is connected
-  server.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
-  });
+    server.listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+    });
 });
 
-// Handles server shutdown to close the Database Connection
-process.on("exit", async () => {
-  await closeDB();
-  console.log("Server Shutting Down");
-});
+const handleShutdown = async () => {
+    await closeDB();
+    console.log("Server Shutting Down");
+    process.exit();
+};
 
-process.on("SIGINT", async () => {
-  await closeDB();
-  process.exit();
-});
-
-process.on("SIGTERM", async () => {
-  await closeDB();
-  process.exit();
-});
+process.on("exit", handleShutdown);
+process.on("SIGINT", handleShutdown);
+process.on("SIGTERM", handleShutdown);

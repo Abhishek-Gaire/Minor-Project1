@@ -1,62 +1,64 @@
-import ejs from"ejs";
-import fsPromises from"fs/promises";
-import path from'path';
-import url from "url";
-import{getCollectionName} from "../Models/model.js";
-const __dirname = path.resolve();
-const renderHomePage = async (req,res) => {
-  try {
-    const filePath = path.join(__dirname + "/views/page/index.ejs");
-    const ejsData = await fsPromises.readFile(filePath, "utf8");
-    const collection = await getCollectionName();
-    const modelsData = await collection.find({}).toArray();
-    // console.log(modelsData);
-    const names = modelsData.map((item) => item.name);
-    const heads = modelsData.map((item) => item.head);
-    const descriptions = modelsData.map((item) => item.description);
-    const prices = modelsData.map((item) => item.price);
-    const imageUrls = modelsData.map((item) => item.imageUrl)
+import ejs from "ejs";
+import fsPromises from "fs/promises";
+import path from 'path';
 
-    const renderedHTML = ejs.render(ejsData, { names,heads,descriptions,prices,imageUrls});
-    res.end(renderedHTML);
-    
+import { getCollectionName } from "../Models/model.js";
+
+const __dirname = path.resolve();
+
+const readFileAsync = async (filePath) => {
+  return await fsPromises.readFile(filePath, "utf8");
+};
+
+const renderPage = async (req, res, templatePath, data) => {
+  try {
+        const filePath = path.join(__dirname, templatePath);
+        const ejsData = await readFileAsync(filePath);
+        const renderedHTML = ejs.render(ejsData, data);
+        res.end(renderedHTML);
   } catch (err) {
-    console.error(err);
+        console.error(err);
   }
 };
 
-const renderVehicles = async(req,res) =>{
-    try{
+const renderHomePage = async (req, res) => {
+    try {
         const collection = await getCollectionName();
-        const filePath = path.join(__dirname,"views/page/vehicles.ejs")
-        const ejsData = await fsPromises.readFile(filePath, "utf8");
-        
-        const vehiclesData = await collection.find({}).toArray();
-        
-        const renderedVehicles = ejs.render(ejsData,{vehiclesData}); 
-        res.end(renderedVehicles);
-        
-    } catch(err){
+        const modelsData = await collection.find({}).toArray();
+        const { names, heads, descriptions, prices, imageUrls } = modelsData.reduce((acc, item) => {
+            acc.names.push(item.name);
+            acc.heads.push(item.head);
+            acc.descriptions.push(item.description);
+            acc.prices.push(item.price);
+            acc.imageUrls.push(item.imageUrl);
+            return acc;
+        }, { names: [], heads: [], descriptions: [], prices: [], imageUrls: [] });
+
+        await renderPage(req, res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls });
+    } catch (err) {
         console.error(err);
     }
 };
 
-const renderModelView = async(req,res) =>{
-    try{
-      const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-      
-      // Extract the token parameter from the url
-      const token = parsedUrl.search.slice(1);
-      console.log(token); 
-        
-      const filePath = path.join(__dirname,"views/page/modelview.html")
-      const ejsData = await fsPromises.readFile(filePath, "utf8");
-        
-      const renderedVehicles = ejs.render(ejsData); 
-      res.end(renderedVehicles);
-        
-    } catch(err){
+const renderVehicles = async (req, res) => {
+    try {
+        const collection = await getCollectionName();
+        const vehiclesData = await collection.find({}).toArray();
+        await renderPage(req, res, "/views/page/vehicles.ejs", { vehiclesData });
+    } catch (err) {
         console.error(err);
     }
-}
-export{ renderHomePage,renderModelView,renderVehicles};
+};
+
+const renderModelView = async (req, res) => {
+    try {
+        const filePath = path.join(__dirname, "views/page/modelview.html");
+        const ejsData = await readFileAsync(filePath);
+        const renderedModelView = ejs.render(ejsData);
+        res.end(renderedModelView);
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+export { renderHomePage, renderModelView, renderVehicles };
