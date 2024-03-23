@@ -21,7 +21,7 @@ const postReset  = async(req,res) => {
         crypto.randomBytes(32,async (err,buffer)=>{
             if(err){
                 console.log(err);
-                res.writeHead(409, {Location: "../../views/forgot-password.html"});
+                res.writeHead(409, {Location: "/forgot-password"});
                 res.end();
                 return;
             }
@@ -70,7 +70,7 @@ const postReset  = async(req,res) => {
     });
 };
 const getReset = async(req,res) => {
-    const filePath = fs.readFileSync(path.join(__dirname , "views/auth/forgot-password.html"),"utf8");
+    const filePath = fs.readFileSync(path.join(__dirname , "/views/auth/forgot-password.html"),"utf8");
     const renderPage = ejs.render(filePath);
     res.end(renderPage);
 }
@@ -83,7 +83,7 @@ const getUpdatePassword = async(req,res) => {
     const collection = await getCollectionName();
     const user = await getUserByToken(collection, token);
 
-    const filePath =  fs.readFileSync(path.join(__dirname+"../../views/auth/new-password.ejs"),"utf-8");
+    const filePath =  fs.readFileSync(path.join(__dirname,"/views/auth/new-password.ejs"),"utf-8");
 
     if(!user){
         const renderPage = ejs.render(filePath,{
@@ -102,7 +102,7 @@ const getUpdatePassword = async(req,res) => {
 };
 
 const postUpdatePassword = async(req,res) => {
-    const filePath =  fs.readFileSync(path.join(__dirname+"../../views/auth/new-password.ejs"),"utf-8");
+    const filePath =  fs.readFileSync(path.join(__dirname,"/views/auth/new-password.ejs"),"utf-8");
     let body = '';
     req.on('data', (chunk)=>{
         body += chunk.toString()
@@ -140,8 +140,11 @@ const postUpdatePassword = async(req,res) => {
             res.end();
         } else {
             // User not found, handle the error or redirect to an error page
-            res.writeHead(404, { 'Content-Type': 'text/plain' });
-            res.end('User not found');
+            const renderPage = ejs.render(filePath,{
+                token:'',
+                errorMessage: "User With That Token Not Found",
+            })
+            res.end(renderPage);
         }
     })
 

@@ -1,10 +1,12 @@
 import{ parse } from"querystring";
 import fs from"fs";
 import path from"path";
+
 import ejs from"ejs";
 import nodemailer from"nodemailer";
 import validator from "validator";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import{
   getUserByEmail,
@@ -26,6 +28,10 @@ function generateVerificationCode(){
 const __dirname = path.resolve();
 
 const postLogin = async (req, res) => {
+
+  const filePath = path.join(__dirname,"/views/auth/login.ejs");
+  const fileData = fs.readFileSync(filePath,"utf8");
+
   let requestBody = "";
   req.on("data", (chunk) => {
     requestBody += chunk;
@@ -35,31 +41,48 @@ const postLogin = async (req, res) => {
     
     const email = loginData.email;
     const password = loginData.password;
-    const Users = getCollectionName();
+    
+    const Users = await getCollectionName();
+
     // Fetch user from the database by email
     const user = await getUserByEmail(Users, email);
-
+    
+    if (!user){
+      res.end
+        (ejs.render
+          (fileData,
+            { message:"No user with that email exists!"}
+          )
+        );
+      return;
+    }
     if (user && user.password === password) {
+      // Generate JWT token
+      const token = jwt.sign({ email: user.email }, 'PROCESS.ENV.SECRET_KEY', { expiresIn: '24h' });
 
-      // Successful Login
+      // Set JWT token in a cookie
+      res.setHeader('Set-Cookie', `token=${token}; HttpOnly`);
 
-      // const sessionId = generateSessionId();
-      // sessions[sessionId] = user._id;
       res.writeHead(302, { Location:"/" });
       res.end();
     } else {
       //Invalid Credentials
-      res.writeHead(401, { "Content-Type": "text/plain" });
-      res.end("Invalid credentials");
+      res.end
+        (ejs.render
+          (fileData,
+            { message:"Invalid email or password!"}
+          )
+        );
+      return;
     }
   });
 };
 const getLogin = async(req,res) => {
   const query = req.url.split("?")[1];
-    const filePath = fs.readFileSync(path.join(__dirname, "views/auth/login.html"), "utf8");
-    const message = query ? "User Already Exists" : "";
-    const renderPage = ejs.render(filePath, { message });
-    res.end(renderPage);
+  const filePath = fs.readFileSync(path.join(__dirname, "/views/auth/login.ejs"), "utf8");
+  const message = query ? "User Already Exists" : "";
+  const renderPage = ejs.render(filePath, { message });
+  res.end(renderPage);
 }
 
 
@@ -97,7 +120,7 @@ const postSignUP = async (req, res) => {
       return;
     }
 
-    const Users = getCollectionName();
+    const Users = await getCollectionName();
     
     const existingUser = await getUserByEmail(Users, email);
     
@@ -139,7 +162,7 @@ const postSignUP = async (req, res) => {
 
       await createUser(Users, newUser);
 
-      const verificationPage = fs.readFileSync(__dirname, "views/auth/verify.ejs", "utf8");
+      const verificationPage = fs.readFileSync(__dirname, "/views/auth/verify.ejs", "utf8");
       const renderedPage = ejs.render(verificationPage, {
         email,
         digit1: '',
@@ -157,7 +180,7 @@ const postSignUP = async (req, res) => {
 
 
 const getSignUP = async(req,res) => {
-  const filePath = fs.readFileSync(path.join(__dirname , "views/auth/signup.html"),"utf8");
+  const filePath = fs.readFileSync(path.join(__dirname , "/views/auth/signup.html"),"utf8");
   const renderPage = ejs.render(filePath);
   res.end(renderPage);
 }

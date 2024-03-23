@@ -7,17 +7,17 @@ import { getCollectionName } from "../Models/model.js";
 const __dirname = path.resolve();
 
 const readFileAsync = async (filePath) => {
-  return await fsPromises.readFile(filePath, "utf8");
+  return fsPromises.readFile(filePath, "utf8");
 };
 
 const renderPage = async (req, res, templatePath, data) => {
   try {
-        const filePath = path.join(__dirname, templatePath);
-        const ejsData = await readFileAsync(filePath);
-        const renderedHTML = ejs.render(ejsData, data);
-        res.end(renderedHTML);
-  } catch (err) {
-        console.error(err);
+    const filePath = path.join(__dirname, templatePath);
+    const ejsData = await readFileAsync(filePath);
+    const renderedHTML = ejs.render(ejsData, data);
+    res.end(renderedHTML);
+  }catch (err) {
+    console.error(err);
   }
 };
 
@@ -52,10 +52,18 @@ const renderVehicles = async (req, res) => {
 
 const renderModelView = async (req, res) => {
     try {
-        const filePath = path.join(__dirname, "views/page/modelview.html");
-        const ejsData = await readFileAsync(filePath);
-        const renderedModelView = ejs.render(ejsData);
-        res.end(renderedModelView);
+        console.log("Inside ModelView Render")
+        
+        if(!req.user){
+            console.log("Inside If");
+            await renderPage(req,res,"/views/page/modelview.ejs",{jwtToken:false});
+        } else{
+            console.log("Outside if");
+            const ejsData = await readFileAsync(filePath);
+            const renderedModelView = ejs.render(ejsData,{jwtToken:true});
+            res.end(renderedModelView);
+        }
+        
     } catch (err) {
         console.error(err);
     }

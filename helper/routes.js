@@ -2,7 +2,7 @@ import {verify} from"../controllers/verification.js";
 import {getReset,postReset,getUpdatePassword,postUpdatePassword} from"../controllers/resetpassword.js";
 
 import {renderVehicles,renderModelView,renderHomePage} from"../controllers/render.js";
-
+import { getAdmin ,getAddVehicles,postAddVehicles} from "../controllers/admin.js";
 
 import {getLogin,postLogin,getSignUP,postSignUP} from"../controllers/login.js";
 
@@ -12,7 +12,8 @@ const routes = {
         "/login": postLogin,
         "/verify": verify,
         "/reset-password": postReset,
-        "/update-password":postUpdatePassword
+        "/update-password":postUpdatePassword,
+        "/addVehicles": postAddVehicles,
     },
     "GET": {
         "/":renderHomePage,
@@ -22,6 +23,8 @@ const routes = {
         "/login": getLogin,
         "/forgot-password": getReset,
         "/reset-password": getUpdatePassword,
+        "/admin" :getAdmin,
+        "/addVehicles": getAddVehicles,
     }
 }; 
 

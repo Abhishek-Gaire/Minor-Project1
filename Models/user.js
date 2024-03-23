@@ -12,13 +12,13 @@ const getUserByEmail = async (Users, email) => {
   try {
     // Retrieve user data from the database by email
     const user = await Users.findOne({ email }) || null;
-
+    
     // If user exists, return user data
     if (user) {
-        return user;
+      return user;
     } else {
-        // If user does not exist, return null
-        return null;
+      // If user does not exist, return null
+      return null;
     }
   } catch (error) {
     // Handle any errors

@@ -24,7 +24,11 @@
       <div class="right_b">
         <p id="view_b">Perspective View</p>
         <!-- <p id="buy">Buy Car</p> -->
-        <a href="/book-car"  id="buy_b">Book Car</a>
+        <% if(jwtToken)  { %>
+          <a href="/book-car" id="buy_b">Book Car</a>
+        <% } else{ %>
+          <a href="/login" id="buy_b">Login</a>
+        <%} %>
       </div>
     </div>
 

@@ -1,57 +1,39 @@
 import http from "http";
 import { URL } from "url";
 import path from "path";
-import dotenv from "dotenv";
-import { connectToDB, closeDB } from "./helper/database.js";
-import { serveFile } from "./helper/serveFile.js";
-import { routes } from "./helper/routes.js";
 
+import dotenv from "dotenv";
+
+import { connectToDB, closeDB } from "./helper/database.js";
+import { serveStaticFile } from "./helper/appHelper.js";
+import { routes } from "./helper/routes.js";
+import { extractTokenFromCookie,authenticateUser } from "./middleware/auth.js";
 dotenv.config();
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-// console.log(__dirname);
-const getContentType = (extension) => {
-    const contentTypeMap = {
-        ".css": "text/css",
-        ".js": "application/javascript",
-        ".json": "application/json",
-        ".jpg": "image/jpeg",
-        ".png": "image/png",
-    };
-    return contentTypeMap[extension] || "application/octet-stream";
-};
-
-const serveStaticFile = async (req, res, filePath) => {
-    try {
-        const extension = path.extname(filePath);
-        const contentType = getContentType(extension);
-        serveFile(filePath, contentType, res);
-    } catch (err) {
-        res.statusCode = 404;
-        res.end("File not found");
-    }
-};
+const __dirname = path.resolve();
 
 const server = http.createServer(async (req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const { pathname } = parsedUrl;
     const { method } = req;
 
-    if (routes[method] && routes[method][pathname]) {
-      return routes[method][pathname](req, res);
+    if (method === 'GET' && pathname === "/modelview") {
+        console.log("Inside GET and modelview");
+        await extractTokenFromCookie(req, res, async () => {
+            // console.log(req.token)
+            await authenticateUser(req, res, async () => {
+                // console.log(req.user);
+                return await routes[method][pathname](req, res);       
+            });
+        });
     }
-
+    
+    else if (routes[method] && routes[method][pathname]) {
+      return await routes[method][pathname](req, res);
+    }
+    
     let filePath;
-
-    // Adjust file paths for assets and public files
-    if (pathname.startsWith("/public")) {
-        filePath = path.join(__dirname, pathname);
-    } else if (pathname.startsWith("/assets")) {
-        filePath = path.join(__dirname, pathname);
-    }
-    // Remove leading backslashes
-    filePath = filePath.replace(/^\\/, '');
-
+    filePath = path.join(__dirname ,pathname);
     await serveStaticFile(req, res, filePath);
 });
 
@@ -64,8 +46,9 @@ connectToDB().then(() => {
 });
 
 const handleShutdown = async () => {
-    await closeDB();
-    console.log("Server Shutting Down");
+    await closeDB().then(()=> {
+        console.log("Server Shutting Down");
+    });
     process.exit();
 };
 
