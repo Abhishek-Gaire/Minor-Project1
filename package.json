@@ -1,10 +1,36 @@
 {
+  "type": "module",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
-    "three": "^0.160.0"
+    "nodemailer": "^6.9.11",
+    "three": "^0.160.0",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
+    "nodemon": "^3.0.3",
     "vite": "^5.0.10"
-  }
+  },
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "name": "minor-project1",
+  "description": "jpt",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Abhishek-Gaire/Minor-Project1.git"
+  },
+  "author": "Abhishek Gaire, Kaushal Gurung and Amrit Adhikari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abhishek-Gaire/Minor-Project1/issues"
+  },
+  "homepage": "https://github.com/Abhishek-Gaire/Minor-Project1#readme"
 }

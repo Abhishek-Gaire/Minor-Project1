@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* color: rgb(153, 83, 83); */
+  background-color: transparent;
+  font-family: 'Playfair Display', serif;
+}
+.overlay_b {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  /* background: black; */
+  /* visibility: visible; */
+  display: flex;
+  justify-content: space-between;
+}
+.overlay_b .left_b {
+  padding-left: 2.3vw;
+  margin-top: 2rem;
+}
+.overlay_b .left_b a {
+  font-size: 3rem;
+  color:black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.overlay_b .middle_b {
+  /* background: red; */
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 10rem;
+}
+.overlay_b .middle_b h2 {
+  /* background: salmon; */
+  margin-top: 16vh;
+}
+.overlay_b  .right_b {
+  width: 22vw;
+  display: flex;
+  /* background-color: black; */
+  flex-direction: column;
+  justify-content: space-between;
+}
+.overlay_b  .right_b p {
+  /* color: white; */
+  /* background-color: black; */
+  border: none;
+}
+.overlay_b  .right_b #view_b {
+  font-size: 2rem;
+  /* background-color: red; */
+  margin-top: 4rem;
+  cursor: pointer;
+}
+.overlay_b  .right_b #buy_b {
+  cursor: pointer;
+  font-size: 2.5rem;
+  margin-bottom: 2.2rem;
+}
+
+.view_back_b {
+  position: absolute;
+  padding-left: 2.3vw;
+  margin-top: 2rem;
+  visibility: hidden;
+}
+.view_back_b a {
+  cursor: pointer;
+  font-size: 3rem;
+  /* color:black; */
+  text-decoration: none;
+}
+
+
+
+.log{
+  height: 100vh;
+  width: 100%;
+  /* position: absolute; */
+  display: flex;
+  visibility: hidden;
+  /* top: 17%;
+    left: 25%; */
+    background-color: rgba(0, 0, 0, 0.288);
+}
+
+#buy_b {
+  text-decoration: none;  
+  color: black;
+}
+
+
+

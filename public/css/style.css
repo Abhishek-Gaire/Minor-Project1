@@ -1,0 +1,341 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.main {
+  background-color: rgb(36, 36, 36);
+}
+
+.loader {
+  height: 100vh;
+  width: 100%;
+  color: white;
+  background-color: black;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 99;
+  font-family: 'freight big pro';
+
+  /* display: none; */
+}
+
+.yellow1 {
+  height: 100%;
+  width: 100%;
+  background-color: grey;
+  position: fixed;
+  z-index: 7;
+  /* display: none; */
+}
+
+.yellow2 {
+  height: 100%;
+  width: 100%;
+  background-color: grey;
+  position: fixed;
+  z-index: 4;
+  /* display: none; */
+}
+
+.loader video {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 3;
+  object-fit: cover;
+}
+
+.loader h1 {
+  font-weight: 200;
+  font-size: 6.9vw;
+  line-height: 5vw;
+  letter-spacing: -3px;
+  position: relative;
+  z-index: 5;
+
+}
+
+.nav {
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  display: flex;
+  z-index: 6;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 40px;
+  font-family: 'Neue Montreal';
+}
+
+.nav img {
+  height: 5rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: black;
+}
+
+.navr {
+  font-weight: 250;
+  font-size: 1rem;
+  width: 27rem;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  /* background-color: red; */
+  gap: 3rem;
+}
+
+.navr a {
+  overflow: hidden;
+  /* background: black; */
+}
+
+/* .navr a{
+/* background-color: blue; */
+/* } */
+
+#circle i {
+  font-size: 2.5rem;
+  rotate: 45deg;
+  cursor: pointer;
+}
+
+.page1 {
+  height: 100vh;
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.page1 h1 {
+  font-weight: 200;
+  font-size: 6.9vw;
+  line-height: 5vw;
+  letter-spacing: -3px;
+  font-family: 'freight big pro';
+
+}
+
+.page1 .signup {
+  position: absolute;
+  font-size: 1.7rem;
+  bottom: 2rem;
+  right: 4rem;
+  font-family: 'Neue Montreal';
+}
+
+.signup a {
+  color: black;
+  font-weight: 600;
+  text-decoration: none;
+
+}
+
+.page2 {
+  /* height: 100vh; */
+  color: white;
+  background-color: rgb(36, 36, 36);
+  font-family: 'Neue Montreal';
+}
+
+.head {
+  /* background-color: red; */
+  text-align: center;
+}
+
+.models {
+  display: grid;
+  grid-template-columns: 1fr
+}
+
+.page2 h1 {
+  padding: 2rem 0;
+  /* background-color: red; */
+  width: 100%;
+  /* text-align: center; */
+}
+
+.car {
+  display: flex;
+  width: 100%;
+}
+
+.car {
+  /* background-color:#F5E41B; */
+  width: 100%;
+  /* display: flex; */
+}
+
+.car .content {
+  position: relative;
+  height: 55vh;
+  left: 5rem;
+  z-index: 5;
+  padding: 1rem 3rem;
+  align-items: left;
+  /* background-color: red; */
+  width: 45%;
+}
+
+
+.content p {
+  margin-top: 2rem;
+  /* text-align: center; */
+  /* background-color: red; */
+}
+
+.content .btn {
+  margin-top: 2rem;
+  /* background: red; */
+  text-align: center;
+}
+
+.btn button {
+  font-size: 1.5rem;
+  font-weight: 550;
+  padding: 10px 0;
+  width: 20rem;
+
+}
+
+.car {
+  display: flex;
+}
+
+.car h3 {
+  /* text-align: center; */
+  /* background-color: black; */
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.car img {
+  /* position: absolute; */
+  /* right: 9rem; */
+  /* top: 4rem; */
+  /* z-index: 4; */
+  height: 30rem;
+  rotate: -2deg;
+}
+
+
+
+
+
+
+
+/* footer section */
+
+footer {
+  color: white;
+  background-color: #1a1b1a;
+  height: 88vh;
+  border-radius: 25px 25px 0 0;
+}
+
+footer .contact {
+  height: 88vh;
+  padding: 10vw;
+}
+
+/* Upper div */
+footer .contactup {
+  height: 30vh;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #1e2426;
+}
+
+footer .contactup .right {
+  width: 40vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer .contactup .right .cl {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3rem;
+}
+
+footer .contactup .right .cl p {
+  color: #4e5254;
+}
+
+footer .contactup .right .cl a {
+  text-decoration: none;
+  color: white;
+  margin-top: 1rem;
+}
+
+footer .contactup .right .cl #point {
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #192023;
+  gap: 2rem;
+}
+.cl p{
+  text-align: center;
+  color: white;
+  margin-bottom: 10px;
+}
+.cl i{
+  font-size: 1.7rem;
+}
+
+/* Lower div */
+
+footer .contactdown {
+  height: 30vh;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer .contactdown p {
+  padding-top: 3vh;
+}
+
+footer .contactdown .bottomleft {
+  padding-top: 3rem;
+}
+
+footer .contactdown #msg {
+  color: #363b3e;
+}
+
+footer .contactdown #email {
+  font-size: 3rem;
+  border-bottom: 4px solid #363b3e;
+}
+
+footer .contactdown .bottomright div {
+  margin-top: 3rem;
+}
+
+footer .contactdown .bottomright .up {
+  width: 70px;
+  height: 70px;
+  margin-left: 7rem;
+  border-radius: 100%;
+  background-color: #192023;
+}

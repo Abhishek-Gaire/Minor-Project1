@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="public/css/modelview.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="view_back_b">
+      <a href="">Back</a>
+    </div>
+    <div class="overlay_b">
+      <div class="left_b">
+        <a href="/">Back</a>
+      </div>
+      <div class="middle_b">
+        <h2>Tesla Model S</h2>
+        <p>Feeling cute today might switch to electric</p>
+      </div>
+      <div class="right_b">
+        <p id="view_b">Perspective View</p>
+        <!-- <p id="buy">Buy Car</p> -->
+        <% if(jwtToken)  { %>
+          <a href="/book-car" id="buy_b">Book Car</a>
+        <% } else{ %>
+          <a href="/login" id="buy_b">Login</a>
+        <%} %>
+      </div>
+    </div>
+
+ 
+    
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+      integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="public/js/modelview.js" type="module"></script>
+  </body>
+</html>

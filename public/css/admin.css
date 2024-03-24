@@ -1,0 +1,202 @@
+*{
+    padding:0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+}
+.user{
+    margin: 0.6rem 0 0.6rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+}
+.user img{
+    height: 60px;
+    border-radius: 100%;
+}
+.hero{
+    display: flex;
+}
+.hero aside {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100vh;
+    /* font-size: 1.2rem; */
+    background-color: #1b2537;
+}
+.hero aside #head{
+    color: rgba(255, 255, 255, 0.495);
+    margin: 0.5rem 0 0.5rem 2.1rem;
+}
+
+.hero aside li{
+    color: #c0c8d6;
+    /* color: #c6cedc; */
+    width: 100%;
+    /* margin-top:1rem; */
+    border-radius: 0 10px 10px 0;
+    padding:0.8rem 0 0.8rem 3rem ;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    /* background-color: #ad65ff; */
+}
+.hero aside li:hover{
+    background-color: blue;
+}
+.hero aside li i{
+    color :white;
+    margin-right: 0.8rem;
+}
+.hero aside li p{
+    font-size: 0.8rem;
+}
+
+
+section{
+    background-color: #141a28;
+    width: 100% ;
+    height: 100vh;
+    color: white;
+}
+
+section .top {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+section .top .search input{
+    height:28px;
+    width: 135px;
+    background-color: #1b2537;
+}
+
+section .top .nav{
+    margin-right: 0.6rem;
+    font-size: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+section header{
+    font-size: 0.9drem;
+    padding: 0.6rem 0.6rem 0.6rem 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+section header .left p{
+    font-size: 0.86rem;
+    color: #7da9aa;
+}
+section header .right button{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    height:2.3rem;
+    width: 11rem;
+    margin-right: 0.3rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    background-color: #373b89;
+
+}
+
+section header p{
+    margin-top: 7px;
+}
+
+
+ /* Section first */
+
+section main .first{
+    display: flex;
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+section main .first .progress{
+    height: 8.6rem;
+    margin: 0 0.5rem 0 0.5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 25%;
+    background-color: #1b2537;
+}
+section main .first .progress .left{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+section main .first .progress h1{
+    font-size: 0.9rem;
+}
+section main .first .progress p{
+    font-size: 0.7rem;
+}
+
+section main .first .progress .circle{
+    width:50px;
+    height:50px;
+    border-radius: 100%;
+    background-color: white;
+}
+
+
+
+/* Section second */
+
+section main .second{
+    display: flex;
+    /* height: 40vh; */
+}
+
+section main .second .lefts{
+    margin: 1rem 0.5rem 1rem 1rem;
+    height:26vh;
+    width: 67%;
+    background-color: #1b2537;
+}
+
+section main .second .rights{
+    margin: 1rem 1rem 1rem 0.5rem;
+    height:26vh;
+    width: 33%;
+    background-color: #1b2537;
+}
+
+section main .second .lefts,.rights{
+    padding: 1rem;
+}
+
+section .third{
+    display: flex;
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+ main .third .leftt,.middlet,.rightt{
+    height: 27vh;
+    width: 33%;
+    padding: 1rem;
+    background-color: #1b2537;
+    margin: 0 0.5rem 1rem 0.5rem;
+}
+main .third .leftt .circlet{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+}
+
+main .third .leftt .circle{
+    width:80px;
+    height:80px;
+    border-radius: 100%;
+    border: 7px solid white;
+    background-color: #1b2537;
+}
