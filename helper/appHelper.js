@@ -8,8 +8,10 @@ const getContentType = (extension) => {
       ".json": "application/json",
       ".jpg": "image/jpeg",
       ".png": "image/png",
+      ".ico":"image/ico",
   };
-  return contentTypeMap[extension] || "application/octet-stream";
+  return contentTypeMap[extension] 
+  // || "application/octet-stream";
 };
 
 const serveStaticFile = async (req, res, filePath) => {

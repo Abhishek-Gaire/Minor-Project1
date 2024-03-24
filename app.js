@@ -16,20 +16,28 @@ const server = http.createServer(async (req, res) => {
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const { pathname } = parsedUrl;
     const { method } = req;
-
-    if (method === 'GET' && pathname === "/modelview") {
+    // console.log(pathname)
+    if (method === 'GET' && pathname ==="/modelview" ){
         console.log("Inside GET and modelview");
-        await extractTokenFromCookie(req, res, async () => {
+        return await extractTokenFromCookie(req, res, async () =>  {
             // console.log(req.token)
-            await authenticateUser(req, res, async () => {
+            return await authenticateUser(req, res, async () => {
                 // console.log(req.user);
                 return await routes[method][pathname](req, res);       
             });
-        });
-    }
-    
-    else if (routes[method] && routes[method][pathname]) {
-      return await routes[method][pathname](req, res);
+        })
+    } else if(method === "GET" && pathname==="/") {
+        console.log("Inside GET and /");
+        return await extractTokenFromCookie(req, res, async () =>  {
+            // console.log(req.token)
+            return await authenticateUser(req, res, async () => {
+                // console.log(req.user);
+                return await routes[method][pathname](req, res);       
+            });
+        })
+    } else if (routes[method] && routes[method][pathname]) {
+        // console.log(req.token);
+        return await routes[method][pathname](req, res);
     }
     
     let filePath;

@@ -7,36 +7,33 @@
     <title>DYD</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
     <link rel="stylesheet" href="public/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 </head>
 
 <body >
-
-    <div class="loader">
-        <div class="yellow1">
-        </div>
-        <div class="yellow2">
-        </div>
-        <video autoplay loop muted src="https://works.studio/uploads/images/home/4_version1_200911_024106.mp4"></video>
-        <h1><em>UNCOVER</em><em> the </em>CAR <em> of your<br>
-                </em>DREAMS <em>from </em>an<br>
-                ARRAY <em>of </em> <br>
-                CHOICES <em>available </em>HERE.
-            </h1>
+  <div class="loader">
+    <div class="yellow1"></div>
+    <div class="yellow2"></div>
+    <video autoplay loop muted src="https://works.studio/uploads/images/home/4_version1_200911_024106.mp4"></video>
+    <h1>
+      <em>UNCOVER</em><em> the </em>CAR <em> of your<br>
+      </em>DREAMS <em>from </em>an<br>
+      ARRAY <em>of </em> <br>
+      CHOICES <em>available </em>HERE.
     </h1>
-    </div>
+  </div>
 
-    
-        <div class="nav">
-          <div class="navl">
-            <img src="assets/logo-removebg-preview.png" alt="">
-          </div>
-          <div class="navr">
-            <a href="/vehicles" id="moveall"><h3>View Models</h3></a>
-            <a id="move" href="#"><h3>About</h3></a>
-            <a id="move" href="#"><h3>Contact</h3></a>
-            <div id='circle' onclick="handleClick()"><i class="fa-solid fa-plus"></i></div>
-          </div>
-        </div>
+  <div class="nav">
+    <div class="navl">
+      <img src="assets/logo-removebg-preview.png" alt="">
+    </div>
+    <div class="navr">
+      <a href="/vehicles" id="moveall"><h3>View Models</h3></a>
+      <a id="move" href="#"><h3>About</h3></a>
+      <a id="move" href="#"><h3>Contact</h3></a>
+      <div id='circle' onclick="handleClick()"><i class="fa-solid fa-plus"></i></div>
+    </div>
+  </div>
       
     <div class="main" >
         <div class="page1" data-scroll data-scroll-speed="-3">
@@ -46,9 +43,11 @@
           CHOICES <em>available </em>HERE.
           </h1>
           <div class="signup">
-           
-              <a href="/signup">SignUp</a>
-            
+            <% if(isLoggedIn) { %>
+              <a href="/logout">Sign Out</a>
+            <%} else{ %>
+              <a href="/signup">Sign Up</a>
+            <% } %>
           </div>
         </div>
 
@@ -115,7 +114,7 @@
                           <div class="up"></div>
                           <div>@ Drive Your Dream 2024</div>
                         </div>
-                        <!-- <a href="./frontend/html/modelview.html">Car</a> -->
+                        
                       </div>
                     </div>
                   </footer>

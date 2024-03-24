@@ -1,5 +1,6 @@
 
 import fsPromises from  "fs/promises";
+// import fs from "fs"
 
 const serveFile = async (filePath, contentType, response) => {
     const validContentTypes = [
@@ -7,7 +8,7 @@ const serveFile = async (filePath, contentType, response) => {
         "application/json",
         "image/jpeg",
         "image/png",
-        "image/gif",
+        "image/ico",
         "text/css",
         "application/javascript",
     ];
@@ -21,6 +22,7 @@ const serveFile = async (filePath, contentType, response) => {
         return;
     }
     try {
+        // console.log(contentType)
         const rawData = await fsPromises.readFile(
             filePath,
             !contentType.includes("image") ? "utf8" : ""

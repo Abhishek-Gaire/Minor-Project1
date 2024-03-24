@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="public/css/vehicles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-    <title>Webpage</title>
-   
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="public/css/vehicles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <title>Webpage</title>
+  <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+
 </head>
 <body >
   <div class="title">
     <h1>Vehicles</h1>
   </div>
-   <div class="container">
+  <div class="container">
     <div class="nav">
       <ul>
         <li>Crossovers & SUVs</li>
@@ -23,21 +24,19 @@
         <li>Sports Cars</li>
       </ul>
     </div>
-      <% if (vehiclesData) { %>
-            <div class="models">
-              <% vehiclesData.forEach(function(vehicle) { %>
-                <a href="/modelview?<%=vehicle._id%>" class="model">
-                  <img src="<%= vehicle.imageUrl %>" alt="Image From Database">
-                  <h2><%= vehicle.name %></h2>
-                  <h2><%= vehicle.price %></h2>
-                </a>
-              <% }); %>
-      
+    <% if (vehiclesData) { %>
+      <div class="models">
+        <% vehiclesData.forEach(function(vehicle) { %>
+          <a href="/modelview?<%=vehicle._id%>" class="model">
+            <img src="<%= vehicle.imageUrl %>" alt="Image From Database">
+            <h2><%= vehicle.name %></h2>
+            <h2><%= vehicle.price %></h2>
+          </a>
+        <% }); %>
       <% } else { %>
         <p>No images found in the Database</p>
       <%} %>
-    </div>
-    
+      </div>
   </div>
 </body>
 </html>

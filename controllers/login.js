@@ -58,7 +58,7 @@ const postLogin = async (req, res) => {
     }
     if (user && user.password === password) {
       // Generate JWT token
-      const token = jwt.sign({ email: user.email }, 'PROCESS.ENV.SECRET_KEY', { expiresIn: '24h' });
+      const token = jwt.sign({ email: user.email }, 'PROCESS.ENV.SECRET_KEY', { expiresIn: '1h' });
 
       // Set JWT token in a cookie
       res.setHeader('Set-Cookie', `token=${token}; HttpOnly`);
