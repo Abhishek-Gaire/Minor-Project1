@@ -4,6 +4,7 @@
         "modelview",
         "mongourl",
         "newpassword",
-        "signup"
+        "signup",
+        "vehicleid"
     ]
 }

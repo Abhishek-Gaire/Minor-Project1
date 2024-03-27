@@ -7,7 +7,7 @@
     <title>DYD</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
     <link rel="stylesheet" href="public/css/style.css">
-    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+    <link rel="icon" type="image/x-icon" href="assets/logo-removebg-preview.png">
 </head>
 
 <body >
@@ -25,7 +25,7 @@
 
   <div class="nav">
     <div class="navl">
-      <img src="assets/logo-removebg-preview.png" alt="">
+      <a href="/"><img src="assets/logo-removebg-preview.png" alt=""></a>
     </div>
     <div class="navr">
       <a href="/vehicles" id="moveall"><h3>View Models</h3></a>
@@ -44,7 +44,9 @@
           </h1>
           <div class="signup">
             <% if(isLoggedIn) { %>
-              <a href="/logout">Sign Out</a>
+              <form action="/logout" method="POST">
+                <button type="submit">Sign Out</button>
+              </form>
             <%} else{ %>
               <a href="/signup">Sign Up</a>
             <% } %>

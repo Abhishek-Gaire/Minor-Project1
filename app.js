@@ -17,29 +17,45 @@ const server = http.createServer(async (req, res) => {
     const { pathname } = parsedUrl;
     const { method } = req;
     // console.log(pathname)
-    if (method === 'GET' && pathname ==="/modelview" ){
-        console.log("Inside GET and modelview");
-        return await extractTokenFromCookie(req, res, async () =>  {
-            // console.log(req.token)
-            return await authenticateUser(req, res, async () => {
-                // console.log(req.user);
-                return await routes[method][pathname](req, res);       
-            });
-        })
-    } else if(method === "GET" && pathname==="/") {
-        console.log("Inside GET and /");
-        return await extractTokenFromCookie(req, res, async () =>  {
-            // console.log(req.token)
-            return await authenticateUser(req, res, async () => {
-                // console.log(req.user);
-                return await routes[method][pathname](req, res);       
-            });
-        })
-    } else if (routes[method] && routes[method][pathname]) {
-        // console.log(req.token);
-        return await routes[method][pathname](req, res);
+    if (method === 'GET'){ 
+        if(pathname ==="/modelview" ){
+            console.log("Inside GET and modelview");
+            return await extractTokenFromCookie(req, res, async () =>  {
+                // console.log(req.token)
+                return await authenticateUser(req, res, async () => {
+                    // console.log(req.user);
+                    return await routes[method][pathname](req, res);       
+                });
+            })
+        }
+        else if(pathname==="/") {
+            console.log("Inside GET and /");
+            return await extractTokenFromCookie(req, res, async () =>  {
+                // console.log(req.token)
+                return await authenticateUser(req, res, async () => {
+                    // console.log(req.user);
+                    return await routes[method][pathname](req, res);       
+                });
+            })
+        } else if(routes[method] && routes[method][pathname]){
+            // console.log(req.token);
+            return await routes[method][pathname](req, res);
+        }
     }
-    
+    else {
+        if(pathname === "/logout"){
+            console.log("inside post and /logout")
+            return await extractTokenFromCookie(req, res, async () =>  {
+                // console.log(req.token)
+                return await authenticateUser(req, res, async () => {
+                    // console.log(req.user);
+                    return await routes[method][pathname](req, res);       
+                });
+            })
+        } else if(routes[method] && routes[method][pathname]){
+            return await routes[method][pathname](req, res);
+        }
+    }
     let filePath;
     filePath = path.join(__dirname ,pathname);
     await serveStaticFile(req, res, filePath);

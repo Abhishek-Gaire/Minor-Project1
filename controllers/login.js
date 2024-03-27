@@ -1,30 +1,19 @@
-import{ parse } from"querystring";
-import fs from"fs";
-import path from"path";
+import{ parse } from "querystring";
+import fs from "fs";
+import path from "path";
 
 import ejs from"ejs";
-import nodemailer from"nodemailer";
 import validator from "validator";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 import{
   getUserByEmail,
   getCollectionName,
   createUser,
 } from"../Models/user.js";
+import { generateToken,transporter,generateVerificationCode,mailOptions } from "../helper/jwtHelper.js";
 
-const transporter = nodemailer.createTransport({
-  service :"gmail",
-  auth: {
-    // from gmail APP SERVICES
-    user: "abhisekgaire7@gmail.com",
-    pass: process.env.GMAIL_PASS,
-  },
-});
-function generateVerificationCode(){
-  return Math.floor(100000 + Math.random() * 900000);
-};
+
 const __dirname = path.resolve();
 
 const postLogin = async (req, res) => {
@@ -58,7 +47,7 @@ const postLogin = async (req, res) => {
     }
     if (user && user.password === password) {
       // Generate JWT token
-      const token = jwt.sign({ email: user.email }, 'PROCESS.ENV.SECRET_KEY', { expiresIn: '1h' });
+      const token = await generateToken(user._id);
 
       // Set JWT token in a cookie
       res.setHeader('Set-Cookie', `token=${token}; HttpOnly`);
@@ -131,13 +120,10 @@ const postSignUP = async (req, res) => {
       return;
     } 
       const verificationCode = generateVerificationCode();
-      const mailOptions = {
-        from: "projectMinor1@gmail.com",
-        to: `${email}`,
-        subject: "SignUp Verification Code",
-        text: `Your verification code for projectMinor is ${verificationCode}`,
-      };
-      transporter.sendMail(mailOptions, (error, info) => {
+
+      const sendingMail = mailOptions(email,verificationCode);
+
+      transporter.sendMail(sendingMail, (error, info) => {
         if (error) {
           console.error('Error sending verification email:', error);
           res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -185,5 +171,17 @@ const getSignUP = async(req,res) => {
   res.end(renderPage);
 }
 
-export {postSignUP,postLogin,transporter,getLogin,getSignUP};
+const postLogout = async(req,res)=> {
+  const filePath= fs.readFileSync(path.join( __dirname,"/views/auth/login.ejs"),"utf8");
+  // console.log(req.token);
+  if(req.token){
+    console.log("Inside If");
+    res.setHeader('Set-Cookie', `token=; HttpOnly`);
+    const renderPage = ejs.render(filePath,{message:"You are successfully logged out"});
+    res.end(renderPage);
+    return;
+  }
+  console.log("Outside if in post Logout");
+}
+export {postSignUP,postLogin,transporter,getLogin,getSignUP,postLogout};
 

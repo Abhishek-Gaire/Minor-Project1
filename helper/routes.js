@@ -4,7 +4,7 @@ import {getReset,postReset,getUpdatePassword,postUpdatePassword} from"../control
 import {renderVehicles,renderModelView,renderHomePage} from"../controllers/render.js";
 import { getAdmin ,getAddVehicles,postAddVehicles} from "../controllers/admin.js";
 
-import {getLogin,postLogin,getSignUP,postSignUP} from"../controllers/login.js";
+import {getLogin,postLogin,getSignUP,postSignUP,postLogout} from"../controllers/login.js";
 
 const routes = {
     "POST": {
@@ -14,6 +14,7 @@ const routes = {
         "/reset-password": postReset,
         "/update-password":postUpdatePassword,
         "/addVehicles": postAddVehicles,
+        "/logout":postLogout,
     },
     "GET": {
         "/":renderHomePage,

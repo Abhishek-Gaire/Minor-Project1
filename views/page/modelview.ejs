@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+    <link rel="icon" type="image/x-icon" href="assets/logo-removebg-preview.png">
 
   </head>
   <body>
@@ -27,7 +27,7 @@
         <p id="view_b">Perspective View</p>
         <!-- <p id="buy">Buy Car</p> -->
         <% if(isLoggedIn)  { %>
-          <a href="/book-car" id="buy_b">Book Car</a>
+          <a href="/book-car?<%=vehicleID%>" id="buy_b">Book Car</a>
         <% } else{ %>
           <a href="/login" id="buy_b">Login</a>
         <%} %>

@@ -22,7 +22,6 @@ const serveFile = async (filePath, contentType, response) => {
         return;
     }
     try {
-        // console.log(contentType)
         const rawData = await fsPromises.readFile(
             filePath,
             !contentType.includes("image") ? "utf8" : ""

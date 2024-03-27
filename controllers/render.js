@@ -59,13 +59,14 @@ const renderVehicles = async (req, res) => {
 const renderModelView = async (req, res) => {
     try {
         // console.log("Inside ModelView Render")
-        
+        const vehicleid = req.url.split("?")[1];
+
         if(!req.user){
             // console.log("Inside If");
             await renderPage(req,res,"/views/page/modelview.ejs",{isLoggedIn:false});
         } else{
             // console.log("Outside if");
-            await renderPage(req,res,"/views/page/modelview.ejs",{isLoggedIn:true});
+            await renderPage(req,res,"/views/page/modelview.ejs",{isLoggedIn:true,vehicleID:vehicleid});
         }
         
     } catch (err) {
