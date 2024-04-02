@@ -23,7 +23,7 @@ const server = http.createServer(async (req, res) => {
             return await extractTokenFromCookie(req, res, async () =>  {
                 // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    console.log(req.user);
+                    // console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })
@@ -33,11 +33,18 @@ const server = http.createServer(async (req, res) => {
             return await extractTokenFromCookie(req, res, async () =>  {
                 // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    console.log(req.user);
+                    // console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })
-        } else if(routes[method] && routes[method][pathname]){
+        } else if(pathname === "/book-car"){
+            return await extractTokenFromCookie(req,res,async()=> {
+                return await authenticateUser(req,res,async() => {
+                    return await routes[method][pathname](req,res);
+                })
+            })
+        }
+        else if(routes[method] && routes[method][pathname]){
             // console.log(req.token);
             return await routes[method][pathname](req, res);
         }

@@ -4,7 +4,7 @@ import fs from"fs";
 import path from"path";
 import ejs from"ejs";
 
-import{transporter} from"./login.js";
+import{transporter} from"../helper/jwtHelper.js";
 import{getCollectionName, getUserByToken,getUserByEmail,addToken} from"../Models/user.js";
 
 const __dirname = path.resolve();

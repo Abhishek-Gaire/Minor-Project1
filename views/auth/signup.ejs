@@ -13,6 +13,10 @@
     <div class="container">
         <div class="form-login">
             <form action="/signup" method="POST">
+                <% if(errorMessage) { %> 
+                    <p> <%= errorMessage %></p>
+                <% } %>
+                
                 <h1>Signup</h1>
     
                 <input type="text"  id="name" name="username" placeholder="Name" required>

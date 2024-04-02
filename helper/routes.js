@@ -6,6 +6,7 @@ import { getAdmin ,getAddVehicles,postAddVehicles} from "../controllers/admin.js
 
 import {getLogin,postLogin,getSignUP,postSignUP,postLogout} from"../controllers/login.js";
 
+import { getBookCar } from "../controllers/bookCar.js";
 const routes = {
     "POST": {
         "/signup": postSignUP,
@@ -26,6 +27,7 @@ const routes = {
         "/reset-password": getUpdatePassword,
         "/admin" :getAdmin,
         "/addVehicles": getAddVehicles,
+        "/book-car":getBookCar,
     }
 }; 
 

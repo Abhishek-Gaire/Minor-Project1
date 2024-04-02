@@ -1,8 +1,5 @@
 import{ parse } from "querystring";
-import fs from "fs";
-import path from "path";
 
-import ejs from"ejs";
 import validator from "validator";
 import bcrypt from "bcrypt";
 
@@ -12,14 +9,12 @@ import{
   createUser,
 } from"../Models/user.js";
 import { generateToken,transporter,generateVerificationCode,mailOptions } from "../helper/jwtHelper.js";
+import { renderPage,parseFormData } from "../helper/appHelper.js";
 
-
-const __dirname = path.resolve();
 
 const postLogin = async (req, res) => {
 
-  const filePath = path.join(__dirname,"/views/auth/login.ejs");
-  const fileData = fs.readFileSync(filePath,"utf8");
+  const filePath = "/views/auth/login.ejs";
 
   let requestBody = "";
   req.on("data", (chunk) => {
@@ -37,13 +32,8 @@ const postLogin = async (req, res) => {
     const user = await getUserByEmail(Users, email);
     
     if (!user){
-      res.end
-        (ejs.render
-          (fileData,
-            { message:"No user with that email exists!"}
-          )
-        );
-      return;
+      const message = "No user with that email exists!";
+      return await renderPage(res,filePath,{message});
     }
     if (user && user.password === password) {
       // Generate JWT token
@@ -56,132 +46,135 @@ const postLogin = async (req, res) => {
       res.end();
     } else {
       //Invalid Credentials
-      res.end
-        (ejs.render
-          (fileData,
-            { message:"Invalid email or password!"}
-          )
-        );
+      const message = "Invalid Username or Password";
+      await renderPage(res,filePath,{message});
       return;
     }
   });
 };
 const getLogin = async(req,res) => {
-  const query = req.url.split("?")[1];
-  const filePath = fs.readFileSync(path.join(__dirname, "/views/auth/login.ejs"), "utf8");
-  const message = query ? "User Already Exists" : "";
-  const renderPage = ejs.render(filePath, { message });
-  res.end(renderPage);
+  const fullQuery = req.url.split("?")[1];
+  
+  const filePath = "/views/auth/login.ejs";
+  if(!fullQuery){
+    const data = {
+      message:'',
+      redirect:false,
+    }
+    return await renderPage(res,filePath,data);
+  }
+  const query = fullQuery.split("=")[0];
+  // console.log(query);
+  if(query==="userExists"){
+    const data = {
+      message:"User Already Exists",
+      redirect:false,
+    }
+    return await renderPage(res,filePath,data);
+  }
+  const data = {
+    message:'',
+    redirect:true,
+  }
+  return await renderPage(res,filePath,data)
 }
 
 
-
 const postSignUP = async (req, res) => {
-  let requestBody = "";
-  req.on("data", (chunk) => {
-    requestBody += chunk.toString();
-  });
-  req.on("end", async () => {
-    const formData = parse(requestBody);
-
-    const userName = formData.username;
-    const email = formData.email;
-    const password = formData.password;
+  const filePath = "/views/auth/signup.ejs";
+  
+  const formData = await parseFormData(req);
    
-    // // Validation for username
-    if (!validator.isAlphanumeric(userName) || validator.isEmpty(userName)) {
-      res.writeHead(400, { 'Content-Type': 'text/plain' });
-      res.end('Invalid username');
-      return;
-    }
+  const {username,email,password}= formData;
 
-    // Validation for email
-    if (!validator.isEmail(email)) {
-      res.writeHead(400, { 'Content-Type': 'text/plain' });
-      res.end('Invalid email');
-      return;
-    }
+  // // Validation for username
+  if (!validator.isAlphanumeric(username) || validator.isEmpty(username)) {
+    const errorMessage ='Username is not valid';
+    return await renderPage(res,filePath,{errorMessage});
+  }
 
-    // Validation for password
-    if (!validator.isStrongPassword(password)) {
-      res.writeHead(400, { 'Content-Type': 'text/plain' });
-      res.end('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.');
-      return;
-    }
+  // Validation for email
+  if (!validator.isEmail(email)) {
+    const errorMessage ='Email is not valid';
+    return await renderPage(res,filePath,{errorMessage});
+  }
 
-    const Users = await getCollectionName();
+  // Validation for password
+  if (!validator.isStrongPassword(password)) {
+    const errorMessage ='Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
+    await renderPage(res,filePath,{errorMessage});
+    return;
+  }
+
+  const Users = await getCollectionName();
     
-    const existingUser = await getUserByEmail(Users, email);
+  const existingUser = await getUserByEmail(Users, email);
     
-    if (existingUser) {
-      
-      res.writeHead(302, { Location: "/login?userExists=true" });
-      res.end();
+  if (existingUser) {
+    res.writeHead(302, { Location: "/login?userExists=true" });
+    res.end();
+    return;
+  } 
+  const verificationCode = generateVerificationCode();
+
+  const sendingMail = mailOptions(email,verificationCode);
+
+  transporter.sendMail(sendingMail, (error, info) => {
+    if (error) {
+      console.error('Error sending verification email:', error);
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Internal Server Error');
       return;
-    } 
-      const verificationCode = generateVerificationCode();
-
-      const sendingMail = mailOptions(email,verificationCode);
-
-      transporter.sendMail(sendingMail, (error, info) => {
-        if (error) {
-          console.error('Error sending verification email:', error);
-          res.writeHead(500, { 'Content-Type': 'text/plain' });
-          res.end('Internal Server Error');
-          return;
-        } else {
-          console.log('Verification email sent:', info.response);
-        }
-      });
-
-      // Hashing the password
-      const hashedPassword = bcrypt.hash(password, 10);
-
-      const newUser = {
-        username: userName,
-        email: email,
-        password: hashedPassword,
-        verified: false,
-        verificationCode: verificationCode,
-        resetToken: null,
-      };
-
-      await createUser(Users, newUser);
-
-      const verificationPage = fs.readFileSync(__dirname, "/views/auth/verify.ejs", "utf8");
-      const renderedPage = ejs.render(verificationPage, {
-        email,
-        digit1: '',
-        digit2: '',
-        digit3: '',
-        digit4: '',
-        digit5: '',
-        digit6: '',
-        message: null,
-      });
-      res.writeHead(200, { "Content-Type": "text/html" });
-      res.end(renderedPage);
+    } else {
+      console.log('Verification email sent:', info.response);
+    }
   });
+  // Hashing the password
+  const hashedPassword = bcrypt.hash(password, 10);
+
+  const newUser = {
+    username: username,
+    email: email,
+    password: hashedPassword,
+    verified: false,
+    verificationCode: verificationCode,
+    resetToken: null,
+  };
+
+  await createUser(Users, newUser);
+
+  const verificationPage = "/views/auth/verify.ejs";
+  const data =  {
+    email,
+    digit1: '',
+    digit2: '',
+    digit3: '',
+    digit4: '',
+    digit5: '',
+    digit6: '',
+    message: null,
+  }
+  await renderPage(res,verificationPage,data);
 };
 
 
 const getSignUP = async(req,res) => {
-  const filePath = fs.readFileSync(path.join(__dirname , "/views/auth/signup.html"),"utf8");
-  const renderPage = ejs.render(filePath);
-  res.end(renderPage);
+  const filePath = "/views/auth/signup.ejs";
+  const errorMessage ='';
+  await renderPage(res,filePath,{errorMessage});
 }
 
 const postLogout = async(req,res)=> {
-  const filePath= fs.readFileSync(path.join( __dirname,"/views/auth/login.ejs"),"utf8");
+  const filePath= "/views/auth/login.ejs"
   // console.log(req.token);
   if(req.token){
     console.log("Inside If");
     res.setHeader('Set-Cookie', `token=; HttpOnly`);
-    const renderPage = ejs.render(filePath,{message:"You are successfully logged out"});
-    res.end(renderPage);
+    const message = "You are successfully logged out"
+    await renderPage (res,filePath,{message});
     return;
   }
   console.log("Outside if in post Logout");
 }
-export {postSignUP,postLogin,transporter,getLogin,getSignUP,postLogout};
+export {postSignUP,postLogin,getLogin,getSignUP,postLogout};
 
