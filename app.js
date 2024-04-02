@@ -23,7 +23,7 @@ const server = http.createServer(async (req, res) => {
             return await extractTokenFromCookie(req, res, async () =>  {
                 // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    // console.log(req.user);
+                    console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })
@@ -33,7 +33,7 @@ const server = http.createServer(async (req, res) => {
             return await extractTokenFromCookie(req, res, async () =>  {
                 // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    // console.log(req.user);
+                    console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })
