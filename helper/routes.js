@@ -1,4 +1,4 @@
-import {verify} from"../controllers/verification.js";
+import {verify,getVerify} from"../controllers/verification.js";
 import {getReset,postReset,getUpdatePassword,postUpdatePassword} from"../controllers/resetpassword.js";
 
 import {renderVehicles,renderModelView,renderHomePage} from"../controllers/render.js";
@@ -28,6 +28,7 @@ const routes = {
         "/admin" :getAdmin,
         "/addVehicles": getAddVehicles,
         "/book-car":getBookCar,
+        "/verify":getVerify,
     }
 }; 
 

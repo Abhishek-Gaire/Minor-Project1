@@ -5,7 +5,7 @@ import { renderPage } from "../helper/appHelper.js";
 const getBookCar = async(req,res)=> {
     
     if(!req.user){
-        res.writeHead(302,{Location: "/login?redirect=bookcar"});
+        res.writeHead(302,{Location: "/login"});
         res.end();
         return ;
     }
