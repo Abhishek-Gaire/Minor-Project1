@@ -5,6 +5,7 @@ import path from 'path';
 // import { getCollectionName } from "../Models/model.js";
 
 const __dirname = path.resolve();
+// console.log(__dirname)
 
 const readFileAsync = async (filePath) => {
   return await fsPromises.readFile(filePath, "utf8");
