@@ -4,27 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="public/css/logsign.css">
+    <link rel="stylesheet" href="public/css/login.css">
     <link rel="icon" type="image/x-icon" href="assets/logo-removebg-preview.png">
 
 </head>
 <body>
     <a href="/"><img src="assets/logo-removebg-preview.png" alt=""></a>
-    <div class="container">
+    <div class="container flex">
+        <div class="login flex">
+        <% if(message){%>
+            <p class="centered"> <%= message %> </p>
+        <% } %>
         <form action="/login" method="POST">
             <h1>Login</h1>
-            <% if(message){%>
-                <p class="centered"> <%= message %> </p>
-            <% } %>
-            <input type="email" id="mail" placeholder="Email" name="email"  required><br/>
-            <input type="password" id="password" placeholder="Password" name="password" required><br>
+            <div class="data flex">
+                <input type="email" placeholder="Email">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <div class="data flex">
+                <input type="password" placeholder="Password">
+                <i class="fa-solid fa-lock"></i>
+            </div>
             <p id="forgot">
                 <a href="/forgot-password">Forgot your password?</a>
             </p>
             <button type="submit">Login</button>
         </form>
         <div class="signup-done">
-            <p>Don't have an account <a href="/signup"> Sign UP</a> </p>
+            <p>Don't have an account <a href="/signup">Register</a> </p>
         </div>
     </div>
 </body>

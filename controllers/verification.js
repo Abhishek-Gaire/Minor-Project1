@@ -7,7 +7,6 @@ import{getUserByEmail,getCollectionName} from"../Models/user.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 
 
-const __dirname = path.resolve();
 
 const getVerify = async(req,res) => {
   const query = req.url.split("?")[1];

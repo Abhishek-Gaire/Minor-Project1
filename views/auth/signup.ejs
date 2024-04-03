@@ -10,23 +10,33 @@
 </head>
 <body>
     <a href="/"><img src="assets/logo-removebg-preview.png" alt=""></a>
-    <div class="container">
-        <div class="form-login">
+    <div class="container flex">
+        
+        <div class="login flex">
+            <% if(errorMessage) { %> 
+                <p> <%= errorMessage %></p>
+            <% } %>
             <form action="/signup" method="POST">
-                <% if(errorMessage) { %> 
-                    <p> <%= errorMessage %></p>
-                <% } %>
-                
                 <h1>Signup</h1>
     
-                <input type="text"  id="name" name="username" placeholder="Name" required>
-                <input type="email" id="mail" name="email" placeholder="Email" required>
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <div class="data flex">
+                    <input type="text" placeholder="Username">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="data flex">
+                    <input type="email" placeholder="Email">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div class="data flex">
+                    <input type="password" placeholder="Password">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
                 
                 <button type="submit">Signup</button>
             </form>
             <p>Already have an account? <a href="/login">Login</a></p>
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
 </body>
 </html>
