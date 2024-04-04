@@ -12,6 +12,7 @@ const readFileAsync = async (filePath) => {
 
 const renderPage = async (req, res, templatePath, data) => {
   try {
+    // console.log(__dirname)
     const filePath = path.join(__dirname, templatePath);
     // console.log(filePath)
     const ejsData = await readFileAsync(filePath);

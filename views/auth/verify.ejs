@@ -3,42 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="public/css/verify.css">
+    <title>Verify</title>
+    <link rel="stylesheet" href="../../public/css/verify.css">
     <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 
 </head>
 <body>
-    <div class="container">
-        <div class="main">
-            <div class="icon">
-                <i class="fa-solid fa-envelope"></i>
-            </div>
+    <div class="container flex">
+        <div class="login flex">
             <h1>Verify your email address</h1>
-            <p>Enter 6-digit  code sent to your email: <%=email%><span id="email"></span></p>
+            <p>Enter 6-digit  code sent to your email: <%=email%></p>
             <form action="/verify" method="POST">
                 <div class="inputs">
-                    <input type="number" id="digit1" name="digit1" inputmode="numeric" pattern="[0-9]" autofocus required value="<%= digit1 || '' %>">
-                    <input type="number" id="digit2" name="digit2" inputmode="numeric" pattern="[0-9]" required value="<%= digit2 || '' %>">
-                    <input type="number" id="digit3" name="digit3" inputmode="numeric" pattern="[0-9]" required value="<%= digit3 || '' %>">
-                    <input type="number" id="digit4" name="digit4" inputmode="numeric" pattern="[0-9]" required value="<%= digit4 || '' %>">
-                    <input type="number" id="digit5" name="digit5" inputmode="numeric" pattern="[0-9]" required value="<%= digit5 || '' %>">
-                    <input type="number" id="digit6" name="digit6" inputmode="numeric" pattern="[0-9]" required value="<%= digit6 || '' %>">
+                    <input type="number" id="digit1" name="digit1" inputmode="numeric" pattern="[0-9]" autofocus
+                        required value="<%= digit1 || '' %>">
+                    <input type="number" id="digit2" name="digit2" inputmode="numeric" pattern="[0-9]" required
+                        value="<%= digit2 || '' %>">
+                    <input type="number" id="digit3" name="digit3" inputmode="numeric" pattern="[0-9]" required
+                        value="<%= digit3 || '' %>">
+                    <input type="number" id="digit4" name="digit4" inputmode="numeric" pattern="[0-9]" required
+                        value="<%= digit4 || '' %>">
+                    <input type="number" id="digit5" name="digit5" inputmode="numeric" pattern="[0-9]" required
+                        value="<%= digit5 || '' %>">
+                    <input type="number" id="digit6" name="digit6" inputmode="numeric" pattern="[0-9]" required
+                        value="<%= digit6 || '' %>">
                     <input type="hidden" name="email" value="<%= email %>">
                 </div>
                 <% if (message) { %>
                     <p class="error-message"><%= message %></p> <!-- Display message for wrong verification code -->
                 <% } %>
-                <p>Didn't receive the code? Resend </p>
-                <div class="btn">
-                    <button id="verifyButton" type="submit">Verify</button>
-                </div>
+                <button id="verifyButton" type="submit">Verify</button>
             </form>
-            
+            <!-- <button>Verify</button> -->
+            <!-- <h3 id="register">Didn't receive code ? Resend</h3> -->
         </div>
     </div>
 
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
-    <script src="../public/js//verify.js"></script>
+    <script src="public/js/verify.js"></script>
 </body>
 </html>

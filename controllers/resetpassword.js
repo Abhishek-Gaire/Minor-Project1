@@ -70,7 +70,7 @@ const postReset  = async(req,res) => {
     });
 };
 const getReset = async(req,res) => {
-    const filePath = fs.readFileSync(path.join(__dirname , "/views/auth/forgot-password.html"),"utf8");
+    const filePath = fs.readFileSync(path.join(__dirname , "/views/auth/forgotPassword.ejs"),"utf8");
     const renderPage = ejs.render(filePath);
     res.end(renderPage);
 }

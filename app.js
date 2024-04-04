@@ -13,8 +13,10 @@ dotenv.config();
 const __dirname = path.resolve();
 
 const server = http.createServer(async (req, res) => {
+    // console.log(req.headers.host)
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const { pathname } = parsedUrl;
+    // console.log(parsedUrl)
     const { method } = req;
     // console.log(pathname)
     if (method === 'GET'){ 
@@ -31,9 +33,9 @@ const server = http.createServer(async (req, res) => {
         else if(pathname==="/") {
             console.log("Inside GET and /");
             return await extractTokenFromCookie(req, res, async () =>  {
-                // console.log(req.token)
+                console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    // console.log(req.user);
+                    console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })

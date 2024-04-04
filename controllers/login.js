@@ -53,29 +53,19 @@ const postLogin = async (req, res) => {
   });
 };
 const getLogin = async(req,res) => {
-  const fullQuery = req.url.split("?")[1];
+  const query = req.url.split("?")[1];
   
   const filePath = "/views/auth/login.ejs";
-  if(!fullQuery){
+  if(!query){
     const data = {
       message:'',
-      redirect:false,
-    }
-    return await renderPage(res,filePath,data);
-  }
-  const query = fullQuery.split("=")[0];
-  // console.log(query);
-  if(query==="userExists"){
-    const data = {
-      message:"User Already Exists",
-      redirect:false,
     }
     return await renderPage(res,filePath,data);
   }
   const data = {
-    message:'',
-    redirect:true,
+    message:"User Already Exists"
   }
+ 
   return await renderPage(res,filePath,data)
 }
 
@@ -143,18 +133,9 @@ const postSignUP = async (req, res) => {
 
   await createUser(Users, newUser);
 
-  const verificationPage = "/views/auth/verify.ejs";
-  const data =  {
-    email,
-    digit1: '',
-    digit2: '',
-    digit3: '',
-    digit4: '',
-    digit5: '',
-    digit6: '',
-    message: null,
-  }
-  await renderPage(res,verificationPage,data);
+  const token = generateToken(email);
+  res.writeHead(302,{Location: `/verify?token=${token}`});
+  res.end();
 };
 
 
