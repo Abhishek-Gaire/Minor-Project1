@@ -1,12 +1,7 @@
-import ejs from"ejs";
-import queryString from"querystring";
-import fs from"fs";
-import path from "path";
+
 
 import{getUserByEmail,getCollectionName} from"../Models/user.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
-
-
 
 const getVerify = async(req,res) => {
   const query = req.url.split("?")[1];

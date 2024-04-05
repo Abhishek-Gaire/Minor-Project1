@@ -33,9 +33,9 @@ const server = http.createServer(async (req, res) => {
         else if(pathname==="/") {
             console.log("Inside GET and /");
             return await extractTokenFromCookie(req, res, async () =>  {
-                console.log(req.token)
+                // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    console.log(req.user);
+                    // console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })
