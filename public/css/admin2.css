@@ -74,7 +74,9 @@ html, body{
 .aside .nav div{
     padding: 1.5rem 0 1.5rem 2.7rem;
 }
-.aside .nav div h3{
+.aside .nav div a{
+    text-decoration: none;
+    color:black;
     font-size: 1.1rem;
     font-weight: 300;
     /* padding-left: 2rem; */
