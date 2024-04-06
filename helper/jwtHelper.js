@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
 const generateToken = async(id) =>{
-  const token = jwt.sign({ id }, process.env.SECRET_KEY, { expiresIn: '1h' });
+  const token = jwt.sign({ id }, process.env.USER_SECRET_KEY, { expiresIn: '1h' });
   return token;
 }
 

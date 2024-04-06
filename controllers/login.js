@@ -1,74 +1,86 @@
-import{ parse } from "querystring";
 
 import validator from "validator";
 import bcrypt from "bcrypt";
 
 import{
-  getUserByEmail,
-  getCollectionName,
-  createUser,
+  getUserByEmail, getCollectionName,createUser,
 } from"../Models/user.js";
-import { generateToken,transporter,generateVerificationCode,mailOptions } from "../helper/jwtHelper.js";
+import { 
+  generateToken,transporter,generateVerificationCode,mailOptions 
+} from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 
+// Function to delete a cookie
+function deleteCookie(res, cookieName) {
+  // console.log(cookieName);
+  res.setHeader('Set-Cookie', [`${cookieName}=; Max-Age=0`]);
+}
 
-const postLogin = async (req, res) => {
-
+const postLoginUser = async (req, res) => {
   const filePath = "/views/auth/login.ejs";
 
-  let requestBody = "";
-  req.on("data", (chunk) => {
-    requestBody += chunk;
-  });
-  req.on("end", async () => {
-    const loginData = parse(requestBody);
+  const  formData = await parseFormData(req);
     
-    const email = loginData.email;
-    const password = loginData.password;
+  const {email,password} = formData;
     
-    const Users = await getCollectionName();
+  const Users = await getCollectionName();
 
-    // Fetch user from the database by email
-    const user = await getUserByEmail(Users, email);
+  // Fetch user from the database by email
+  const user = await getUserByEmail(Users, email);
     
-    if (!user){
-      const message = "No user with that email exists!";
-      return await renderPage(res,filePath,{message});
-    }
-    if (user && user.password === password) {
-      // Generate JWT token
-      const token = await generateToken(user._id);
-
-      // Set JWT token in a cookie
-      res.setHeader('Set-Cookie', `token=${token}; HttpOnly`);
-
-      res.writeHead(302, { Location:"/" });
-      res.end();
-    } else {
-      //Invalid Credentials
-      const message = "Invalid Username or Password";
-      await renderPage(res,filePath,{message});
-      return;
-    }
-  });
-};
-const getLogin = async(req,res) => {
-  const query = req.url.split("?")[1];
-  
-  const filePath = "/views/auth/login.ejs";
-  if(!query){
+  if (!user){
     const data = {
-      message:'',
+      message : "No user with that email exists!",
+      admin:false,
     }
     return await renderPage(res,filePath,data);
   }
-  const data = {
-    message:"User Already Exists"
-  }
- 
-  return await renderPage(res,filePath,data)
-}
+  const matched =  await bcrypt.compare(password, user.password);
+  if (matched) {
+    // Generate JWT token
+    const token = await generateToken(user._id);
 
+    // Set JWT token in a cookie
+    res.setHeader('Set-Cookie', `userToken=${token}; HttpOnly`);
+
+    res.writeHead(302, { Location:"/" });
+    res.end();
+  } else {
+    //Invalid Credentials
+    const data = {
+      message : "Invalid Password",
+      admin:false,
+    }
+    await renderPage(res,filePath,data);
+  }
+};
+const getLogin = async(req,res) => {
+  // console.log(req.searchParams);
+  const fullQuery = req.url.split("?")[1];
+  // console.log(fullQuery);
+  const filePath = "/views/auth/login.ejs";
+  if(!fullQuery){
+    const data = {
+      message:'',
+      admin:false,
+    }
+    return await renderPage(res,filePath,data);
+  }
+  const query = fullQuery.split("=")[0];
+  // console.log(query)
+  if(query === "userExists"){
+    const data = {
+      message:"User Already Exists",
+      admin:false,
+    }
+    return await renderPage(res,filePath,data)
+  }
+  const data = {
+    message:"Welcome to Admin Login",
+    admin:true,
+  }
+  return await renderPage(res,filePath,data);
+}
 
 const postSignUP = async (req, res) => {
   const filePath = "/views/auth/signup.ejs";
@@ -105,23 +117,24 @@ const postSignUP = async (req, res) => {
     res.end();
     return;
   } 
-  const verificationCode = generateVerificationCode();
-
+ 
   const sendingMail = mailOptions(email,verificationCode);
 
-  transporter.sendMail(sendingMail, (error, info) => {
+  transporter.sendMail(sendingMail, async(error, info) => {
     if (error) {
       console.error('Error sending verification email:', error);
-      res.writeHead(500, { 'Content-Type': 'text/plain' });
-      res.end('Internal Server Error');
+      const errorMessage = "Email is not valid!  Please try again with another email";
+      await renderPage(res,filePath,{errorMessage});
       return;
     } else {
       console.log('Verification email sent:', info.response);
     }
   });
-  // Hashing the password
-  const hashedPassword = bcrypt.hash(password, 10);
 
+  const verificationCode = generateVerificationCode();
+  // Hashing the password
+  const hashedPassword = await bcrypt.hash(password, 12);
+  console.log(hashedPassword);
   const newUser = {
     username: username,
     email: email,
@@ -133,11 +146,11 @@ const postSignUP = async (req, res) => {
 
   await createUser(Users, newUser);
 
-  const token = generateToken(email);
+  const token = await generateToken(email);
+  console.log(token);
   res.writeHead(302,{Location: `/verify?token=${token}`});
   res.end();
 };
-
 
 const getSignUP = async(req,res) => {
   const filePath = "/views/auth/signup.ejs";
@@ -145,17 +158,20 @@ const getSignUP = async(req,res) => {
   await renderPage(res,filePath,{errorMessage});
 }
 
-const postLogout = async(req,res)=> {
+const postLogoutUser = async(req,res)=> {
   const filePath= "/views/auth/login.ejs"
   // console.log(req.token);
   if(req.token){
-    console.log("Inside If");
-    res.setHeader('Set-Cookie', `token=; HttpOnly`);
-    const message = "You are successfully logged out"
-    await renderPage (res,filePath,{message});
+    // console.log("Inside If");
+    deleteCookie(res,"userToken");
+    const data = {
+      message :"You are successfully logged out",
+      admin:false,
+    }
+    await renderPage (res,filePath,data);
     return;
   }
   console.log("Outside if in post Logout");
 }
-export {postSignUP,postLogin,getLogin,getSignUP,postLogout};
+export {postSignUP,postLoginUser,getLogin,getSignUP,postLogoutUser};
 

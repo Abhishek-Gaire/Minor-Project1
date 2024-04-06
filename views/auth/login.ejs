@@ -15,7 +15,7 @@
     <div class="container flex">
         <div class="login flex">
       
-        <form action="/login" method="POST">
+        <form action="<% if(admin){ %>/adminLogin<%} else{ %>/login<% } %>" method="POST">
             <h1>Login</h1>
 
             <% if(message){%>
@@ -28,21 +28,45 @@
                 <i class="fa-solid fa-envelope"></i>
             </div>
             <div class="data flex">
-                <input type="password" placeholder="Password" name="password">
-                <i class="fa-solid fa-eye-slash"></i>
+                <input type="password" placeholder="Password" id="password" name="password">
+                <i class="fa-solid fa-eye-slash" id="togglePassword"></i>
             </div>
+                <input type="hidden" value="<%= admin %>" name="admin">
+        
             <p id="forgot">
-                <a href="/forgot-password">Forgot your password?</a>
+                <% if(!admin){ %>
+                    <a href="/forgot-password">Forgot your password?</a>
+                <% } else{ %>
+                    <a href="/forgot-password?admin=true">Forgot your password?</a>    
+                <% } %>
             </p>
             <button type="submit">Login</button>
 
-            
-            <div class="signup-done">
-                <p>Don't have an account <a href="/signup">Register</a> </p>
-            </div>
+            <% if(!admin){ %>
+                <div class="signup-done">
+                    <p>Don't have an account <a href="/signup">Register</a> </p>
+                </div>
+            <% } %>
             
         </form>
     </div>
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            var passwordField = document.getElementById('password');
+            var icon = this;
+    
+            // Toggle password field visibility
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
 </body>
 </html>

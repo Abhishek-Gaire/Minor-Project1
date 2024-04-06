@@ -12,8 +12,7 @@ const extractTokenFromCookie = (req, res, next) => {
       const [name, value] = cookie.trim().split('=');
       // console.log(name,value);
       // console.log(value);
-      if (name === 'token') {
-        // console.log("Token is null")
+      if (name === 'userToken') {
         req.token = value;
         return next(); 
       }
@@ -29,7 +28,7 @@ const authenticateUser = (req, res, next) => {
 
   if(req.token){
     try {
-      const decoded = jwt.verify(req.token, process.env.SECRET_KEY);
+      const decoded = jwt.verify(req.token, process.env.USER_SECRET_KEY);
       req.user = decoded; // User has been successfully verified and added to the request object
       next(); // Move to the next middleware or route handler
     } catch (error) {

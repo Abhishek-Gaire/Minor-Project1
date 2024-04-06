@@ -12,7 +12,7 @@ const getBookCar = async(req,res)=> {
     const filePath = "/views/page/bookcar.ejs";
 
     const userId = req.user.id;
-    console.log(userId)
+
     const vehicleID = req.url.split("?")[1];
 
     if(!vehicleID){

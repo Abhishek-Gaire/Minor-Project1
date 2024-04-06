@@ -24,15 +24,15 @@
                         <h1>Signup</h1>
 
                         <div class="data flex">
-                            <input type="text" placeholder="Username">
+                            <input type="text" placeholder="Username" name="username">
                             <i class="fa-solid fa-user"></i>
                         </div>
                         <div class="data flex">
-                            <input type="email" placeholder="Email">
+                            <input type="email" placeholder="Email" name="email">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
                         <div class="data flex eye">
-                            <input type="password" placeholder="Password">
+                            <input type="password" placeholder="Password" name="password">
                             <i class="fa-solid fa-eye-slash"></i>
                         </div>
 
@@ -42,34 +42,7 @@
         </div>
     </div>
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
-    <script>
-        let eye = document.querySelector('.eye')
-        let eyei = document.querySelector('.eye i')
-        let istrue = true
-        eyei.addEventListener('click', () => {
-                if (istrue) {
-                eye.innerHTML = `<input type="password" placeholder="Password">
-                <i class="fa-solid fa-eye"></i>`
-                istrue = false
-                console.log(istrue)
-            }else if(!istrue){
-                eye.innerHTML = `<input type="password" placeholder="Password">
-                <i class="fa-solid fa-eye-slash"></i>`
-                istrue = true
-                console.log(istrue)
-            }
-            })
-        console.log(istrue)
-        // eyei.addEventListener('click', () => {
-        //         if(!istrue){
-        //         eye.innerHTML = `<input type="password" placeholder="Password">
-        //         <i class="fa-solid fa-eye-slash"></i>`
-        //         istrue = true
-        //         console.log(istrue)
-
-        //     }
-        //     })
-    </script>
+        
 </body>
 
 </html>

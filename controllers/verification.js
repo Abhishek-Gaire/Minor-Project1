@@ -1,4 +1,4 @@
-
+import jwt from "jsonwebtoken";
 
 import{getUserByEmail,getCollectionName} from"../Models/user.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
@@ -10,14 +10,12 @@ const getVerify = async(req,res) => {
     return res.end();
   }
   const token = query.split("=")[1];
-  
-  // const decoded = jwt.verify(token,"secret");
-  const decoded ={
-    email :"abhisekgaire7@gmail.com"
-  }
+  // console.log(token);
+  const decoded = jwt.verify(token,process.env.USER_SECRET_KEY);
+//  console.log(decoded);
   const verificationPage = "/views/auth/verify.ejs";
   const data =  {
-    email:decoded.email,
+    email:decoded.id,
     digit1: '',
     digit2: '',
     digit3: '',
@@ -29,11 +27,16 @@ const getVerify = async(req,res) => {
   await renderPage(res,verificationPage,data);
 }
 const verify = async(req,res) => {
-  const formData = parseFormData(req);
+  const formData = await parseFormData(req);
   const verificationCode = `${formData.digit1}${formData.digit2}${formData.digit3}${formData.digit4}${formData.digit5}${formData.digit6}`;
-      
+  const email = formData.email;
+
+  
+
   const collection = getCollectionName();
   const user = await getUserByEmail(collection ,email);
+
+  
 
   if(user.verificationCode === parseInt(verificationCode)){
         
