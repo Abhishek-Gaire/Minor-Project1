@@ -11,17 +11,14 @@ html, body{
     height: 100vh;
     width: 100%;
     background: linear-gradient(to right top, #526D82, #F4EEE0);
-    /* background-color: black; */
     overflow: hidden;
 }
 .cube{
     width: 25rem;
     height: 25rem;
-    /* border-radius: 100%; */
     background-color: white;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7),rgba(255,255,255,0.3));
     position: relative;
-    /* z-index: 1; */
 }
 .n1{
     rotate: 20deg;
@@ -40,7 +37,6 @@ html, body{
     position: absolute;
     top: 0;
     z-index: 2;
-    /* backdrop-filter: blur(0.3rem); */
 }
 
 .content .aside{
@@ -49,7 +45,6 @@ html, body{
     padding: 1rem 0rem;
     text-align: center;
     backdrop-filter: blur(5px);
-     /* box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);   */
     background-color: white;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7),rgba(255,255,255,0.3));
 
@@ -59,7 +54,6 @@ html, body{
 .flex{
     display: flex;
     align-items: center;
-    /* justify-content: center; */
 }
 .user img{
     height: 100px;
@@ -79,7 +73,6 @@ html, body{
     color:black;
     font-size: 1.1rem;
     font-weight: 300;
-    /* padding-left: 2rem; */
 }
 .aside .nav div i{
     font-size: 1.3rem;
@@ -90,15 +83,10 @@ html, body{
 
 .content .main{
     width: 100%;
-    /* padding: 0 1.5rem; */
-    /* display: flex; */
-    /* align-items: center; */
     width: 100%;
     height: 15vh;
-    /* background-color: red; */
 }
  .main .top{
-    /* background-color: aqua; */
     padding: 1.5rem 1.5rem;
     display: flex;
     align-items: center;
@@ -124,34 +112,29 @@ html, body{
     padding: 1rem 2rem;
     width: 100%;
     height: 80vh;
-    /* background-color: red; */
 }
-
-.hero{
-    padding: 2rem 0;
+.table{
     width: 100%;
-    height: 40vh;
-    /* background-color: red; */
-    display: flex;
-    justify-content: space-around;
-}
-
-.box{
-    width: 25vw;
-    height: 15vw;
+    height: 100%;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
     background-color: white;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7),rgba(255,255,255,0.3));
-    backdrop-filter: blur(4px);
-    border-radius: 20px;
-    display: flex;
-    /* flex-direction: column; */
-    align-items: center;
-    justify-content: space-between;
-    padding: 2rem 4rem;
+    overflow: auto;
+    
 }
-.box i{
-    font-size: 3rem;
+
+.table table{
+    width: 100%;
 }
-.box h1{
-    font-weight: 400;
+.table th{
+    padding:  1rem;
+    border-bottom: 1px solid black;
+}
+.table td{
+    padding: 1rem 2rem;
+}
+.table #A{
+    background-color: hsla(0, 0%, 100%, 0.621);
 }
