@@ -1,9 +1,11 @@
 {
     "liveServer.settings.port": 5501,
     "cSpell.words": [
+        "bookcar",
         "modelview",
         "mongourl",
         "newpassword",
-        "signup"
+        "signup",
+        "vehicleid"
     ]
 }

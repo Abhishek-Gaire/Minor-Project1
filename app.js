@@ -7,31 +7,77 @@ import dotenv from "dotenv";
 import { connectToDB, closeDB } from "./helper/database.js";
 import { serveStaticFile } from "./helper/appHelper.js";
 import { routes } from "./helper/routes.js";
-import { extractTokenFromCookie,authenticateUser } from "./middleware/auth.js";
+import { extractTokenFromCookie,authenticateUser } from "./middleware/userAuth.js";
+import {extractAdminTokenFromCookie,authenticateAdmin}  from './middleware/adminAuth.js';
+
 dotenv.config();
 
 const __dirname = path.resolve();
 
 const server = http.createServer(async (req, res) => {
+    
     const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
     const { pathname } = parsedUrl;
     const { method } = req;
-
-    if (method === 'GET' && pathname === "/modelview") {
-        console.log("Inside GET and modelview");
-        await extractTokenFromCookie(req, res, async () => {
-            // console.log(req.token)
-            await authenticateUser(req, res, async () => {
-                // console.log(req.user);
-                return await routes[method][pathname](req, res);       
-            });
-        });
-    }
     
-    else if (routes[method] && routes[method][pathname]) {
-      return await routes[method][pathname](req, res);
+    if (method === 'GET'){ 
+        if(pathname ==="/modelview" ){
+            console.log("Inside GET and modelview");
+            return await extractTokenFromCookie(req, res, async () =>  {
+                // console.log(req.token)
+                return await authenticateUser(req, res, async () => {
+                    // console.log(req.user);
+                    return await routes[method][pathname](req, res);       
+                });
+            })
+        }
+        else if(pathname==="/") {
+            console.log("Inside GET and /");
+            return await extractTokenFromCookie(req, res, async () =>  {
+                // console.log(req.token)
+                return await authenticateUser(req, res, async () => {
+                    // console.log(req.user);
+                    return await routes[method][pathname](req, res);       
+                });
+            })
+        } else if(pathname === "/book-car"){
+            return await extractTokenFromCookie(req,res,async()=> {
+                return await authenticateUser(req,res,async() => {
+                    return await routes[method][pathname](req,res);
+                })
+            })
+        } else if(pathname === "/admin"){
+            return await extractAdminTokenFromCookie(req,res,async() =>{
+                return await authenticateAdmin(req,res,async() => {
+                    return await routes[method][pathname](req,res);
+                })
+            })
+        } else if(pathname === "/addVehicles"){
+            return await extractAdminTokenFromCookie(req,res,async() =>{
+                return await authenticateAdmin(req,res,async() => {
+                    return await routes[method][pathname](req,res);
+                })
+            })
+        }
+        else if(routes[method] && routes[method][pathname]){
+            // console.log(req.token);
+            return await routes[method][pathname](req, res);
+        }
     }
-    
+    else {
+        if(pathname === "/logout"){
+            console.log("inside post and /logout")
+            return await extractTokenFromCookie(req, res, async () =>  {
+                // console.log(req.token)
+                return await authenticateUser(req, res, async () => {
+                    // console.log(req.user);
+                    return await routes[method][pathname](req, res);       
+                });
+            })
+        } else if(routes[method] && routes[method][pathname]){
+            return await routes[method][pathname](req, res);
+        }
+    }
     let filePath;
     filePath = path.join(__dirname ,pathname);
     await serveStaticFile(req, res, filePath);

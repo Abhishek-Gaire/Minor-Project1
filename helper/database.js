@@ -1,15 +1,18 @@
 import { MongoClient } from "mongodb";
+import  { config } from "dotenv"
+config();
 
-const mongourl = "mongodb://localhost:27017";
 const dbName = "Project";
 
 let db;
 
-const client = new MongoClient(mongourl);
+const client = new MongoClient(process.env.CONNECTION_STRING);
+
 const connectToDB = async () => {
   try {
     await client.connect();
     db = client.db(dbName);
+    
     console.log("Connected to Database");
     return db;
   } catch (err) {
@@ -25,15 +28,5 @@ const closeDB = async () => {
   }
 };
 
-// const getDB = () => {
-//   if(db){
-//       console.log(db);
-//       return db;
-//   } else{
-//     console.log("No Database Found");
-//   }
-// }
-// export const dbFunctions = {
-//   getDB: () => db
-// };
+
 export { connectToDB, closeDB,db };

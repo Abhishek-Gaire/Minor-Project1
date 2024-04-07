@@ -1,10 +1,10 @@
 import { ObjectId } from "mongodb";
 import {db} from "../helper/database.js";
 
-// console.log(db);
+
 
 const getCollectionName = () => {
-  const collection = db.collection("users");
+  const collection = db.collection("Users");
   return collection;
 };
 

@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/logo-removebg-preview.png">
+
   </head>
   <body>
     <div class="view_back_b">
@@ -24,16 +26,13 @@
       <div class="right_b">
         <p id="view_b">Perspective View</p>
         <!-- <p id="buy">Buy Car</p> -->
-        <% if(jwtToken)  { %>
-          <a href="/book-car" id="buy_b">Book Car</a>
+        <% if(isLoggedIn)  { %>
+          <a href="/book-car?<%=vehicleID%>" id="buy_b">Book Car</a>
         <% } else{ %>
           <a href="/login" id="buy_b">Login</a>
         <%} %>
       </div>
     </div>
-
- 
-    
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
       integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="

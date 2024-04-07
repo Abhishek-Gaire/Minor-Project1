@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Book Car</title>
+    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+</head>
+<body>
+    <a href="/"><img src="assets/logo-removebg-preview.png" alt="Go to Home Page"></a>
+
+    <% if(userData) { %>
+        <h1>Welcome <%= userData.username %></h1>
+    <% } %>
+    <% if(vehicleData) { %>
+        <div class="container">
+            <h2>Name:<%= vehicleData.name %></h2>
+            <img src="<%= vehicleData.imageUrl %>" alt="Image From Database">
+            <h2>Price :<%= vehicleData.price %></h2>
+            <p>Description :<%= vehicleData.description %></p>
+            <div class="model"></div>
+        </div>
+    <%} %>
+    <a href="/confirmBookCar?<%=vehicleData._id%>">Confirm Your Booking</a>
+</body>
+</html>

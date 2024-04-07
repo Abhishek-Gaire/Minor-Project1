@@ -1,26 +1,70 @@
-import ejs from "ejs";
-import fsPromises from "fs/promises";
-import path from 'path';
-
+import bcrypt from "bcrypt";
 // import { getCollectionName } from "../Models/model.js";
+import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js"
+import { generateToken } from "../helper/adminHelper.js";
+import { renderPage,parseFormData } from "../helper/appHelper.js";
 
-const __dirname = path.resolve();
-
-const readFileAsync = async (filePath) => {
-  return await fsPromises.readFile(filePath, "utf8");
-};
 const getAdmin = async(req,res) => {
-    const filePath = path.join(__dirname,"/views/admin/admin.ejs");
-    const data = await readFileAsync(filePath);
-    const adminFile = ejs.render(data);
-    res.end(adminFile);
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        res.end();
+    }
+    const filePath = "/views/admin/admin.ejs";
+    await renderPage(res,filePath,{data:''});
+    // const data = await readFileAsync(filePath);
+    // const adminFile = ejs.render(data);
+    // res.end(adminFile);
 }
 const getAddVehicles = async(req,res) => {
-    const filePath = path.join(__dirname,"/views/admin/addVehicle.html");    
-    const data = await readFileAsync(filePath);
-    res.end(ejs.render(data));
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        res.end();
+    }
+    const filePath = "/views/admin/addVehicle.html"    
+    const data = '';
+    await renderPage(res,filePath,{data});
 }
 const postAddVehicles = async(req,res) => {
     //nothing right now
 }
-export {getAdmin,getAddVehicles,postAddVehicles};
+const postLoginAdmin = async (req, res) => {
+
+    const filePath = "/views/auth/login.ejs";
+  
+    const formData = await parseFormData(req); 
+      
+    const{email,password} = formData;
+      
+    const collectionName = await getAdminCollectionName();
+  
+    // Fetch admin from the database by email
+    const admin = await getAdminByEmail(collectionName, email);
+      
+    if (!admin){
+        const data = {
+            admin:true,
+            message:"No admin with that email exists! Please contact your system administrator.",
+        }
+        return await renderPage(res,filePath,data);
+    }
+    const match = await bcrypt.compare(password,admin.password);
+    if(match){
+        // Generate JWT token
+        const adminToken = await generateToken(admin._id);
+  
+        // Set JWT token in a cookie
+        res.setHeader('Set-Cookie', `adminToken=${adminToken}; HttpOnly`);
+  
+        res.writeHead(302, { Location:"/admin" });
+        res.end();
+    } else {
+        //Invalid Credentials
+        const data = {
+            message :"Invalid Email or Password",
+            admin:true,
+        }
+        await renderPage(res,filePath,data);
+        return;
+    }
+};
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin};

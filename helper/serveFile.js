@@ -1,5 +1,6 @@
 
 import fsPromises from  "fs/promises";
+// import fs from "fs"
 
 const serveFile = async (filePath, contentType, response) => {
     const validContentTypes = [
@@ -7,7 +8,7 @@ const serveFile = async (filePath, contentType, response) => {
         "application/json",
         "image/jpeg",
         "image/png",
-        "image/gif",
+        "image/ico",
         "text/css",
         "application/javascript",
     ];
