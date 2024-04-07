@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../public/css/admin_car.css">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/public/css/admin/admin_left_bar.css">
+    <link rel="stylesheet" href="/public/css/admin/admin_car.css">
+    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 </head>
 <body>
     <div class="container">
@@ -13,38 +15,38 @@
          <div class="content ">
              <div class="aside">
                 <div class="user">
-                    <img src="../../assets/images.jpg" alt="User Image">
+                    <img src="/assets/images.jpg" alt="User Image">
                     <h1>Name</h1>
-                    <p>VP Fancy Admin</p>
+                    <p><%= adminData.name %></p>
                 </div>
                 <div class="nav">
                     <div class="homepage flex">
                         <i class="fa-solid fa-house"></i>
-                        <a href="../../views/admin/admin2.html">Homepage</a>
+                        <a href="/admin/dashboard">Homepage</a>
                     </div>
                     <div class="car flex">
                         <i class="fa-solid fa-car"></i>
-                        <a href="../../views/admin/admin_car.html">Cars</a>
+                        <a href="/admin/cars">Cars</a>
                     </div>
                     <div class="addCar flex">
                         <i class="fa-solid fa-plus"></i>
-                        <a href=""3>Add Car</a>
+                        <a href="/admin/addVehicles"3>Add Car</a>
                     </div>
                     <div class="bookings flex">
                         <i class="fa-solid fa-book"></i>
-                        <a href="../../views/admin/booking_admin.html">Bookings</a>
+                        <a href="/admin/bookedVehicles">Bookings</a>
                     </div>
                     <div class="Manage flex">
                         <i class="fa-solid fa-people-group"></i>
-                        <a href="../../views/admin/manageUser_admin.html">Manege User</a>
+                        <a href="/admin/manageUsers">Manage Users</a>
                     </div>
                 </div>
             </div> 
              <div class="main">
                 <div class="top">
                     <div class="left">
-                        <h1>Manage</h1>
-                        <p>Logged Users</p>
+                        <h1>Bookings</h1>
+                        <p>Available Orders</p>
                     </div>
                     <div class="right">
                             <div class="nav">
@@ -60,75 +62,65 @@
                 </div>
                 <div class="bottom">
                     <div class="table">
-                        <h1>List Of Users</h1><br>
+                        <h1>List Of Orders</h1><br>
                         <table>
                             <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Username</th>
+                                <th>Car</th>
                                 <th>Email</th>
-                                <th>Address</th>
-                                <th>Contact No</th>
+                                <th>Contact</th>
                                 <th>Credencials</th>
                             </tr>
                             <tr id="A">
                                 <td>Ram</td>
-                                <td>Kumar</td>
                                 <td>Fortuner</td>
                                 <td>ram@gmail.com</td> 
                                 <td>123456789</td>
                             </tr>
                             <tr id="B">
                                 <td>Shyam</td>
-                                <td>Kumar</td>
                                 <td>Range Rover</td>
                                 <td>shyam@gmail.com</td> 
                                 <td>987654321</td>
                             </tr>
                             <tr id="A">
                                 <td>Hari</td>
-                                <td>Kumar</td>
                                 <td>Tesla</td>
                                 <td>hari@gmail.com</td> 
                                 <td>123459876</td>
                             </tr>
                             <tr id="B">
                                 <td>Ram</td>
-                                <td>Kumar</td>
                                 <td>Fortuner</td>
                                 <td>ram@gmail.com</td> 
                                 <td>123456789</td>
                             </tr>
                             <tr id="A">
                                 <td>Shyam</td>
-                                <td>Kumar</td>
                                 <td>Range Rover</td>
                                 <td>shyam@gmail.com</td> 
                                 <td>987654321</td>
                             </tr>
                             <tr id="B">
                                 <td>Hari</td>
-                                <td>Kumar</td>
                                 <td>Tesla</td>
                                 <td>hari@gmail.com</td> 
                                 <td>123459876</td>
                             </tr>
                             <tr id="A">
                                 <td>Ram</td>
-                                <td>Kumar</td>
                                 <td>Fortuner</td>
                                 <td>ram@gmail.com</td> 
                                 <td>123456789</td>
                             </tr>
                             <tr id="B">
                                 <td>Shyam</td>
-                                <td>Kumar</td>
                                 <td>Range Rover</td>
                                 <td>shyam@gmail.com</td> 
                                 <td>987654321</td>
                             </tr>
                             <tr id="A">
                                 <td>Hari</td>
-                                <td>Kumar</td>
                                 <td>Tesla</td>
                                 <td>hari@gmail.com</td> 
                                 <td>123459876</td>

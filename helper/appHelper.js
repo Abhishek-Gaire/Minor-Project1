@@ -32,11 +32,12 @@ const serveStaticFile = async (req, res, filePath) => {
 };
 
 const renderPage = async(res,templatePath,message) =>{
-  console.log(templatePath);
   const filePath = path.join(__dirname, templatePath);
-  console.log(filePath);
+
   const fileData = await fsPromises.readFile(filePath,"utf8");
+
   const renderedHTML = ejs.render(fileData,message);
+  
   res.end(renderedHTML);
 }
 

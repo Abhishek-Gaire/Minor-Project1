@@ -1,33 +1,39 @@
 import {verify,getVerify} from"../controllers/verification.js";
-import {getReset,postReset,getUpdatePassword,postUpdatePassword} from"../controllers/resetpassword.js";
+import * as PasswordControllers from"../controllers/resetpassword.js";
 
 import {renderVehicles,renderModelView,renderHomePage} from"../controllers/render.js";
-import { getAdmin ,getAddVehicles,postAddVehicles,postLoginAdmin} from "../controllers/admin.js";
+import * as AdminControllers from "../controllers/admin.js";
 
-import {getLogin,postLoginUser,getSignUP,postSignUP,postLogoutUser} from"../controllers/login.js";
+import * as AuthControllers from"../controllers/login.js";
 
 import { getBookCar } from "../controllers/bookCar.js";
+import { Admin } from "mongodb";
 const routes = {
     "POST": {
-        "/signup": postSignUP,
-        "/login": postLoginUser,
+        "/signup": AuthControllers.postSignUP,
+        "/login": AuthControllers.postLoginUser,
         "/verify": verify,
-        "/reset-password": postReset,
-        "/update-password":postUpdatePassword,
-        "/addVehicles": postAddVehicles,
-        "/logout":postLogoutUser,
-        "/adminLogin":postLoginAdmin,
+        "/reset-password": PasswordControllers.postReset,
+        "/update-password":PasswordControllers.postUpdatePassword,
+        "/addVehicles": AdminControllers.postAddVehicles,
+        "/logout":AuthControllers.postLogoutUser,
+        "/adminLogin":AdminControllers.postLoginAdmin,
+        "/adminLogout":AdminControllers.postLogoutAdmin,
     },
     "GET": {
         "/":renderHomePage,
         "/modelview":renderModelView,
         "/vehicles":renderVehicles,
-        "/signup": getSignUP,
-        "/login": getLogin,
-        "/forgot-password": getReset,
-        "/reset-password": getUpdatePassword,
-        "/admin" :getAdmin,
-        "/addVehicles": getAddVehicles,
+        "/signup": AuthControllers.getSignUP,
+        "/login": AuthControllers.getLogin,
+        "/forgot-password": PasswordControllers.getReset,
+        "/reset-password": PasswordControllers.getUpdatePassword,
+        "/admin" :AdminControllers.getAdmin,
+        "/admin/dashboard": AdminControllers.getAdmin,
+        "/admin/addVehicles": AdminControllers.getAddVehicles,
+        "/admin/cars": AdminControllers.getCarsAdmin,
+        "/admin/manageUsers" :AdminControllers.getManageUsers,
+        "/admin/bookedVehicles" :AdminControllers.getBookedCarAdmin,
         "/book-car":getBookCar,
         "/verify":getVerify,
     }

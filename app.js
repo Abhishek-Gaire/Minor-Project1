@@ -21,8 +21,8 @@ const server = http.createServer(async (req, res) => {
     const { method } = req;
     
     if (method === 'GET'){ 
-        if(pathname ==="/modelview" ){
-            console.log("Inside GET and modelview");
+        if(pathname ==="/modelview" ||  pathname=="/" || pathname==="/book-car"){
+            console.log(`Inside GET and ${pathname}`);
             return await extractTokenFromCookie(req, res, async () =>  {
                 // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
@@ -31,36 +31,15 @@ const server = http.createServer(async (req, res) => {
                 });
             })
         }
-        else if(pathname==="/") {
-            console.log("Inside GET and /");
-            return await extractTokenFromCookie(req, res, async () =>  {
-                // console.log(req.token)
-                return await authenticateUser(req, res, async () => {
-                    // console.log(req.user);
-                    return await routes[method][pathname](req, res);       
-                });
-            })
-        } else if(pathname === "/book-car"){
-            return await extractTokenFromCookie(req,res,async()=> {
-                return await authenticateUser(req,res,async() => {
-                    return await routes[method][pathname](req,res);
-                })
-            })
-        } else if(pathname === "/admin"){
+        else if(pathname === "/admin" || pathname ==="/admin/dashboard" || pathname === "/admin/addVehicles" || pathname === "/admin/cars" || pathname === "/admin/manageUsers" || pathname === "/admin/bookedVehicles")
+        {
+            console.log(`Inside GET and ${pathname}`);
             return await extractAdminTokenFromCookie(req,res,async() =>{
                 return await authenticateAdmin(req,res,async() => {
                     return await routes[method][pathname](req,res);
                 })
             })
-        } else if(pathname === "/addVehicles"){
-            return await extractAdminTokenFromCookie(req,res,async() =>{
-                return await authenticateAdmin(req,res,async() => {
-                    return await routes[method][pathname](req,res);
-                })
-            })
-        }
-        else if(routes[method] && routes[method][pathname]){
-            // console.log(req.token);
+        } else if(routes[method] && routes[method][pathname]){
             return await routes[method][pathname](req, res);
         }
     }
@@ -79,6 +58,12 @@ const server = http.createServer(async (req, res) => {
         }
     }
     let filePath;
+    if(pathname.startsWith("/admin")){
+        let newPathname; 
+        newPathname = pathname.replace(/\/admin/, "");
+        filePath = path.join(__dirname ,newPathname);
+        return await serveStaticFile(req, res, filePath);
+    }
     filePath = path.join(__dirname ,pathname);
     await serveStaticFile(req, res, filePath);
 });
