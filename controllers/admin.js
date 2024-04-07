@@ -10,7 +10,10 @@ const getAdmin = async(req,res) => {
         res.end();
     }
     const filePath = "/views/admin/admin.ejs";
-    await renderPage(res,filePath,{data:''});
+    const data = {
+        title: "Admin Dashboard",
+    }
+    await renderPage(res,filePath,data);
     // const data = await readFileAsync(filePath);
     // const adminFile = ejs.render(data);
     // res.end(adminFile);
