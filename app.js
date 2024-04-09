@@ -40,6 +40,7 @@ const server = http.createServer(async (req, res) => {
                 })
             })
         } else if(routes[method] && routes[method][pathname]){
+            console.log(`Inside GET and ${pathname}`);
             return await routes[method][pathname](req, res);
         }
     }
@@ -54,16 +55,17 @@ const server = http.createServer(async (req, res) => {
                 });
             })
         } else if(routes[method] && routes[method][pathname]){
+            console.log(`Inside POST and ${pathname}`);
             return await routes[method][pathname](req, res);
         }
     }
     let filePath;
-    if(pathname.startsWith("/admin")){
-        let newPathname; 
-        newPathname = pathname.replace(/\/admin/, "");
-        filePath = path.join(__dirname ,newPathname);
-        return await serveStaticFile(req, res, filePath);
-    }
+    // if(pathname.startsWith("/admin")){
+    //     let newPathname; 
+    //     newPathname = pathname.replace(/\/admin/, "");
+    //     filePath = path.join(__dirname ,newPathname);
+    //     return await serveStaticFile(req, res, filePath);
+    // }
     filePath = path.join(__dirname ,pathname);
     await serveStaticFile(req, res, filePath);
 });

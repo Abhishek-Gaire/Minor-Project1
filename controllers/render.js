@@ -74,5 +74,18 @@ const renderModelView = async (req, res) => {
         console.error(err);
     }
 };
-
-export { renderHomePage, renderModelView, renderVehicles };
+const renderAboutPage = async (req, res) => {
+    try {
+        await renderPage(req, res, "/views/page/aboutPage.html", { data:"" });
+    } catch (err) {
+        console.error(err);
+    }
+};
+const renderContactPage = async (req, res) => {
+    try {
+        await renderPage(req, res, "/views/page/contactPage.html", {data:''});
+    } catch (err) {
+        console.error(err);
+    }
+};
+export { renderHomePage, renderModelView, renderVehicles,renderAboutPage,renderContactPage };

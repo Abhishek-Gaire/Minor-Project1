@@ -1,13 +1,13 @@
 import {verify,getVerify} from"../controllers/verification.js";
 import * as PasswordControllers from"../controllers/resetpassword.js";
 
-import {renderVehicles,renderModelView,renderHomePage} from"../controllers/render.js";
+import * as PageControllers from"../controllers/render.js";
 import * as AdminControllers from "../controllers/admin.js";
 
 import * as AuthControllers from"../controllers/login.js";
 
 import { getBookCar } from "../controllers/bookCar.js";
-import { Admin } from "mongodb";
+
 const routes = {
     "POST": {
         "/signup": AuthControllers.postSignUP,
@@ -21,9 +21,11 @@ const routes = {
         "/adminLogout":AdminControllers.postLogoutAdmin,
     },
     "GET": {
-        "/":renderHomePage,
-        "/modelview":renderModelView,
-        "/vehicles":renderVehicles,
+        "/":PageControllers.renderHomePage,
+        "/modelview":PageControllers.renderModelView,
+        "/vehicles":PageControllers.renderVehicles,
+        "/about":PageControllers.renderAboutPage,
+        "/contact":PageControllers.renderContactPage,
         "/signup": AuthControllers.getSignUP,
         "/login": AuthControllers.getLogin,
         "/forgot-password": PasswordControllers.getReset,
