@@ -10,6 +10,10 @@ const getCollectionName = () => {
 const getDataById = async(collection,id) => {
   return await collection.findOne({_id: new ObjectId(id)});
 }
+
+const createModel = async (collection, modelData) => {
+  return collection.insertOne(modelData);
+};
 export {
-  getCollectionName,getDataById
+  getCollectionName,getDataById, createModel
 };

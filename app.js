@@ -24,9 +24,7 @@ const server = http.createServer(async (req, res) => {
         if(pathname ==="/modelview" ||  pathname=="/" || pathname==="/book-car"){
             console.log(`Inside GET and ${pathname}`);
             return await extractTokenFromCookie(req, res, async () =>  {
-                // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    // console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })
@@ -48,24 +46,24 @@ const server = http.createServer(async (req, res) => {
         if(pathname === "/logout"){
             console.log("inside post and /logout")
             return await extractTokenFromCookie(req, res, async () =>  {
-                // console.log(req.token)
                 return await authenticateUser(req, res, async () => {
-                    // console.log(req.user);
                     return await routes[method][pathname](req, res);       
                 });
             })
-        } else if(routes[method] && routes[method][pathname]){
+        } else if(pathname === "/addVehicles"){
+            console.log("inside post and addVehicles")
+            return await extractAdminTokenFromCookie(req, res, async () =>  {
+                return await authenticateAdmin(req, res, async () => {
+                    return await routes[method][pathname](req, res);       
+                });
+            })
+        }
+        else if(routes[method] && routes[method][pathname]){
             console.log(`Inside POST and ${pathname}`);
             return await routes[method][pathname](req, res);
         }
     }
     let filePath;
-    // if(pathname.startsWith("/admin")){
-    //     let newPathname; 
-    //     newPathname = pathname.replace(/\/admin/, "");
-    //     filePath = path.join(__dirname ,newPathname);
-    //     return await serveStaticFile(req, res, filePath);
-    // }
     filePath = path.join(__dirname ,pathname);
     await serveStaticFile(req, res, filePath);
 });

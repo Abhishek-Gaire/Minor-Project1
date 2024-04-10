@@ -2,16 +2,11 @@ import jwt from "jsonwebtoken";
 // Middleware function to extract JWT token from request headers
 const extractTokenFromCookie = (req, res, next) => {
   const cookieHeader = req.headers.cookie;
-  // console.log("Cookie Header",cookieHeader);
+  
   if (cookieHeader) {
     const cookies = cookieHeader.split(';');
-    // console.log(cookies);
     for (const cookie of cookies) {
-      // console.log(cookie);
-      // console.log("Inside for loop")
       const [name, value] = cookie.trim().split('=');
-      // console.log(name,value);
-      // console.log(value);
       if (name === 'userToken') {
         req.token = value;
         return next(); 
@@ -24,7 +19,6 @@ const extractTokenFromCookie = (req, res, next) => {
   
   // Middleware function to authenticate user based on JWT token
 const authenticateUser = (req, res, next) => {
-  // console.log("In Middleware",req.token);
 
   if(req.token){
     try {
