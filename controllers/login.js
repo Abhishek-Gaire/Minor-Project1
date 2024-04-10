@@ -6,15 +6,12 @@ import{
   getUserByEmail, getCollectionName,createUser,
 } from"../Models/user.js";
 import { 
-  generateToken,transporter,generateVerificationCode,mailOptions 
+  generateToken,generateVerificationCode
 } from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
+import { mailOptions,transporter } from "../helper/nodemailerHelper.js";
+import { deleteCookie } from "../helper/adminHelper.js";
 
-// Function to delete a cookie
-function deleteCookie(res, cookieName) {
-  // console.log(cookieName);
-  res.setHeader('Set-Cookie', [`${cookieName}=; Max-Age=0`]);
-}
 
 const postLoginUser = async (req, res) => {
   const filePath = "/views/auth/login.ejs";

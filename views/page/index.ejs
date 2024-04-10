@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DYD</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
-    <link rel="stylesheet" href="public/css/style.css">
-    <link rel="icon" type="image/x-icon" href="assets/logo-removebg-preview.png">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 </head>
 
 <body >
@@ -25,7 +25,7 @@
 
   <div class="nav">
     <div class="navl">
-      <a href="/"><img src="assets/logo-removebg-preview.png" alt=""></a>
+      <a href="/"><img src="/assets/logo-removebg-preview.png" alt=""></a>
     </div>
     <div class="navr">
       <a href="/vehicles" id="moveall"><h3>View Models</h3></a>
@@ -35,92 +35,99 @@
     </div>
   </div>
       
-    <div class="main" >
-        <div class="page1" data-scroll data-scroll-speed="-3">
-          <h1><em>UNCOVER</em><em> the </em>CAR <em> of your<br>
-          </em>DREAMS <em>from </em>an<br>
-          ARRAY <em>of </em> <br>
-          CHOICES <em>available </em>HERE.
-          </h1>
-          <div class="signup">
-            <% if(isLoggedIn) { %>
-              <form action="/logout" method="POST">
-                <button type="submit">Sign Out</button>
-              </form>
-            <%} else{ %>
-              <a href="/signup">Sign Up</a>
-            <% } %>
+  <div class="main" >
+    <div class="page1" data-scroll data-scroll-speed="-3">
+      <h1><em>UNCOVER</em><em> the </em>CAR <em> of your<br>
+        </em>DREAMS <em>from </em>an<br>
+        ARRAY <em>of </em> <br>
+        CHOICES <em>available </em>HERE.
+      </h1>
+      <div class="signup">
+        <% if(isLoggedIn) { %>
+          <form action="/logout" method="POST">
+            <button type="submit">Sign Out</button>
+          </form>
+        <%} else{ %>
+          <a href="/signup">Sign Up</a>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="page2" data-scroll data-scroll-speed="2">
+      <h1 class="head">Our Top Selling</h1>
+      <div class="models">
+        <% if (imageUrls &&  names ) { %>
+                
+          <div class="car">
+            <div class="content">
+              <h1> <%=names[0]%></h1>
+              <h3><%=heads[0]%></h3>
+              <p> <%=descriptions[0]%></p>
+              <div class="btn">
+                <button>Explore More</button>
+              </div>
+            </div>
+            <img src="<%= imageUrls[0] %>" alt="Image From Database">
+          </div>
+          <div class="car">
+            <img src="<%= imageUrls[1] %>" alt="Image From Database">
+            <div class="content">
+              <h1> <%=names[1]%></h1>
+              <h3><%=heads[1]%></h3>
+              <p> <%=descriptions[1]%></p>
+              <div class="btn">
+                <button>Explore More</button>
+              </div>
+            </div>
+          </div>
+                  
+        <% } else { %>
+          <p>No images found in the Database</p>
+        <%} %>
+      </div>
+                  
+    </div>
+    <footer>
+      <div class="contact">
+        <div class="contactup">
+          <div class="left">DYD</div>
+          <div class="right">
+            <div class="cl">
+              <p>Contact</p>
+              <a href="#">Whatsapp</a>
+              <a href="#">Email</a>
+            </div>
+            <div class="cl">
+              <p>Services</p>
+              <a href="#">Vehicles</a>
+            </div>
+            <div class="cl social">
+              <p>Socials</p>
+              <div>
+                <div id="point">
+                  <i class="fa-brands fa-x-twitter"></i>
+                </div>
+                <div id="point">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="page2" data-scroll data-scroll-speed="2">
-          <h1 class="head">Our Top Selling</h1>
-            <div class="models">
-              <% if (imageUrls &&  names ) { %>
                 
-                  <div class="car">
-                  <div class="content">
-                      <h1> <%=names[0]%></h1>
-                      <h3><%=heads[0]%></h3>
-                      <p> <%=descriptions[0]%></p>
-                      <div class="btn"><button>Explore More</button></div>
-                    </div>
-                      <img src="<%= imageUrls[0] %>" alt="Image From Database">
-                    </div>
-                  <div class="car">
-                    <img src="<%= imageUrls[1] %>" alt="Image From Database">
-                  <div class="content">
-                      <h1> <%=names[1]%></h1>
-                      <h3><%=heads[1]%></h3>
-                      <p> <%=descriptions[1]%></p>
-                      <div class="btn"><button>Explore More</button></div>
-                    </div>
-                  </div>
-                  
-                  <% } else { %>
-                    <p>No images found in the Database</p>
-                    <%} %>
-                  </div>
-                  
-                </div>
-                <footer>
-                    <div class="contact">
-                      <div class="contactup">
-                        <div class="left">DYD</div>
-                        <div class="right">
-                          <div class="cl">
-                            <p>Contact</p>
-                            <a href="#">Whatsapp</a>
-                            <a href="#">Email</a>
-                          </div>
-                          <div class="cl">
-                            <p>Services</p>
-                            <a href="#">Vehicles</a>
-                          </div>
-                          <div class="cl social">
-                            <p>Socials</p>
-                            <div>
-                              <div id="point"><i class="fa-brands fa-x-twitter"></i></div>
-                              <div id="point"><i class="fa-brands fa-linkedin-in"></i></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                
-                      <div class="contactdown">
-                        <div class="bottomleft">
-                          <p id="msg">Send an email T_T</p>
-                          <p id="email">minorproject_I@gmail.com</p>
-                        </div>
-                        <div class="bottomright">
-                          <div class="up"></div>
-                          <div>@ Drive Your Dream 2024</div>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </footer>
+        <div class="contactdown">
+          <div class="bottomleft">
+            <p id="msg">Send an email T_T</p>
+            <p id="email">minorproject_I@gmail.com</p>
+          </div>
+          <div class="bottomright">
+            <div class="up"></div>
+            <div>@ Drive Your Dream 2024</div>
+          </div>              
         </div>
+      </div>
+    </footer>
+  </div>
 
 
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>

@@ -65,6 +65,11 @@
                         <%= errorMessage %>
                     </div>
                 <% } %>
+                <% if(validationError){ %>
+                    <div class="alert alert-danger">
+                        <%= validationError %>
+                    </div>
+                <% } %>
                 <label for="name">Name of the Car:</label><br>
                 <input type="text" id="name" name="name" required><br>
                 

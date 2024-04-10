@@ -10,9 +10,7 @@ const getVerify = async(req,res) => {
     return res.end();
   }
   const token = query.split("=")[1];
-  // console.log(token);
   const decoded = jwt.verify(token,process.env.USER_SECRET_KEY);
-//  console.log(decoded);
   const verificationPage = "/views/auth/verify.ejs";
   const data =  {
     email:decoded.id,
@@ -31,15 +29,10 @@ const verify = async(req,res) => {
   const verificationCode = `${formData.digit1}${formData.digit2}${formData.digit3}${formData.digit4}${formData.digit5}${formData.digit6}`;
   const email = formData.email;
 
-  
-
   const collection = getCollectionName();
   const user = await getUserByEmail(collection ,email);
 
-  
-
   if(user.verificationCode === parseInt(verificationCode)){
-        
     // Update the user document in the database
     await collection.updateOne({ _id: user._id }, { $set: { verified: true, verificationCode:null } });
             

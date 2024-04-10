@@ -1,8 +1,29 @@
-import jwt from "jsonwebtoken";
+import {formidable}  from "formidable";
 
-const generateToken = async(id) =>{
-    const adminToken = jwt.sign({ id }, process.env.ADMIN_SECRET_KEY, { expiresIn: '1h' });
-    return adminToken;
+// Function to delete a cookie
+function deleteCookie(res, cookieName) {
+    res.setHeader('Set-Cookie', [`${cookieName}=; Max-Age=0`]);
 }
 
-export {generateToken};
+const parseFormDataWithImage = async(req) => {
+    return new Promise((resolve, reject) => {
+      const form = formidable({});
+  
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ fields, files });
+        }
+      });
+    });
+};
+
+const getDate = () => {
+    const year = new Date(Date.now()).getFullYear();
+    const month = new Date(Date.now()).getMonth();
+    const day = new Date(Date.now()).getDay();
+    return `${month}-${day}-${year}`;
+}
+
+export{deleteCookie, parseFormDataWithImage, getDate};

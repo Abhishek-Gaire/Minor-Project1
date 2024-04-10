@@ -1,18 +1,12 @@
 import crypto from"crypto";
-import queryString from"querystring";
-import fs from"fs";
-import path from"path";
-import ejs from"ejs";
 
-import{transporter} from"../helper/jwtHelper.js";
+import{transporter} from"../helper/nodemailerHelper.js";
 import{getCollectionName, getUserByToken,getUserByEmail,addToken} from"../Models/user.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
-const __dirname = path.resolve();
+
 
 const postReset  = async(req,res) => {
-    console.log("Inside Post Reset");
     const formData = await parseFormData(req);
-    // console.log(formData)
     
     const email = formData.email;
     if(!email){
@@ -71,6 +65,7 @@ const postReset  = async(req,res) => {
         return;
     }
 };
+
 const getReset = async(req,res) => {
     const query = req.url.split("?")[1];
     // console.log(query);
@@ -92,74 +87,70 @@ const getUpdatePassword = async(req,res) => {
     // Extract the token parameter from the url
     const token = req.url.split("?")[1];
 
+    if(!token){
+        //flash messages
+        res.writeHead(302,{Location:"/forgot-password"});
+        return res.end();
+    }
     const collection = await getCollectionName();
     const user = await getUserByToken(collection, token);
 
-    const filePath =  fs.readFileSync(path.join(__dirname,"/views/auth/new-password.ejs"),"utf-8");
+    const filePath = "/views/auth/new-password.ejs";
 
     if(!user){
-        const renderPage = ejs.render(filePath,{
+        const data = {
             token:'',
             errorMessage: 'No user with that token exists.'
-        })
-        res.end(renderPage);
-        return;
+        }
+        return await renderPage(res,filePath,data);
     }
-    const renderPage = ejs.render(filePath,{
+    const data = {
         token:token,
         errorMessage: null,
-    })
-    res.end(renderPage);
-    // console.log(renderPage);
+    }
+    await renderPage(res,filePath,data);
 };
 
 const postUpdatePassword = async(req,res) => {
-    const filePath =  fs.readFileSync(path.join(__dirname,"/views/auth/new-password.ejs"),"utf-8");
-    let body = '';
-    req.on('data', (chunk)=>{
-        body += chunk.toString()
-    });
-    req.on('end',async ()=>{
-        formData = queryString.parse(body);
-        
-        const token = formData.resetToken;
-        const password = formData.password;
-        const confirm_password=formData.confirmPassword;
-        
+    const filePath = "/views/auth/new-password.ejs";
+    
+    const formData = await parseFormData(req);
+    
+    const token = formData.resetToken;
+    const password = formData.password;
+    const confirm_password=formData.confirmPassword;
 
-        if(password !== confirm_password){
-            const renderPage = ejs.render(filePath,{
-                token:token,
-                errorMessage: "Passwords have to match!",
-            })
-            res.end(renderPage);
-            return;
+    if(password !== confirm_password){
+        const data = {
+            token:token,
+            errorMessage: "Passwords have to match!",
         }
-        const collection = await getCollectionName(); // Get the collection
-        const user = await getUserByToken(collection, token); // Get the user by token
+        return await renderPage(res,filePath,data);
+    }
+    const collection = await getCollectionName(); // Get the collection
+    const user = await getUserByToken(collection, token); // Get the user by token
         
-        // Check if user exists
-        if (user) {
-            // Update the user's password and resetToken
-            user.password = password;
-            user.resetToken = null;
+    // Check if user exists
+    if (user) {
+        // Update the user's password and resetToken
+        user.password = password;
+        user.resetToken = null;
             
-            // Update the user document in the database
-            await collection.updateOne({ _id: user._id }, { $set: { password: password, resetToken: null } });
+        // Update the user document in the database
+        await collection.updateOne({ _id: user._id }, { $set: { password: password, resetToken: null } });
             
-            // Redirect to the login page
-            res.writeHead(302, { Location: "/login" });
-            res.end();
-        } else {
-            // User not found, handle the error or redirect to an error page
-            const renderPage = ejs.render(filePath,{
-                token:'',
-                errorMessage: "User With That Token Not Found",
-            })
-            res.end(renderPage);
-        }
-    })
-
+        // Redirect to the login page
+        res.writeHead(302, { Location: "/login" });
+        res.end();
+    } else {
+        // User not found, handle the error or redirect to an error page
+         const data = {
+            token:'',
+            errorMessage: "User With That Token Not Found",
+        };
+        await renderPage(res,filePath,data); 
+    
+    }
 }
 export {getUpdatePassword,getReset,postReset, postUpdatePassword};
 

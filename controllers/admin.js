@@ -1,36 +1,13 @@
 import bcrypt from "bcrypt";
-import {formidable}  from "formidable";
 import fs from "fs/promises"
 
 import { getCollectionName,createModel } from "../Models/model.js";
 import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js"
-import { generateToken } from "../helper/adminHelper.js";
+import { generateAdminToken } from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
+import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
+import { setFlashMessage,getFlashMessage } from "../helper/flashMessage.js";
 
-// Function to delete a cookie
-function deleteCookie(res, cookieName) {
-    res.setHeader('Set-Cookie', [`${cookieName}=; Max-Age=0`]);
-}
-const parseFormDataWithImage = async(req) => {
-    return new Promise((resolve, reject) => {
-      const form = formidable({});
-  
-      form.parse(req, (err, fields, files) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({ fields, files });
-        }
-      });
-    });
-};
-
-const getDate = () => {
-    const year = new Date(Date.now()).getFullYear();
-    const month = new Date(Date.now()).getMonth();
-    const day = new Date(Date.now()).getDay();
-    return `${month}-${day}-${year}`;
-}
 const getAdmin = async(req,res) => {
     if(!req.admin){
         res.writeHead(302,{Location:"/login?adminExists=false"})
@@ -61,6 +38,7 @@ const getAddVehicles = async(req,res) => {
         title: "Admin Car",
         adminData:adminData,
         errorMessage:'',
+        validationError:'',
     }
     await renderPage(res,filePath,data);
 }
@@ -123,7 +101,7 @@ const postAddVehicles = async(req,res) => {
 
     const {fields,files} = formData;
     const imageFile = files.image[0];
-    console.log(imageFile.mimetype);
+    
     const{name,price,description} = fields;
     
     if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
@@ -149,18 +127,17 @@ const postAddVehicles = async(req,res) => {
             res.end();
             return;
         }
-        //set flash messages like Car Successfully added
+        await setFlashMessage("Success","The vehicle has been added successfully!");
         res.writeHead(302,{Location:"/admin/car-details"})
         res.end();
     }
-    
-    
     const data = {
         title: "Add Car",
         adminData:adminData,
-        errorMessage:"Invalid File Type! Please upload an Image.",
+        errorMessage:"Invalid File Type! Please upload an Image",
+        validationError:'',
     }
-    //validationMessage should be sent using  flash message 
+    
     return await renderPage(res,filePath,data);
     
 }
@@ -187,7 +164,7 @@ const postLoginAdmin = async (req, res) => {
     const match = await bcrypt.compare(password,admin.password);
     if(match){
         // Generate JWT token
-        const adminToken = await generateToken(admin.email);
+        const adminToken = await generateAdminToken(admin.email);
   
         // Set JWT token in a cookie
         res.setHeader('Set-Cookie', `adminToken=${adminToken}; HttpOnly`);
@@ -218,5 +195,5 @@ const postLogoutAdmin = async(req,res)=> {
       return;
     }
     console.log("Outside if in post Logout");
-  }
+}
 export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin};
