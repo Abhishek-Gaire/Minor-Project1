@@ -6,7 +6,7 @@ import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js"
 import { generateAdminToken } from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
-import { setFlashMessage,getFlashMessage } from "../helper/flashMessage.js";
+// import { setFlashMessage,getFlashMessage } from "../helper/flashMessage.js";
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -38,7 +38,6 @@ const getAddVehicles = async(req,res) => {
         title: "Admin Car",
         adminData:adminData,
         errorMessage:'',
-        validationError:'',
     }
     await renderPage(res,filePath,data);
 }
@@ -100,26 +99,36 @@ const postAddVehicles = async(req,res) => {
     const formData = await parseFormDataWithImage(req);
 
     const {fields,files} = formData;
+    const model3D = files.model[0];
     const imageFile = files.image[0];
-    
     const{name,price,description} = fields;
     
     if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
-        const fileUploadPath = "./assets/CarImages";
-        const oldFileName = imageFile.originalFilename;
+        const fileUploadPathForImages = "./assets/CarImages";
+        const fileUploadPathForModels = "./assets/CarGLBModel"
+        const oldImageFileName = imageFile.originalFilename;
+        const oldModelFileName = model3D.originalFilename;
+
         const date = getDate();
-        const filename = `${date}-${oldFileName}`;
-        const newPath = `${fileUploadPath}/${filename}`;
-    
-        // Move the file to the images folder
-        await fs.rename(imageFile.filepath, newPath);
+
+        const imageName = `${date}-${oldImageFileName}`;
+        const modelName = `${date}-${oldModelFileName}`;
+
+        const newPathForImages = `${fileUploadPathForImages}/${imageName}`;
+        const newPathForModels = `${fileUploadPathForModels}/${modelName}`;
+
+        // Move the imagFile to the images folder
+        await fs.rename(imageFile.filepath, newPathForImages);
+        // Move the 3d model to the CarGLBModel folder
+        await fs.rename(model3D.filepath, newPathForModels);
 
         const ModelCollection = await getCollectionName();
         const newModel = {
             name:name[0],
             price:Number(price[0]),
             description:description[0],
-            imageUrl:newPath,
+            imageUrl:newPathForImages,
+            modelUrl:newPathForModels,
         }
         const uploaded = await createModel(ModelCollection,newModel);
         if (!uploaded) {
@@ -127,7 +136,6 @@ const postAddVehicles = async(req,res) => {
             res.end();
             return;
         }
-        await setFlashMessage("Success","The vehicle has been added successfully!");
         res.writeHead(302,{Location:"/admin/car-details"})
         res.end();
     }
@@ -135,7 +143,6 @@ const postAddVehicles = async(req,res) => {
         title: "Add Car",
         adminData:adminData,
         errorMessage:"Invalid File Type! Please upload an Image",
-        validationError:'',
     }
     
     return await renderPage(res,filePath,data);

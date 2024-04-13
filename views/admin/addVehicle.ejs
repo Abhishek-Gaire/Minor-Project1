@@ -65,11 +65,6 @@
                         <%= errorMessage %>
                     </div>
                 <% } %>
-                <% if(validationError){ %>
-                    <div class="alert alert-danger">
-                        <%= validationError %>
-                    </div>
-                <% } %>
                 <label for="name">Name of the Car:</label><br>
                 <input type="text" id="name" name="name" required><br>
                 
@@ -80,8 +75,10 @@
                 <input type="file" name="image"><br>
                 
                 <label for="description">Description of the Car:</label><br>
-                <textarea id="description" name="description" rows="4" cols="50" colspan="2"></textarea>
+                <textarea id="description" name="description" rows="4" cols="50" colspan="2"></textarea><br>
 
+                <label for="3dModel">3D Model of the Car</label><br>
+                <input type="file" name="model"><br>
                 <button type="submit">Submit</button>
             </form>
         </div>

@@ -53,6 +53,7 @@ const getContentType = (extension) => {
       ".js": "application/javascript",
       ".json": "application/json",
       ".jpg": "image/jpeg",
+      ".JPG":"image/jpeg",
       ".png": "image/png",
       ".ico":"image/ico",
   };
