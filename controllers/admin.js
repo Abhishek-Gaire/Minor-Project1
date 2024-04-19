@@ -17,7 +17,7 @@ const getAdmin = async(req,res) => {
     const collection = await getAdminCollectionName();
     const adminData = await getAdminByEmail(collection,req.admin.id);
     
-    const filePath = "/views/admin/admin.ejs";
+    const filePath = "/views/admin/admin2.ejs";
     const data = {
         title: "Admin Dashboard",
         adminData:adminData,

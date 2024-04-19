@@ -8,17 +8,21 @@ html, body{
     width: 100%;
 }
 .container{
-    height: 100vh;
+    height: 100%;
     width: 100%;
     background: linear-gradient(to right top, #526D82, #F4EEE0);
+    /* background-color: black; */
     overflow: hidden;
+    position: relative;
 }
-.cube{
+/* .cube{
     width: 25rem;
     height: 25rem;
+    border-radius: 100%;
     background-color: white;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7),rgba(255,255,255,0.3));
     position: relative;
+    z-index: 1;
 }
 .n1{
     rotate: 20deg;
@@ -29,22 +33,25 @@ html, body{
     top:2rem;
     rotate: -10deg;
     left:15rem
-}
+} */
 .content{
     height: 100vh;
     width:100%;
     display: flex;
-    position: absolute;
+    position: relative;
     top: 0;
     z-index: 2;
+    /* backdrop-filter: blur(0.3rem); */
 }
 
 .content .aside{
-    height: 100vh;
-    width: 20rem;
+    height: 100%;
+    width: 23vmax;
+    min-width: 170px;
     padding: 1rem 0rem;
     text-align: center;
     backdrop-filter: blur(5px);
+     /* box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);   */
     background-color: white;
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7),rgba(255,255,255,0.3));
 
@@ -54,10 +61,28 @@ html, body{
 .flex{
     display: flex;
     align-items: center;
+    /* justify-content: center; */
+}
+.flex a{
+    display: flex;
+}
+.nav .flex i{
+    font-size: 1vmax;
+}
+.nav .flex a h1{
+    font-size: calc(0.4vmax + 0.8rem);
+    font-weight: 400;
+    margin-left: 2vw;
 }
 .user img{
-    height: 100px;
+    height: 8vmax;
     border-radius: 100%;
+}
+.user h1{
+    font-size: calc(1.2vmax + 1.3rem);
+}
+.user p{
+    font-size: calc(0.8vmax + .4rem);
 }
 .user > * {
     margin-top: 10px;
@@ -71,14 +96,15 @@ html, body{
 .aside .nav div a{
     text-decoration: none;
     color:black;
-    font-size: 1.1rem;
+    /* font-size: 1rem; */
     font-weight: 300;
+    /* padding-left: 2rem; */
 }
 .aside .nav div i{
-    font-size: 1.3rem;
+    font-size: calc(1.3vmax + .5rem);
 }
 .nav div > * {
-    padding-left: 1.5rem;
+    padding-left: 1.4vmax;
 }
 
 .content .main{

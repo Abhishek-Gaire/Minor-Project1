@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <link rel="stylesheet" href="/public/css/admin/admin_left_bar.css">
-    <link rel="stylesheet" href="/public/css/admin/admin2.css">
+    <link rel="stylesheet" href="../../public/css/admin/admin2.css">
     <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
-
 </head>
+
 <body>
-   
     <div class="container">
         <div class="content ">
             <div class="aside">
@@ -42,7 +41,6 @@
                     </div>
                 </div>
             </div>
-        
             <div class="main">
                 <div class="top">
                     <div class="left">
@@ -50,14 +48,14 @@
                         <p>Welcome to your dashboard</p>
                     </div>
                     <div class="right">
-                            <div class="nav">
-                                <i class="fa-regular fa-moon"></i>
-                                <i class="fa-regular fa-bell"></i>
-                                <i class="fa-solid fa-gear"></i>
-                                <i class="fa-regular fa-user"></i>
+                        <div class="nav">
+                            <i class="fa-regular fa-bell"></i>
+                            <i class="fa-regular fa-user"></i>
                         </div>
                         <div class="download">
-                            <button><i class="fa-solid fa-download"></i>DOWNLOAD REPORTS</button>
+                            <button id="first"><a href="#"><i class="fa-solid fa-download"></i>
+                                    <h1>DOWNLOAD REPORTS</h1>
+                                </a></button>
                         </div>
                     </div>
 
@@ -66,31 +64,34 @@
                     <div class="cars box">
                         <div class="text">
                             <h1>Cars</h1>
-                        <h1>12</h1>
+                            <p>12</p>
                         </div>
                         <i class="fa-solid fa-car"></i>
-                        
+
                     </div>
                     <div class="views box">
                         <div class="text">
                             <h1>Views</h1>
-                        <h1>12,003</h1>
+                            <p>12,003</p>
                         </div>
                         <i class="fa-solid fa-eye"></i>
-                        
+
                     </div>
                     <div class="booking box">
                         <div class="text">
                             <h1>Bookings</h1>
-                        <h1>456</h1>
+                            <p>456</p>
                         </div>
                         <i class="fa-solid fa-book"></i>
-                        
+
                     </div>
                 </div>
-            </div> 
-        </div> 
+            </div>
+        </div>
     </div>
+
+
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
 </body>
+
 </html>
