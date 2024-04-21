@@ -20,25 +20,22 @@
         <a href="/">Back</a>
       </div>
       <div class="middle_b">
-        <h2>Tesla Model S</h2>
-        <p>Feeling cute today might switch to electric</p>
+        <h2><%= models.name %></h2>
+        <p><%= models.description %></p>
       </div>
       <div class="right_b">
         <p id="view_b">Perspective View</p>
         <!-- <p id="buy">Buy Car</p> -->
         <% if(isLoggedIn)  { %>
-          <a href="/book-car?<%=vehicleID%>" id="buy_b">Book Car</a>
+          <a href="/book-car?<%=models._id%>" id="buy_b">Book Car</a>
         <% } else{ %>
           <a href="/login" id="buy_b">Login</a>
         <%} %>
       </div>
     </div>
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
-      integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
     <script src="/public/js/modelview.js" type="module"></script>
   </body>
 </html>

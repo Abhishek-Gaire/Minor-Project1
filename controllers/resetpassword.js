@@ -1,4 +1,5 @@
 import crypto from"crypto";
+import bcrypt from "bcrypt";
 
 import{transporter} from"../helper/nodemailerHelper.js";
 import{getCollectionName, getUserByToken,getUserByEmail,addToken} from"../Models/user.js";
@@ -7,7 +8,7 @@ import { renderPage,parseFormData } from "../helper/appHelper.js";
 
 const postReset  = async(req,res) => {
     const formData = await parseFormData(req);
-    
+    console.log(formData);
     const email = formData.email;
     if(!email){
         //should change to res.flash
@@ -117,7 +118,7 @@ const postUpdatePassword = async(req,res) => {
     const formData = await parseFormData(req);
     
     const token = formData.resetToken;
-    const password = formData.password;
+    const password = formData.newPassword;
     const confirm_password=formData.confirmPassword;
 
     if(password !== confirm_password){
@@ -133,11 +134,14 @@ const postUpdatePassword = async(req,res) => {
     // Check if user exists
     if (user) {
         // Update the user's password and resetToken
-        user.password = password;
-        user.resetToken = null;
+
+        // Hashing the password
+        const hashedPassword = await bcrypt.hash(password, 12);
+        // user.password = hashedPassword;
+        // user.resetToken = null;
             
         // Update the user document in the database
-        await collection.updateOne({ _id: user._id }, { $set: { password: password, resetToken: null } });
+        await collection.updateOne({ _id: user._id }, { $set: { password: hashedPassword, resetToken: null } });
             
         // Redirect to the login page
         res.writeHead(302, { Location: "/login" });

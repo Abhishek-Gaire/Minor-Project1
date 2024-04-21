@@ -32,6 +32,7 @@ const postLoginUser = async (req, res) => {
     }
     return await renderPage(res,filePath,data);
   }
+  console.log(user);
   const matched =  await bcrypt.compare(password, user.password);
   if (matched) {
     // Generate JWT token
@@ -131,7 +132,7 @@ const postSignUP = async (req, res) => {
   const verificationCode = generateVerificationCode();
   // Hashing the password
   const hashedPassword = await bcrypt.hash(password, 12);
-  console.log(hashedPassword);
+  
   const newUser = {
     username: username,
     email: email,

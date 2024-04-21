@@ -6,7 +6,8 @@ import dotenv from "dotenv";
 
 import { connectToDB, closeDB } from "./helper/database.js";
 import { serveStaticFile } from "./helper/appHelper.js";
-import { routes } from "./helper/routes.js";
+import { routes } from "./Routes/routes.js";
+
 import { extractTokenFromCookie,authenticateUser } from "./middleware/userAuth.js";
 import {extractAdminTokenFromCookie,authenticateAdmin}  from './middleware/adminAuth.js';
 
@@ -23,7 +24,7 @@ const server = http.createServer(async (req, res) => {
     if (method === 'GET'){ 
         if(pathname ==="/modelview" ||  pathname=="/" || pathname==="/book-car"){
             console.log(`Inside GET and ${pathname}`);
-            return await extractTokenFromCookie(req, res, async () =>  {
+            return  await extractTokenFromCookie(req, res, async () =>  {
                 return await authenticateUser(req, res, async () => {
                     return await routes[method][pathname](req, res);       
                 });
@@ -63,6 +64,7 @@ const server = http.createServer(async (req, res) => {
             return await routes[method][pathname](req, res);
         }
     }
+    
     let filePath;
     filePath = path.join(__dirname ,pathname);
     await serveStaticFile(req, res, filePath);

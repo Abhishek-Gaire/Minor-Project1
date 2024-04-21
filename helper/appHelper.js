@@ -74,12 +74,11 @@ const serveStaticFile = async (req, res, filePath) => {
 
 const renderPage = async(res,templatePath,message) =>{
   const filePath = path.join(__dirname, templatePath);
-
-  const fileData = await fsPromises.readFile(filePath,"utf8");
-
-  const renderedHTML = ejs.render(fileData,message);
   
-  res.end(renderedHTML);
+  const fileData = await fsPromises.readFile(filePath,"utf8");
+  const renderedHTML = ejs.render(fileData,message);
+
+  return res.end(renderedHTML);
 }
 
 const parseFormData = async (req) => {

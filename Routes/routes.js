@@ -8,6 +8,7 @@ import * as AuthControllers from"../controllers/login.js";
 
 import { getBookCar } from "../controllers/bookCar.js";
 
+
 const routes = {
     "POST": {
         "/signup": AuthControllers.postSignUP,
@@ -40,5 +41,6 @@ const routes = {
         "/verify":getVerify,
     }
 }; 
+
 
 export {routes};

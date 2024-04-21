@@ -1,6 +1,6 @@
 
 
-import { getCollectionName } from "../Models/model.js";
+import { getCollectionName,getDataById } from "../Models/model.js";
 import { renderPage } from "../helper/appHelper.js";
 
 
@@ -8,18 +8,19 @@ const renderHomePage = async (req, res) => {
     try {
         const collection = await getCollectionName();
         const modelsData = await collection.find({}).toArray();
-        const { names, heads, descriptions, prices, imageUrls } = modelsData.reduce((acc, item) => {
+        const { names, heads, descriptions, prices, imageUrls,ids } = modelsData.reduce((acc, item) => {
             acc.names.push(item.name);
             acc.heads.push(item.head);
             acc.descriptions.push(item.description);
             acc.prices.push(item.price);
             acc.imageUrls.push(item.imageUrl);
+            acc.ids.push(item._id);
             return acc;
-        }, { names: [], heads: [], descriptions: [], prices: [], imageUrls: [] });
+        }, { names: [], heads: [], descriptions: [], prices: [], imageUrls: [] ,ids:[]});
         if(!req.user){
-            await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,isLoggedIn:false });
+            return await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,ids,isLoggedIn:false });
         } else{
-            await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,isLoggedIn:true });
+            return await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,ids,isLoggedIn:true });
         }
     } catch (err) {
         console.error(err);
@@ -38,11 +39,14 @@ const renderVehicles = async (req, res) => {
 
 const renderModelView = async (req, res) => {
     try {
-        const vehicleid = req.url.split("?")[1];
+        const vehicleID= req.url.split("?")[1];
+        const collectionName = await getCollectionName();
+        const vehicleData = await getDataById(collectionName,vehicleID);
+
         if(!req.user){
-            await renderPage(res,"/views/page/modelview.ejs",{isLoggedIn:false});
+            await renderPage(res,"/views/page/modelview.ejs",{models:vehicleData,isLoggedIn:false});
         } else{
-            await renderPage(res,"/views/page/modelview.ejs",{isLoggedIn:true,vehicleID:vehicleid});
+            await renderPage(res,"/views/page/modelview.ejs",{isLoggedIn:true,models:vehicleData});
         }
     } catch (err) {
         console.error(err);
