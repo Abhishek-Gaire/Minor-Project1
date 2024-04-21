@@ -40,7 +40,6 @@ const button = document.querySelector('#circle')
 
 function function1(){
     const lt = gsap.timeline()
-    button.addEventListener('click',()=>{
         lt .to('#circle',0.5,{
             rotation:'45deg'
         },'anim')
@@ -50,11 +49,9 @@ function function1(){
         lt.to('#moveall',0.8,{
             x:'220'
         },'anim')
-    }) 
 }
 function function2(){
     const lt = gsap.timeline()
-    button.addEventListener('click',()=>{
         lt.to('#circle',0.5,{
             rotation:'0deg'
         },'anim')
@@ -64,11 +61,11 @@ function function2(){
         lt.to('#moveall',0.8,{
             x:'0'
         },'anim')
-    }) 
 }
-let currentFunction = function2;
+let currentFunction = function1;
 
-function handleClick() {
+const click = document.getElementById('circle')
+click.addEventListener('click',()=>{
     currentFunction();
     
     if(currentFunction == function1){
@@ -76,7 +73,10 @@ function handleClick() {
     } else {
         currentFunction = function1;
     }
-}
+})
+// function handleClick() {
+    
+// }
 
 
     

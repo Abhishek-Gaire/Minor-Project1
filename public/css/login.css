@@ -3,6 +3,15 @@
     padding: 0;
     box-sizing: border-box;
 }
+#logo{
+    position: absolute;
+    top: 0.9vw;
+    left: 2.6vw;
+}
+#logo img{
+    height: 5.2vw;
+    min-height: 50px;
+}
 .flex{
     display: flex;
     justify-content: center;
@@ -23,35 +32,34 @@
 }
 .login {
     height: 55vh;
-    width: 380px;
-    /* border: 2px solid black ; */
+    width: calc(15vw + 10rem);
+    min-width: 300px;
+    min-height: 300px;
+    padding-bottom: 1.8rem ;
     flex-direction: column;
-    padding: 1rem 2rem;
     background : linear-gradient(135deg, rgba(255,255,255,0.1),rgba(255,255,255,0));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.18);
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    position: relative;
 }
-.logo{
-    position: absolute;
-    top: 3%;
-    left: 3%;
+
+#head, #button, #forgot, .signup-done{
+    text-align: center;
 }
-form{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.signup-done a, #forgot a{
+    text-decoration: none;
+    color: white;
 }
+
 form > *{
     margin-top: 20px;
 }
 .data{
-    width: 90%;
+    width: calc(15vw + 4rem);
+    min-width: 240px;
     overflow: hidden;
     border-bottom: 1px solid black;
 }
@@ -67,10 +75,6 @@ form > *{
 .data i{
     font-size: 1.25rem;
     padding-right: 10px;
-}
-.checkbox h3{
-    font-weight: 500;
-    margin-left: 5px;
 }
 button{
     height: 43px;
