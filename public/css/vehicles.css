@@ -2,57 +2,113 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Neue Montreal';
 }
 html,body{
     height: 100%;
     width: 100%;
 }
-
-.title h1{
-    font-size: 3rem;
-    margin: 2.5rem 0 1rem 2rem;
+#logo {
+    position: absolute;
+    top: 0.9vw;
+    left: 2.6vw;
 }
 
+#logo img {
+    height: 5.2vw;
+    min-height: 100px;
+}
+.main{
+    background-color: grey;
+    height: 100%;
+    width: 100%;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    flex-direction: column;
+    /* background-color: grey; */
+    position: relative;
+}
+.title{
+    text-align:start;
+    /* background-color: aqua; */
+    height: 70px;
+    padding: 1.6rem 0 0 3rem;
+    /* padding-top: 1.4rem; */
+}
+
+.title h1{
+    font-size: calc(1.4vw + 1.4em);
+}
+
+.container{
+    min-height: calc(100% - 70px);
+    /* border: 2px solid red; */
+    width: 100%;
+    /* background-color: yellow; */
+    padding: 2rem;
+}
+.nav{
+    text-align: center;
+    /* background-color: red; */
+
+}
 .nav ul{
     display: flex;
     gap: 2rem;
-    /* background-color: red; */
     margin: 1rem 0 1rem 0;
     list-style-type: none;
-
+    padding: 1rem 2rem;
 
 }
 li{
-    font-size: 1.5rem;
+    font-size: calc(1vw + 1rem);
     text-decoration: none;
     margin-left: 1rem;
+    cursor: pointer;
 }
-.container{
-    margin-left: 1rem;
+.car_container{
+    min-height: calc(100% - 70px);
+    width: 100%;
+    position: relative;
+  
+    
+}
+.whole_container{
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+.single_container{
+    /* position: absolute; */
+    width: calc(12vw + 4rem);
+    min-width: 260px;
 }
 
-.models{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-
-}
 .model{
+    
     display: flex;
     flex-direction: column;
     /* backgrounEd-color: red; */
-    margin-left: 1rem;
+    margin: 1rem 0 0 1rem;
     padding: 1.3rem;
     border: 1px solid black;
     text-decoration: none;
     color: black;
 }
-.model img{
+.single_container img{
     height: 200px;
     object-fit: cover;
 }
-.model h2{
+.single_container h2{
     font-size: 2rem;
     /* background-color: red; */
     margin: 0.5rem 0 0.5rem 0;
+    font-weight: 400;
 }
+.electric, .sport{
+    visibility:hidden;
+}
+
 

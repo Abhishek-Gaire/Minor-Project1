@@ -139,6 +139,15 @@ body {
   text-decoration: none;
 
 }
+.signup button{
+  font-family: 'Neue Montreal';
+  font-size: calc(1vw + .7rem);
+  width: 9rem;
+  background-color: grey;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+}
 
 /* ---------------------- Page 2 ----------------------- */
 

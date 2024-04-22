@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <link rel="stylesheet" href="../../public/css/admin/admin_car.css">
+    <link rel="stylesheet" href="../../public/css/admin/aside.css">
+    <link rel="stylesheet" href="../../public/css/admin/top.css">
+    <link rel="stylesheet" href="../../public/css/admin/manageUser_admin.css">
     <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 </head>
 <body>
@@ -20,24 +22,32 @@
                 </div>
                 <div class="nav">
                     <div class="homepage flex">
-                        <i class="fa-solid fa-house"></i>
-                        <a href="/admin">Homepage</a>
+                        
+                        <a href="/admin/dashboard">
+                            
+                            <i class="fa-solid fa-house"></i>
+                            <h1>Homepage</h1></a>
                     </div>
                     <div class="car flex">
-                        <i class="fa-solid fa-car"></i>
-                        <a href="/admin/cars">Cars</a>
+                        <a href="/admin/cars">
+                            <i class="fa-solid fa-car"></i>
+                            <h1>Cars</h1></a>
                     </div>
-                    <div class="addCar flex">
-                        <i class="fa-solid fa-plus"></i>
-                        <a href="/admin/addVehicles"3>Add Car</a>
+                    <div class="addCar flex active">
+                        
+                        <a href="/admin/addVehicles"3>
+                            <i class="fa-solid fa-plus"></i>
+                            <h1>Add Car</h1></a>
                     </div>
                     <div class="bookings flex">
-                        <i class="fa-solid fa-book"></i>
-                        <a href="/admin/bookedVehicles">Bookings</a>
+                        <a href="/admin/bookedVehicles">
+                            <i class="fa-solid fa-book"></i>
+                            <h1>Bookings</h1></a>
                     </div>
-                    <div class="Manage flex active">
-                        <i class="fa-solid fa-people-group"></i>
-                        <a href="/admin/manageUsers">Manage User</a>
+                    <div class="Manage flex">
+                        <a href="/admin/manageUsers">
+                            <i class="fa-solid fa-people-group"></i>
+                            <h1>Manage Users</h1></a>
                     </div>
                 </div>
             </div> 
@@ -49,9 +59,6 @@
                     </div>
                     <div class="right">
                             <div class="nav">
-                                <i class="fa-regular fa-moon"></i>
-                                <i class="fa-regular fa-bell"></i>
-                                <i class="fa-solid fa-gear"></i>
                                 <i class="fa-regular fa-user"></i>
                         </div>
                         <div class="download">

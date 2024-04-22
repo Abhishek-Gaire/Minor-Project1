@@ -11,33 +11,148 @@
 
 </head>
 <body >
-  <a href="/"><img src="/assets/logo-removebg-preview.png" alt=""></a>
-  <div class="title">
-    <h1>Vehicles</h1>
-  </div>
-  <div class="container">
-    <div class="nav">
-      <ul>
-        <li>Crossovers & SUVs</li>
-        <li>Cars</li>
-        <li>Hybrid</li>
-        <li>Electric</li>
-        <li>Sports Cars</li>
-      </ul>
+  <a href="/"  id="logo"><img src="assets/logo-removebg-preview.png" alt=""></a>
+  <div class="main">
+    <div class="title">
+      <h1>Vehicles</h1>
     </div>
-    <% if (vehiclesData) { %>
-      <div class="models">
-        <% vehiclesData.forEach(function(vehicle) { %>
-          <a href="/modelview?<%=vehicle._id%>" class="model">
-            <img src="<%= vehicle.imageUrl %>" alt="Image From Database">
-            <h2><%= vehicle.name %></h2>
-            <h2><%= vehicle.price %></h2>
-          </a>
-        <% }); %>
-      <% } else { %>
-        <p>No images found in the Database</p>
-      <%} %>
+    <div class="container">
+      <div class="nav">
+        <ul>
+          <li id="suv">SUV</li>
+          <li id="electric">Electric</li>
+          <li id="sport">Sports</li>
+        </ul>
       </div>
+      <div class="car_container">
+        <!-- <% if (vehiclesData) { %>
+          <div class="models">
+            <% vehiclesData.forEach(function(vehicle) { %>
+              <a href="/modelview?<%=vehicle._id%>" class="model">
+                <img src="<%= vehicle.imageUrl %>" alt="Image From Database">
+                <h2><%= vehicle.name %></h2>
+                <h2><%= vehicle.price %></h2>
+              </a>
+            <% }); %>
+          <% } else { %>
+            <p>No images found in the Database</p>
+          <%} %>
+          </div> -->
+        <!-- <% if (vehiclesData) { %>
+          <div class="models">
+            <% vehiclesData.forEach(function(vehicle) { %>
+              <a href="/modelview?<%=vehicle._id%>" class="model">
+                <img src="<%= vehicle.imageUrl %>" alt="Image From Database">
+                <h2><%= vehicle.name %></h2>
+                <h2><%= vehicle.price %></h2>
+              </a>
+            <% }); %>
+          <% } else { %>
+            <p>No images found in the Database</p>
+          <%} %>
+          </div> -->
+        <!-- <% if (vehiclesData) { %>
+          <div class="models">
+            <% vehiclesData.forEach(function(vehicle) { %>
+              <a href="/modelview?<%=vehicle._id%>" class="model">
+                <img src="<%= vehicle.imageUrl %>" alt="Image From Database">
+                <h2><%= vehicle.name %></h2>
+                <h2><%= vehicle.price %></h2>
+              </a>
+            <% }); %>
+          <% } else { %>
+            <p>No images found in the Database</p>
+          <%} %>
+          </div> -->
+
+      </div>
+        <div class="car_container">
+          <div class="suv whole_container">
+            <div class="single_container">
+              <a href="#" class="model">
+                <img src="../../assets/logo-removebg-preview.png" alt="">
+                <h2>Car Name</h2>
+                <h2>Car Price</h2>
+              </a>
+            </div>
+            <div class="single_container">
+              <a href="#" class="model">
+                <img src="../../assets/logo-removebg-preview.png" alt="">
+                <h2>Car Name</h2>
+                <h2>Car Price</h2>
+              </a>
+            </div>
+            <div class="single_container">
+              <a href="#" class="model">
+                <img src="../../assets/logo-removebg-preview.png" alt="">
+                <h2>Car Name</h2>
+                <h2>Car Price</h2>
+              </a>
+            </div>
+            <div class="single_container">
+              <a href="#" class="model">
+                <img src="../../assets/logo-removebg-preview.png" alt="">
+                <h2>Car Name</h2>
+                <h2>Car Price</h2>
+              </a>
+            </div>
+            <div class="single_container">
+              <a href="#" class="model">
+                <img src="../../assets/logo-removebg-preview.png" alt="">
+                <h2>Car Name</h2>
+                <h2>Car Price</h2>
+              </a>
+            </div>
+          </div>
+          <div class="electric whole_container">
+            <div class="single_container">
+              <a href="#" class="model">
+                <img src="../../assets/images.jpg" alt="">  
+                <h2>Car Name</h2>
+                <h2>Car Price</h2>
+              </a>
+            </div>
+          </div>
+          <div class="sport whole_container">
+            <div class=" single_container">
+              <a href="#" class="model">
+                <img src="../../assets/PP.jpg" alt="">
+                <h2>Car Name</h2>
+                <h2>Car Price</h2>
+              </a>
+            </div>
+
+          </div>
+          
+        </div>
+    </div>
   </div>
+  <script>
+    const suv = document.querySelector('#suv');
+    const electric = document.querySelector('#electric');
+    const sport = document.querySelector('#sport');
+
+    const suv_m = document.querySelector('.suv');
+    const electric_m = document.querySelector('.electric');
+    const sport_m = document.querySelector('.sport');
+
+
+
+    sport.addEventListener('click',()=>{
+      suv_m.style.visibility='hidden';
+      electric_m.style.visibility='hidden';
+      sport_m.style.visibility='visible';
+    })
+    electric.addEventListener('click',()=>{
+      suv_m.style.visibility='hidden';
+      electric_m.style.visibility='visible';
+      sport_m.style.visibility='hidden';
+    })
+    suv.addEventListener('click',()=>{
+      suv_m.style.visibility='visible';
+      electric_m.style.visibility='hidden';
+      sport_m.style.visibility='hidden';
+    })
+  </script>
 </body>
 </html>

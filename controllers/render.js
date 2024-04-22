@@ -40,6 +40,7 @@ const renderVehicles = async (req, res) => {
 const renderModelView = async (req, res) => {
     try {
         const vehicleID= req.url.split("?")[1];
+        
         const collectionName = await getCollectionName();
         const vehicleData = await getDataById(collectionName,vehicleID);
 
