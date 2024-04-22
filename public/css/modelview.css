@@ -51,6 +51,8 @@
 }
 .overlay_b  .right_b #view_b {
   font-size: 2rem;
+  text-align: end;
+  padding-right: 3rem;
   /* background-color: red; */
   margin-top: 4rem;
   cursor: pointer;
@@ -90,6 +92,8 @@
 #buy_b {
   text-decoration: none;  
   color: black;
+  text-align:end;
+  padding-right: 3rem;
 }
 
 

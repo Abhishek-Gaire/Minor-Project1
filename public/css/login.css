@@ -31,7 +31,7 @@
     background-repeat: no-repeat;
 }
 .login {
-    height: 55vh;
+    /* height: 55vh; */
     width: calc(15vw + 10rem);
     min-width: 300px;
     min-height: 300px;

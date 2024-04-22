@@ -1,36 +1,135 @@
-/* Add your CSS styles here */
-body {
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+}
+
+
+.bottom{
+    
+    /* background-color: red; */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
 }
-.container {
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
+form{
+    /* background-color: red; */
+    font-size: 1.8vw;
+    width: calc(15vw + 10rem);
+    min-width: 300px;
+    padding: 2rem 2rem;
+    background : linear-gradient(135deg, rgba(255,255,255,0.1),rgba(255,255,255,0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    position: relative;
 }
-label {
-    font-weight: bold;
+.alert{
+    color: red;
+    font-size: .8em;
 }
-input,
-textarea {
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box;
+.data{
+    width: calc(16vw + 4rem);
+    min-width: 240px;
+    overflow: hidden;
 }
-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+.inter{
+    border-bottom: 1px solid black;
+}
+.data textarea{
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    box-sizing: border-box;
+    /* border: 100%; */
 }
-button:hover {
-    background-color: #0056b3;
+form > *{
+    margin-top: 10px;
+}
+form label{
+    font-size: calc(.8vw + .8rem);
+    font-weight: 500;
+}
+form input{
+    font-size: 1rem;
+    height: 38px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background: none;
+}
+#button{
+    text-align: center;
+}
+
+button{
+    height: 43px;
+    width: 85%;
+    font-size: 1rem;
+    background-color: black;
+    border: none;
+    border-radius: 10px;
+    color: white;
+}
+
+@media(max-width: 600px){
+    .container{
+        width: 100%;
+        background: linear-gradient(to right top, #526D82, #F4EEE0);
+
+    }
+
+    /* -------------------------------- Aside ------------------------ */
+    .content .aside{
+        width: 50px;
+        min-width: 40px;
+    }
+    .user img{
+        height: 40px;
+    }
+    .user h1,p{
+        display: none;
+    }
+    .flex a{
+        padding: 10px;
+    }
+    .flex a h1{
+        display: none;
+    }
+    .main .top{
+        display: flex;
+        align-items: center;
+    }
+
+    .main .top .left h1{
+        font-size: 5vw;
+    }
+    .main .top .left p{
+        display: none;
+    }
+    .right .nav{
+        display: none;
+    }
+    .main .top .right .download #first{
+        display: none;
+    }
+    .main .top .right .download  i{
+        /* display: inline-block; */
+        font-size: 1rem;
+    }
+    
+    
+
+    .download button  h1{
+        display: none;
+    }
+    .alert{
+        color: red;
+        font-size: .8rem;
+    }
 }
