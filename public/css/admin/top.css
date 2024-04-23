@@ -24,7 +24,11 @@ html, body{
 .top .left p{
     font-size: calc(1vw + .4rem);
 }
-
+.top .right .nav{
+    padding-right: 2rem;
+    /* background-color: red; */
+    text-align: end;
+}
 .top .right .nav i{
     font-size: 1.2rem;
     margin-left: 2rem;
@@ -41,20 +45,21 @@ html, body{
     color: white;
     border-radius: 10px;
 } 
-.download button a{
+.download{
+    background-color: black;
+    border-radius: 10px;
+
+}
+.download a{
+    padding: .9vw 1.8vw;
     display: flex;
-    text-decoration: none;
-    align-items: center;
     color: white;
-    margin-left: 9px;
+    text-decoration: none;
 }
-.download button a h1{
-    margin-left: 0.8vw;
-    font-size: 0.9vw;
+.download a h1, i{
+    font-size: calc(.5vw + .5rem)
 }
-/* .download button a,i{
-    font-size: 1vw;
-} */
+
 
 
 
@@ -97,19 +102,18 @@ html, body{
         display: none;
     }
     .main .top .right .download {
-
+        padding: .4rem;
         text-align: center;
     }
     .main .top .right .download a{
         text-decoration: none;
-        color: black;
     }
     .main .top .right .download h1{
         display: none;
     }
-
+    
     .main .top .right .download  i{
-        /* display: inline-block; */
-        font-size: 1.5rem;
+        color: white;
+        font-size: 10px;
     }
 }

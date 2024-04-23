@@ -48,7 +48,16 @@
 form > *{
     margin-top: 30px;
 }
-
+form input:focus{
+    background-color:none;
+}
+form input:active{
+    background-color: none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s !important;
+}
 #error{
     padding: 1rem;
     color: red;

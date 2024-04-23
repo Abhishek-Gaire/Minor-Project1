@@ -7,58 +7,45 @@
 html,body{
     height: 100%;
     width: 100%;
+    background-color: grey;
 }
-#logo {
+#logo{
     position: absolute;
     top: 0.9vw;
     left: 2.6vw;
 }
-
-#logo img {
+#logo img{
     height: 5.2vw;
-    min-height: 100px;
+    min-height: 50px;
 }
 .main{
-    background-color: grey;
     height: 100%;
     width: 100%;
-    /* display: flex; */
-    /* align-items: center; */
-    /* justify-content: center; */
     flex-direction: column;
-    /* background-color: grey; */
-    position: relative;
 }
 .title{
     text-align:start;
-    /* background-color: aqua; */
-    height: 70px;
-    padding: 1.6rem 0 0 3rem;
-    /* padding-top: 1.4rem; */
+    height: 100px;
+    padding:1.2rem;
 }
 
 .title h1{
     font-size: calc(1.4vw + 1.4em);
+    text-align: center;
 }
 
 .container{
-    min-height: calc(100% - 70px);
-    /* border: 2px solid red; */
     width: 100%;
-    /* background-color: yellow; */
     padding: 2rem;
 }
 .nav{
     text-align: center;
-    /* background-color: red; */
 
 }
 .nav ul{
     display: flex;
     gap: 2rem;
-    margin: 1rem 0 1rem 0;
     list-style-type: none;
-    padding: 1rem 2rem;
 
 }
 li{
@@ -75,10 +62,13 @@ li{
     
 }
 .whole_container{
+    width: 100%;
+    height:auto;
     position: absolute;
     top: 0;
     display: flex;
     flex-wrap: wrap;
+    /* background-color: grey; */
 }
 .single_container{
     /* position: absolute; */
@@ -90,8 +80,7 @@ li{
     
     display: flex;
     flex-direction: column;
-    /* backgrounEd-color: red; */
-    margin: 1rem 0 0 1rem;
+    margin: .5rem 0 .5rem 1rem;
     padding: 1.3rem;
     border: 1px solid black;
     text-decoration: none;
@@ -103,7 +92,6 @@ li{
 }
 .single_container h2{
     font-size: 2rem;
-    /* background-color: red; */
     margin: 0.5rem 0 0.5rem 0;
     font-weight: 400;
 }
