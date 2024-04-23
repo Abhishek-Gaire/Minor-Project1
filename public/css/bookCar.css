@@ -43,10 +43,7 @@
 .content img{
     height: calc(16vw + 1rem);
 }
-.content p{
-    /* background-color: red; */
-    /* text-align: center; */
-}
+
 button{
     font-size: calc(.5vw + .5rem);
     background-color: grey;
@@ -58,3 +55,9 @@ button{
     text-decoration: none;
     color: white;
 }
+.container .form{
+    display: none;
+}
+/* <!-- <% if(userData) { %>
+    <h1>Welcome <%= userData.username %></h1> 
+<% } %> --> */

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Book Car</title>
+    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+    <link rel="stylesheet" href="../../public/css/bookCar.css">
+   
+</head>
+<body>
+    <a href="/" id="logo"><img src="/assets/logo-removebg-preview.png" alt="Go to Home Page"></a>
+    <div class="container">
+        <div class="content">
+            <h1>Is this information about your car correct?</h1> 
+            
+            <% if(vehicleData) { %>
+                <h2>Name: <%= vehicleData.name %></h2>
+                <img src="<%= vehicleData.imageUrl %>" alt="Image From Database">
+                <h2>Price <%= vehicleData.price %></h2>
+                <p>Description :<%= vehicleData.description %></p>
+                <button onclick="openForm()">Confirm</button>
+            <%} %>
+        </div>
+    
+        <div class="alert form">
+            <form action="/confirmBookCar" method="post">
+                <input type="hidden" name="vehicleId" value="vehicleData._id">
+                <label for="FirstName">First Name:</label><br>
+                <input type="text" name="firstName" id="FirstName" required><br>
+                <label for="LastName">Last Name:</label><br>
+                <input type="text" name="lastName" id="LastName" required><br>
+                <label for="Address">Address:</label><br>
+                <input type="text" name="address" id="Address" placeholder="Street Number and Street Name" required><br>
+                <label for="contactNumber">Contact Number:</label><br>
+                <input type="number" name="phoneNumber" id="contactNumber" required> <br>
+                <button type="submit">Confirm Your Booking</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        const  openForm = () =>{
+            document.querySelector(".form").style.display = "block";
+            document.getElementById("FirstName").focus();
+        }
+    </script>
+</body>
+</html>

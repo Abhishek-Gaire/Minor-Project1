@@ -112,11 +112,12 @@ const postAddVehicles = async(req,res) => {
     const {fields,files} = formData;
     const model3D = files.model[0];
     const imageFile = files.image[0];
-    const{name,price,description} = fields;
+    const{name,price,year,description,typeNames} = fields;
     
     if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
         const fileUploadPathForImages = "./assets/CarImages";
-        const fileUploadPathForModels = "./assets/CarGLBModel"
+        const fileUploadPathForModels = "./assets/CarGLBModel";
+
         const oldImageFileName = imageFile.originalFilename;
         const oldModelFileName = model3D.originalFilename;
 
@@ -140,6 +141,8 @@ const postAddVehicles = async(req,res) => {
             description:description[0],
             imageUrl:newPathForImages,
             modelUrl:newPathForModels,
+            type:typeNames[0],
+            modelYear:year[0],
         }
         const uploaded = await createModel(ModelCollection,newModel);
         if (!uploaded) {
