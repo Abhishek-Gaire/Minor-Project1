@@ -61,12 +61,6 @@
                         <div class="nav">
                             <i class="fa-regular fa-user"></i>
                         </div>
-                        <!-- <div class="download">
-                            <button>
-                                <i class="fa-solid fa-download"></i>
-                                    <h1>DOWNLOAD REPORTS</h1>
-                                </button>
-                        </div> -->
                         <div class="download">
                             <a href="#">
                                 <i class="fa-solid fa-download"></i>
@@ -77,30 +71,32 @@
 
                 </div>
                 <div class="hero">
-                    <div class="cars box">
-                        <div class="text">
-                            <h1>Cars</h1>
-                            <p>12</p>
+                    <a href="/admin/cars" style="text-decoration: none;">
+                        <div class="cars box">
+                            <div class="text">
+                                <h1>Cars</h1>
+                                <p><%= cars %></p>
+                            </div>
+                            <i class="fa-solid fa-car"></i>
                         </div>
-                        <i class="fa-solid fa-car"></i>
-
-                    </div>
+                    </a>
                     <div class="views box">
                         <div class="text">
                             <h1>Views</h1>
-                            <p>12,003</p>
+                            <p><%= loadCount %></p>
                         </div>
                         <i class="fa-solid fa-eye"></i>
 
                     </div>
-                    <div class="booking box">
-                        <div class="text">
-                            <h1>Bookings</h1>
-                            <p>456</p>
+                    <a href="/admin/bookedVehicles" style="text-decoration: none;">
+                        <div class="booking box">
+                            <div class="text">
+                                <h1>Bookings</h1>
+                                <p><%= bookedCar %></p>
+                            </div>
+                            <i class="fa-solid fa-book"></i>
                         </div>
-                        <i class="fa-solid fa-book"></i>
-
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

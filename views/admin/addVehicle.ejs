@@ -16,15 +16,13 @@
         <div class="content ">
             <div class="aside">
                 <div class="user">
-                    <img src="../../assets/images.jpg" alt="User Image">
+                    <img src="<%= adminData.imagePath %>" alt="User Image">
                     <h1>Name</h1>
-                    <p>Admin</p>
+                    <p><%= adminData.name %></p>
                 </div>
                 <div class="nav">
                     <div class="homepage flex">
-                        
                         <a href="/admin/dashboard">
-                            
                             <i class="fa-solid fa-house"></i>
                             <h1>Homepage</h1></a>
                     </div>

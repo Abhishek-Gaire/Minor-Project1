@@ -36,6 +36,13 @@
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
-    <script src="/public/js/modelview.js" type="module"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+    <script>
+      axios.get("/api/modelData?id=<%= models._id %>")
+        .then((response)=>{
+          let data = response.data;
+          console.log(data);
+        })
+    </script>
   </body>
 </html>

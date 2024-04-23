@@ -2,11 +2,12 @@ import bcrypt from "bcrypt";
 import fs from "fs/promises"
 
 import { getCollectionName,createModel } from "../Models/model.js";
-import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js"
+import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js";
+import { getCounterCollectionName,getOrderCollectionName } from "../Models/order.js";
 import { generateAdminToken } from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
-// import { setFlashMessage,getFlashMessage } from "../helper/flashMessage.js";
+
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -15,12 +16,22 @@ const getAdmin = async(req,res) => {
         return ;
     }
     const collection = await getAdminCollectionName();
+    const counterCollection = await getCounterCollectionName();
+    const modelCollection = await getCollectionName();
+    const bookedCollection =await getOrderCollectionName();
+
     const adminData = await getAdminByEmail(collection,req.admin.id);
+    let counterCount = await counterCollection.findOne({});
+    const models = await  modelCollection.find().toArray();
+    const bookedCar = await bookedCollection.find().toArray();
     
     const filePath = "/views/admin/admin2.ejs";
     const data = {
         title: "Admin Dashboard",
         adminData:adminData,
+        loadCount:counterCount.loadCount,
+        cars:models.length,
+        bookedCar:bookedCar.length,
     }
     await renderPage(res,filePath,data);
 }
