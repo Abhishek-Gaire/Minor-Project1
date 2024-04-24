@@ -4,22 +4,6 @@ import { getCollectionName,getDataById } from "../Models/model.js";
 import { renderPage } from "../helper/appHelper.js";
 import { getCounterCollectionName } from "../Models/order.js";
 
-// Function to increment the file load count in MongoDB
-async function incrementFileLoadCount() {
-    try {
-        // Find the document in the collection (assumes there's only one document)
-        const result = await collection.findOneAndUpdate(
-            {},
-            { $inc: { loadCount: 1 } }, // Increment the loadCount field by 1
-            { upsert: true, returnDocument: 'after' } // Create the document if it doesn't exist
-        );
-        const loadCount = (result.value && result.value.loadCount) || 1;
-        console.log('File load count incremented:', loadCount);
-    } catch (err) {
-        console.error('Error updating load count:', err);
-    }
-}
-
 const renderHomePage = async (req, res) => {
     try {
 
@@ -41,8 +25,7 @@ const renderHomePage = async (req, res) => {
             { $inc: { loadCount: 1 } }, // Increment the loadCount field by 1
             { upsert: true, returnDocument: 'after' } // Create the document if it doesn't exist
         );
-        // const loadCount = (result.value && result.value.loadCount) || 1;
-        // console.log('File load count incremented:', loadCount);
+        
         if(!req.user){
             return await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,ids,isLoggedIn:false });
         } else{

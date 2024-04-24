@@ -67,6 +67,7 @@ const server = http.createServer(async (req, res) => {
     
     let filePath;
     filePath = path.join(__dirname ,pathname);
+    console.log(filePath);
     await serveStaticFile(req, res, filePath);
 });
 

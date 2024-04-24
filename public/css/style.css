@@ -225,6 +225,7 @@ body {
   font-weight: 550;
   padding: 10px 0;
   width: calc(10vw +  6em);
+  cursor: pointer;
 
 }
 
