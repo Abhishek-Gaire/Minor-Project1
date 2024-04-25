@@ -12,10 +12,10 @@
 
   </head>
   <body>
-    <div class="view_back_b">
+    <!-- <div class="view_back_b">
       <a href="">Back</a>
-    </div>
-    <div class="overlay_b">
+    </div> -->
+    <!-- <div class="overlay_b">
       <div class="left_b">
         <a href="/">Back</a>
       </div>
@@ -28,57 +28,147 @@
       </div>
       <div class="right_b">
         <p id="view_b">Perspective View</p>
-        <!-- <p id="buy">Buy Car</p> -->
-        <% if(isLoggedIn)  { %>
+        <p id="buy">Buy Car</p> -->
+        <!-- <% if(isLoggedIn)  { %>
           <a href="/book-car?<%=models._id%>" id="buy_b">Book Car</a>
         <% } else{ %>
           <a href="/login" id="buy_b">Login</a>
         <%} %>
       </div>
-    </div>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    </div> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+    integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+  <script>
+
+    const sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+    // Setup scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000)
+    // camera.position.set(1, 1.5, 4);
+    // camera.position.x= 0.4
+    camera.position.y = 1.1
+    // camera.position.z= -1
+    const renderer = new THREE.WebGLRenderer({ antialis: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setClearColor(0xffffff)
+    renderer.shadowMap.enabled = true
+    document.body.appendChild(renderer.domElement);
+
+
+    const alight = new THREE.AmbientLight(0xffffff,2)
+    // scene.add(alight)
+
+    const light = new THREE.DirectionalLight(0xffffff, 3 );
+    light.position.set(-3, 4, 1);
+    scene.add(light);
+    // const light2 = new THREE.DirectionalLight(0xffffff, 1 );
+    // light.position.set(3, 4, 1);
+    // scene.add(light2);
+
+    let controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true
+    controls.target.set(0, 0.75, 0)
+    // console.log(OrbitControls)
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
-    <script>
-      // Setup scene
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    window.addEventListener('resize', () => {
+      // Update sizes
+      sizes.width = window.innerWidth
+      sizes.height = window.innerHeight
+      
+      // Update camera
+      camera.aspect = sizes.width / sizes.height
+      camera.updateProjectionMatrix()
+      
+      // Update renderer
+      renderer.setSize(sizes.width, sizes.height)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    })
+    
+    
+    let position = 0
+    
+    // Load the car model
+    const loader = new THREE.GLTFLoader();
+    // const loader = new GLTFLoader();
+    loader.load('./assets/CarGLBModel/bmw_e92.glb', function (gltf) {
+      let carModel = gltf.scene;
+      carModel.rotation.x = Math.PI * 0.08;
+      carModel.rotation.y = Math.PI * 0.2;
+      scene.add(carModel);
+      
+      window.addEventListener('mouseup', () => {
+        switch(position){
+          case 0 :
+            moveCamera(-0.5,0.7,4.2)
+            rotateModel(0.3,Math.PI * -0.28,0)
+            position = 1
+            console.log('works')
+            break;
+          }
+          // gsap.to(camera.position,1,{
+            //   x : -0.5,
+            //   y : 0.7,
+            //   z : 4.2 
+            // },"anim")
+            // gsap.to(carModel.rotation,1,{
+              //   // x:0.3,
+              //   y : Math.PI * -0.28
+              // },"anim")
+              
+              
+              function moveCamera(x,y,z){
+                gsap.to(camera.position,1,{
+              x,
+              y,
+              z
+            },"anim")
+          }
 
-      const renderer = new THREE.WebGLRenderer();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      document.body.appendChild(renderer.domElement);
-
-        
-      const light = new THREE.DirectionalLight(0xffffff, 3);
-      scene.add(light);
-
-      // Load the car model
-      const loader = new THREE.GLTFLoader();
-      loader.load('/assets/CarGLBModel/bmw_e92.glb',
-      function (gltf) {
-        console.log(gltf);
-        const carModel = gltf.scene;
-        scene.add(carModel);
-      });
-
-      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+          function rotateModel(x,y,z){
+            gsap.to(carModel.rotation,1,{
+              x,
+              y,
+              z
+            },"anim")
+          }
+        })
+      console.log('working')
+    });
+    // let controls = new THREE.OrbitControls(camera,renderer.domElement)
+    
+    // Position the camera
+    camera.position.z = 5;
+    
+    // Render loop
+    function animate() {
+      requestAnimationFrame(animate);
       controls.update();
-
-      // Position the camera
-      camera.position.z = 5;
-
-      // Render loop
-      function animate() {          
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-      }
-      animate();
+      renderer.render(scene, camera);
+    }
+    animate();
     </script>
-    
+
+<script>
+  console.log('second script')
+  </script>
   </body>
 </html>
