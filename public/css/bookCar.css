@@ -116,9 +116,7 @@ form{
 .form button{
     margin-top: 2rem;
 }
-/* <!-- <% if(userData) { %>
-    <h1>Welcome <%= userData.username %></h1> 
-<% } %> --> */
+
 
 
 @media(max-width:650px){

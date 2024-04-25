@@ -6,7 +6,7 @@ import * as AdminControllers from "../controllers/admin.js";
 
 import * as AuthControllers from"../controllers/login.js";
 
-import { getBookCar } from "../controllers/bookCar.js";
+import { getBookCar,postBookCar } from "../controllers/bookCar.js";
 import {sendModelData} from "../controllers/api/sendData.js"
 
 const routes = {
@@ -20,6 +20,7 @@ const routes = {
         "/logout":AuthControllers.postLogoutUser,
         "/adminLogin":AdminControllers.postLoginAdmin,
         "/adminLogout":AdminControllers.postLogoutAdmin,
+        "/confirmBookCar":postBookCar,
     },
     "GET": {
         "/":PageControllers.renderHomePage,
@@ -40,6 +41,7 @@ const routes = {
         "/admin/car-details": AdminControllers.getCarDetails,
         "/book-car":getBookCar,
         "/verify":getVerify,
+        "/500-error":PageControllers.get500Error,
         "/api/modelData": sendModelData,
     }
 }; 

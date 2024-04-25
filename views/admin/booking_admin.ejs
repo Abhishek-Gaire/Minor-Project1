@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <!-- <link rel="stylesheet" href="/public/css/admin/admin_left_bar.css"> -->
     <link rel="stylesheet" href="../../public/css/admin/aside.css">
     <link rel="stylesheet" href="../../public/css/admin/top.css">
     <link rel="stylesheet" href="../../public/css/admin/booking_admin.css">
@@ -73,66 +72,25 @@
                         <h1>List Of Orders</h1><br>
                         <table>
                             <tr>
-                                <th>Username</th>
+                                <th>Full Name</th>
                                 <th>Car</th>
                                 <th>Email</th>
                                 <th>Contact</th>
                             </tr>
-                            <tr id="A">
-                                <td>Ram</td>
-                                <td>Fortuner</td>
-                                <td>ram@gmail.com</td> 
-                                <td>123456789</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Shyam</td>
-                                <td>Range Rover</td>
-                                <td>shyam@gmail.com</td> 
-                                <td>987654321</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Hari</td>
-                                <td>Tesla</td>
-                                <td>hari@gmail.com</td> 
-                                <td>123459876</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Ram</td>
-                                <td>Fortuner</td>
-                                <td>ram@gmail.com</td> 
-                                <td>123456789</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Shyam</td>
-                                <td>Range Rover</td>
-                                <td>shyam@gmail.com</td> 
-                                <td>987654321</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Hari</td>
-                                <td>Tesla</td>
-                                <td>hari@gmail.com</td> 
-                                <td>123459876</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Ram</td>
-                                <td>Fortuner</td>
-                                <td>ram@gmail.com</td> 
-                                <td>123456789</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Shyam</td>
-                                <td>Range Rover</td>
-                                <td>shyam@gmail.com</td> 
-                                <td>987654321</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Hari</td>
-                                <td>Tesla</td>
-                                <td>hari@gmail.com</td> 
-                                <td>123459876</td>
-                            </tr>
-                            
+                            <% orderData.forEach(function(data) { %>                                        <tr>
+                                        <td> 
+                                            <%=data.FullName %>
+                                        </td>
+                                        <td>
+                                            <%=data.carName %>
+                                        </td>
+                                        <td> <%= data.email%> </td>
+                                        <td>
+                                            <%= data.contactNumber %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                           
                             
                         </table>
                     </div>

@@ -1,13 +1,14 @@
 import bcrypt from "bcrypt";
 import fs from "fs/promises"
 import { ObjectId } from "mongodb";
-import { getCollectionName,createModel,getDataById } from "../Models/model.js";
+
+import  * as Models from "../Models/model.js";
 import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js";
 import { getCounterCollectionName,getOrderCollectionName } from "../Models/order.js";
 import { generateAdminToken } from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
-
+import { getCollectionName ,getUserByID} from "../Models/user.js";
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -17,7 +18,7 @@ const getAdmin = async(req,res) => {
     }
     const collection = await getAdminCollectionName();
     const counterCollection = await getCounterCollectionName();
-    const modelCollection = await getCollectionName();
+    const modelCollection = await Models.getCollectionName();
     const bookedCollection =await getOrderCollectionName();
 
     const adminData = await getAdminByEmail(collection,req.admin.id);
@@ -58,12 +59,17 @@ const getManageUsers = async(req,res) => {
         return res.end();
     }
     const collection = await getAdminCollectionName();
+    const userCollection = await getCollectionName();
+
     const adminData = await getAdminByEmail(collection,req.admin.id);
+    const users = await userCollection.find({}).toArray();
+
 
     const filePath = "/views/admin/manageUser_admin.ejs";
     const data = {
         title: "Manage User",
         adminData:adminData,
+        userData:users,
     }
     await renderPage(res,filePath,data);
 }
@@ -73,12 +79,17 @@ const getBookedCarAdmin = async(req,res) => {
         return res.end();
     }
     const collection = await getAdminCollectionName();
+    const orderCollection = await  getOrderCollectionName();
+
     const adminData = await getAdminByEmail(collection,req.admin.id);
+    const orders = await orderCollection.find({}).toArray();
+
 
     const filePath = "/views/admin/booking_admin.ejs";
     const data = {
         title: "Booked Cars",
         adminData:adminData,
+        orderData:orders,
     }
     await renderPage(res,filePath,data);
 }
@@ -88,7 +99,7 @@ const getCarsAdmin = async(req,res) => {
         return res.end();
     }
     const collection = await getAdminCollectionName();
-    const modelCollection = await getCollectionName();
+    const modelCollection = await Models.getCollectionName();
 
     const adminData = await getAdminByEmail(collection,req.admin.id);
     const modelData = await modelCollection.find({}).toArray();
@@ -110,7 +121,7 @@ const postAddVehicles = async(req,res) => {
     const collection = await getAdminCollectionName();
     const adminData = await getAdminByEmail(collection,req.admin.id);
 
-    const modelCollection = await getCollectionName();
+    const modelCollection = await Models.getCollectionName();
 
     const formData = await parseFormDataWithImage(req);
 
@@ -156,7 +167,6 @@ const postAddVehicles = async(req,res) => {
         // Move the 3d model to the CarGLBModel folder
         await fs.rename(model3D.filepath, newPathForModels);
 
-        const ModelCollection = await getCollectionName();
         const newModel = {
             name:name[0],
             price:Number(price[0]),
@@ -169,7 +179,7 @@ const postAddVehicles = async(req,res) => {
             descriptionOfTyre:descriptionTyre[0],
             stocks:1,
         }
-        const uploaded = await createModel(ModelCollection,newModel);
+        const uploaded = await createModel(modelCollection,newModel);
         const uploadedCarID = uploaded.insertedId.toString();
         
         if (!uploaded) {
@@ -185,9 +195,7 @@ const postAddVehicles = async(req,res) => {
         adminData:adminData,
         errorMessage:"Invalid File Type! Please upload an Image",
     }
-    
     return await renderPage(res,filePath,data);
-    
 }
 const postLoginAdmin = async (req, res) => {
 
@@ -254,8 +262,8 @@ const getCarDetails = async(req,res) => {
     const query = req.url.split("?")[1];
     const id = query.split("=")[1];
 
-    const modelCollection = await getCollectionName();
-    const vehicleData = await getDataById(modelCollection,id);
+    const modelCollection = await Models.getCollectionName();
+    const vehicleData = await Models.getDataById(modelCollection,id);
 
     if(!vehicleData){
         res.writeHead(500,{Location:"/500-err0r"})

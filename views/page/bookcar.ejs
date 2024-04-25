@@ -11,33 +11,24 @@
 <body>
     <a href="/" id="logo"><img src="/assets/logo-removebg-preview.png" alt="Go to Home Page"></a>
     <div class="container">
-        <!-- <div class="content">
-            <h1>Is this information about your car correct?</h1> 
-            
-            <% if(vehicleData) { %>
-                <h2>Name: <%= vehicleData.name %></h2>
-                <img src="<%= vehicleData.imageUrl %>" alt="Image From Database">
-                <h2>Price <%= vehicleData.price %></h2>
-                <p>Description :<%= vehicleData.description %></p>
-                <button onclick="openForm()">Confirm</button>
-            <%} %>
-        </div> -->
         <div class="whole">
             <div class="content">
                 <h1>Is this information about your car correct?</h1> 
-                <h1>Welcome Abhishek</h1>
-                <!-- <% if(vehicleData) { %> -->
-                    <h2>Name: Fortuner</h2>
-                    <img src="/assets/logo-removebg-preview.png" alt="Image From Database">
-                    <h2>Price Rs 43023000</h2>
-                    <p>Description : This is fortuner</p>
-                <!-- <%} %> -->
+                <% if(userData) { %>
+                    <h1>Welcome <%= userData.username %></h1> 
+                <% } %>
+                <% if(vehicleData) { %>
+                    <h2>Name: <%= vehicleData.name %></h2>
+                    <img src="<%= vehicleData.imageUrl %>" alt="Image From Database">
+                    <h2>Price <%= vehicleData.price %></h2>
+                    <p>Description :<%= vehicleData.descriptionOfCar %></p>
+                    
+                <%} %>
             </div>
-        
             <div class="alert form">
                 <form action="/confirmBookCar" method="post">
-                    <input type="hidden" name="vehicleId" value="vehicleData._id">
-                    <input type="hidden" name="userId" value="">
+                    <input type="hidden" name="vehicleId" value="<%= vehicleData._id %>"/>
+                    <input type="hidden" name="userId" value="<%= userData._id %>"/>
                     <div class="data">
                         <label for="FirstName">First Name:</label><br>
                         <input type="text" name="firstName" id="FirstName" required><br>
@@ -48,7 +39,7 @@
                     </div>
                     <div class="data">
                         <label for="email">Email</label><br>
-                        <input type="text" name="email" id="email" value="" required><br>
+                        <input type="email" name="email" id="email" value="<%=userData.email%>" readonly><br>
                     </div>
                     <div class="data">
                         <lab el for="Address">Address:</lab><br>

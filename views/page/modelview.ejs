@@ -46,7 +46,6 @@
     integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -55,11 +54,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
   <script>
-    const response = axios.get("/api/modelData?id=<%= models._id %>").then(result=>{
-      const modelsData = result.data
-      console.log(modelsData);
-    })
-    
+    const modelPath = "<%= models.modelUrl %>";
+    console.log(modelPath)
     const overlay_b = document.querySelector('.view_back_b')
     const viewCar = document.querySelector('#view_car')
     const perspective =  document.getElementById('view_b')

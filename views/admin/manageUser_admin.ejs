@@ -76,69 +76,39 @@
                                 <th>Address</th>
                                 <th>Contact No</th>
                             </tr>
-                            <tr id="A">
-                                <td>Ram</td>
-                                <td>Kumar</td>
-                                <td>Fortuner</td>
-                                <td>ram@gmail.com</td> 
-                                <td>123456789</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Shyam</td>
-                                <td>Kumar</td>
-                                <td>Range Rover</td>
-                                <td>shyam@gmail.com</td> 
-                                <td>987654321</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Hari</td>
-                                <td>Kumar</td>
-                                <td>Tesla</td>
-                                <td>hari@gmail.com</td> 
-                                <td>123459876</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Ram</td>
-                                <td>Kumar</td>
-                                <td>Fortuner</td>
-                                <td>ram@gmail.com</td> 
-                                <td>123456789</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Shyam</td>
-                                <td>Kumar</td>
-                                <td>Range Rover</td>
-                                <td>shyam@gmail.com</td> 
-                                <td>987654321</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Hari</td>
-                                <td>Kumar</td>
-                                <td>Tesla</td>
-                                <td>hari@gmail.com</td> 
-                                <td>123459876</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Ram</td>
-                                <td>Kumar</td>
-                                <td>Fortuner</td>
-                                <td>ram@gmail.com</td> 
-                                <td>123456789</td>
-                            </tr>
-                            <tr id="B">
-                                <td>Shyam</td>
-                                <td>Kumar</td>
-                                <td>Range Rover</td>
-                                <td>shyam@gmail.com</td> 
-                                <td>987654321</td>
-                            </tr>
-                            <tr id="A">
-                                <td>Hari</td>
-                                <td>Kumar</td>
-                                <td>Tesla</td>
-                                <td>hari@gmail.com</td> 
-                                <td>123459876</td>
-                            </tr>
+                            <% userData.forEach(function (data) { %>
+                                <tr>
+                                    <td> 
+                                        <%if(data.firstName){%>
+                                        <%= data.firstName %>
+                                        <%} else {%>
+                                        Not Available 
+                                        <%} %>
+                                    </td>
+                                    <td>
+                                        <%if(data.lastName){%>
+                                        <%= data.lastName %>
+                                        <%} else {%>
+                                        Not Available
+                                        <%} %> 
+                                    </td>
+                                    <td> <%= data.email%> </td>
+                                    <td>
+                                        <%if(data.address){%>
+                                        <%= data.address%>
+                                        <%} else {%>
+                                        Not Available
+                                        <%} %> 
+                                    </td>
+                                    <td> 
+                                        <%if(data.contactNumber){%>
+                                        <%= data.contactNumber %>
+                                        <%} else {%>
+                                        Not Available 
+                                        <%} %> 
+                                    </td>
+                                </tr>
+                            <% }) %>
                         </table>
                     </div>
                 </div>
