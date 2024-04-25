@@ -55,10 +55,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
   <script>
-    const response = axios.get("/api/modelData?id=<%= models._id %>").then(result=>{
-      const modelsData = result.data
-      console.log(modelsData);
-    })
+    const modelPath = "<%= models.modelUrl%>"
     
     const overlay_b = document.querySelector('.view_back_b')
     const viewCar = document.querySelector('#view_car')
@@ -123,7 +120,7 @@
     // Load the car model
     const loader = new THREE.GLTFLoader();
     // const loader = new GLTFLoader();
-    loader.load('./assets/CarGLBModel/bmw_e92.glb', function (gltf) {
+    loader.load(modelPath, function (gltf) {
       let carModel = gltf.scene;
       carModel.rotation.x = Math.PI * 0.08;
       carModel.rotation.y = Math.PI * 0.2;

@@ -91,9 +91,12 @@ li{
     object-fit: cover;
 }
 .single_container h2{
-    font-size: 2rem;
+    font-size: calc(1vw + 1rem);
     margin: 0.5rem 0 0.5rem 0;
-    font-weight: 400;
+    font-weight: 600;
+}
+.single_container p{
+    font-size: calc(.7vw + .7rem);
 }
 .electric, .sport{
     visibility:hidden;

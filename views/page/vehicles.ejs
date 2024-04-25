@@ -27,39 +27,48 @@
     </div>
     <div class="car_container">
       <% if (vehiclesData) { %>
-        <% vehiclesData.forEach(function(vehicle) { %>
+        <div class="suv whole_container">
+            <% vehiclesData.forEach(function(vehicle) { %>
           <% if(vehicle.type === 'suv'){ %>
-            <div class="suv whole_container">
               <div class="single_container">
                 <a href="/modelview?<%=vehicle._id%>" class="model">
                   <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
                   <h2><%= vehicle.name %></h2>
-                  <h2>NRP <%= vehicle.price %></h2>
+                  <p>NRP <%= vehicle.price %></p>
                 </a>
               </div>
+              <% }  %>
+       <% })  %>
             </div>
-          <% } else if(vehicle.type === "electric") { %>
+
             <div class="electric whole_container">
+              <% vehiclesData.forEach(function(vehicle) { %>
+          <% if(vehicle.type === "electric") { %>
               <div class="single_container">
                 <a href="/modelview?<%=vehicle._id%>" class="model">
                   <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
                   <h2><%= vehicle.name %></h2>
-                  <h2>NRP <%= vehicle.price %></h2>
+                  <p>NRP <%= vehicle.price %></p>
                 </a>
               </div>
+              <% } %>
+              <% }) %>
             </div>
-          <% } else { %>
+
             <div class="sport whole_container">
+              <% vehiclesData.forEach(function(vehicle) { %>
+              <% if(vehicle.type === "sport") { %>
               <div class=" single_container">
                 <a href="/modelview?<%=vehicle._id%>" class="model">
                   <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
                   <h2><%= vehicle.name %></h2>
-                  <h2>NRP <%= vehicle.price %></h2>
+                  <p>NRP <%= vehicle.price %></p>
                 </a>
               </div>
+              <% } %>
+              <% }) %>
             </div>
-          <% } %>
-        <% }) %>
+        
       <% } %>
     </div>
   </div>
