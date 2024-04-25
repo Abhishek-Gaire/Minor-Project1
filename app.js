@@ -67,11 +67,10 @@ const server = http.createServer(async (req, res) => {
     
     let filePath;
     filePath = path.join(__dirname ,pathname);
-    console.log(filePath);
     await serveStaticFile(req, res, filePath);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT =  process.env.PORT || 5000;
 
 connectToDB().then(() => {
     server.listen(PORT, () => {

@@ -43,6 +43,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
     <script>
       // Setup scene
       const scene = new THREE.Scene();
@@ -53,26 +54,30 @@
       document.body.appendChild(renderer.domElement);
 
         
-      const light = new THREE.AmbientLight(0xffffff, 3);
+      const light = new THREE.DirectionalLight(0xffffff, 3);
       scene.add(light);
 
       // Load the car model
       const loader = new THREE.GLTFLoader();
-      loader.load('../../assets/CarGLBModel/bmw_e92.glb',         function (gltf) {
+      loader.load('/assets/CarGLBModel/bmw_e92.glb',
+      function (gltf) {
         console.log(gltf);
         const carModel = gltf.scene;
         scene.add(carModel);
       });
 
-        // Position the camera
-        camera.position.z = 5;
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.update();
 
-        // Render loop
-        function animate() {
-          requestAnimationFrame(animate);
-          renderer.render(scene, camera);
-        }
-        animate();
+      // Position the camera
+      camera.position.z = 5;
+
+      // Render loop
+      function animate() {          
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+      animate();
     </script>
     
   </body>

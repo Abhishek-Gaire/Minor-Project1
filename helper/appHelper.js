@@ -34,7 +34,6 @@ const serveFile = async (filePath, contentType, response) => {
     }
     const data =rawData;
     response.writeHead(filePath.includes("404.html") ? 404 : 200, {"Content-Type": contentType,});
-    console.log(contentType);
     response.end(data);
   } catch (err) {
       console.error(err);
