@@ -10,7 +10,6 @@ html, body{
 
 
 .bottom{
-    
     /* background-color: red; */
     display: flex;
     justify-content: center;
@@ -18,11 +17,11 @@ html, body{
 }
 
 form{
-    /* background-color: red; */
-    font-size: 1.8vw;
-    width: calc(15vw + 10rem);
+    background-color: red;
+    /* font-size: 1.8vw; */
+    width: calc(30vw + 20rem);
     min-width: 300px;
-    padding: 2rem 2rem;
+    padding: 2rem 0;
     background : linear-gradient(135deg, rgba(255,255,255,0.1),rgba(255,255,255,0));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -30,29 +29,49 @@ form{
     border: 1px solid rgba(255,255,255,0.18);
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
     position: relative;
+    display: flex;
+    justify-content: space-evenly;
+    /* flex-wrap: wrap; */
+    text-align: center;
+    /* align-items: center; */
+
 }
 .alert{
     color: red;
     font-size: .8em;
 }
-.data{
+.datas{
     width: calc(16vw + 4rem);
     min-width: 240px;
-    overflow: hidden;
+    /* overflow: hidden; */
+    /* border: 2px solid black; */
 }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+} 
 .inter{
     border-bottom: 1px solid black;
 }
 .data textarea{
+    width: calc(12vw + 8rem);
+    padding: 5px 7px;
     border: none;
+    outline: none;
+    background: none;
+    border-bottom: 1px solid black;
     /* border: 100%; */
 }
-form > *{
-    margin-top: 10px;
+.datas > *{
+    margin-top: 19px;
 }
+
 form label{
-    font-size: calc(.8vw + .8rem);
+    font-size: calc(1vw + .4rem);
     font-weight: 500;
+    /* color: white; */
+    /* margin-top: 1rem; */
 }
 form input{
     font-size: 1rem;
@@ -68,13 +87,18 @@ form input{
 }
 
 button{
+    margin-top: .5rem;
     height: 43px;
-    width: 85%;
+    width: 60%;
     font-size: 1rem;
     background-color: black;
     border: none;
     border-radius: 10px;
     color: white;
+}
+
+.description > *{
+    margin-top: 20px;
 }
 
 @media(max-width: 600px){

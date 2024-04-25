@@ -11,35 +11,50 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: grey;
+            color: black;
         }
 
         #logo {
             position: absolute;
             top: 0.9vw;
             left: 2.6vw;
+            z-index: 9;
         }
 
         #logo img {
             height: 5.2vw;
             min-height: 50px;
         }
-
+        .whole{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
         .container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
+            width: calc(50vw + 30rem);
+            /* margin: 50px auto; */
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            position: relative;
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: black;
         }
 
         p {
             font-size: 1.1em;
             line-height: 1.6;
-            color: #666;
+            /* color: #666; */
         }
 
         .about-section {
@@ -64,37 +79,40 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
-
     </style>
 </head>
 
 <body>
-    <a href="/"  id="logo"><img src="assets/logo-removebg-preview.png" alt=""></a>
-    <div class="container">
-
-        <h1>About Us</h1>
-
-        <div class="about-section">
-            <div class="about-text">
-                <p>Welcome to <strong>Drive Your Dream</strong> - the ultimate destination for buying cars online. We
-                    understand the passion and excitement of owning a dream car, and we are here to make that dream come
-                    true for you.</p>
-                <p>At <strong>Drive Your Dream</strong>, we offer an extensive collection of 3D models and designs of
-                    the latest cars in the market. Our aim is to provide you with a unique and immersive online car
-                    buying experience.</p>
-                <p>Our dedicated team works tirelessly to bring you the most accurate and detailed 3D models, allowing
-                    you to explore every aspect of the car before making a purchase. With our user-friendly platform,
-                    you can compare different models, view detailed specifications, and even take virtual test drives
-                    from the comfort of your home.</p>
-                <p>Whether you are a car enthusiast looking for your next ride or a first-time buyer exploring options,
-                    <strong>Drive Your Dream</strong> is the perfect place for you. We are committed to offering
-                    exceptional service, ensuring a seamless and enjoyable car buying journey.</p>
+    <a href="/" id="logo"><img src="assets/logo-removebg-preview.png" alt=""></a>
+    <div class="whole">
+        <div class="container">
+    
+            <h1>About Us</h1>
+    
+            <div class="about-section">
+                <div class="about-text">
+                    <p>Welcome to <strong>Drive Your Dream</strong> - the ultimate destination for buying cars online. We
+                        understand the passion and excitement of owning a dream car, and we are here to make that dream come
+                        true for you.</p>
+                    <p>At <strong>Drive Your Dream</strong>, we offer an extensive collection of 3D models and designs of
+                        the latest cars in the market. Our aim is to provide you with a unique and immersive online car
+                        buying experience.</p>
+                    <p>Our dedicated team works tirelessly to bring you the most accurate and detailed 3D models, allowing
+                        you to explore every aspect of the car before making a purchase. With our user-friendly platform,
+                        you can compare different models, view detailed specifications, and even take virtual test drives
+                        from the comfort of your home.</p>
+                    <p>Whether you are a car enthusiast looking for your next ride or a first-time buyer exploring options,
+                        <strong>Drive Your Dream</strong> is the perfect place for you. We are committed to offering
+                        exceptional service, ensuring a seamless and enjoyable car buying journey.
+                    </p>
+                </div>
+    
+                <div class="about-image">
+                    <!-- You can replace the image URL with your website's image URL -->
+                    <img src="/assets/logo-removebg-preview.png" alt="About Drive Your Dream">
+                </div>
             </div>
-
-            <div class="about-image">
-                <!-- You can replace the image URL with your website's image URL -->
-                <img src="/assets/logo-removebg-preview.png" alt="About Drive Your Dream">
-            </div>
+    
         </div>
 
     </div>
