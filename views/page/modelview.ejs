@@ -12,13 +12,15 @@
 
   </head>
   <body>
-    <!-- <div class="view_back_b">
+    <div class="view_back_b">
       <a href="">Back</a>
-    </div> -->
+    </div>
     <div class="overlay_b">
       <div class="left_b">
         <a href="/">Back</a>
+        <button id="view_car">Next</button>
       </div>
+
       <div class="middle_b">
         <h2><%= models.name %></h2>
         <p><%= models.description %></p>
@@ -28,7 +30,7 @@
       </div>
       <div class="right_b">
         <p id="view_b">Perspective View</p>
-        <p id="buy">Buy Car</p> 
+        <!-- <p id="buy">Buy Car</p>  -->
          <% if(isLoggedIn)  { %>
           <a href="/book-car?<%=models._id%>" id="buy_b">Book Car</a>
         <% } else{ %>
@@ -54,7 +56,15 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
   <script>
-
+    const overlay_b = document.querySelector('.view_back_b')
+    const viewCar = document.querySelector('#view_car')
+    const perspective =  document.getElementById('view_b')
+    const overlay = document.querySelector('.overlay_b')
+    perspective.addEventListener('click',()=>{
+      console.log('works')
+      overlay.style.visibility =  'hidden'
+      overlay_b.style.visibility = 'visible'
+    })
     const sizes = {
       width: window.innerWidth,
       height: window.innerHeight
@@ -115,7 +125,7 @@
       carModel.rotation.y = Math.PI * 0.2;
       scene.add(carModel);
       
-      window.addEventListener('mouseup', () => {
+      viewCar.addEventListener('mouseup', () => {
         switch(position){
           case 0 :
             moveCamera(-0.5,0.7,4.2)

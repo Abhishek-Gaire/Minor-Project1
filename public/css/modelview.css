@@ -18,6 +18,16 @@
 .overlay_b .left_b {
   padding-left: 2.3vw;
   margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.left_b #view_car{
+    border: none;
+    background-color: white;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 3rem;
 }
 .overlay_b .left_b a {
   font-size: 3rem;
@@ -68,11 +78,12 @@
   padding-left: 2.3vw;
   margin-top: 2rem;
   visibility: hidden;
+  /* color: black; */
 }
 .view_back_b a {
   cursor: pointer;
   font-size: 3rem;
-  /* color:black; */
+  color:black;
   text-decoration: none;
 }
 
