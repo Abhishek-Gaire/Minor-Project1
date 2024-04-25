@@ -106,3 +106,22 @@ html, body{
 .nav div > * {
     padding-left: 1.4vmax;
 }
+
+@media(max-width:600px){
+    .content .aside{
+        width: 50px;
+        min-width: 50px;
+    }
+    .user img{
+        height: 40px;
+    }
+    .user h1,p{
+        display: none;
+    }
+    .flex a{
+        padding: 10px;
+    }
+    .flex a h1{
+        display: none;
+    }
+}

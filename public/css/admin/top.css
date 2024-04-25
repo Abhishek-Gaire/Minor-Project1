@@ -24,37 +24,39 @@ html, body{
 .top .left p{
     font-size: calc(1vw + .4rem);
 }
-
+.top .right .nav{
+    padding-right: 2rem;
+    text-align: end;
+}
 .top .right .nav i{
     font-size: 1.2rem;
     margin-left: 2rem;
 }
 
-.main .download{
-    margin-top: 1rem;
-}
-.download button{
-    width: 14vmax;
-    height: 40px;
-    border: none;
-    background-color: black;
-    color: white;
+.top .right .download{
+    width: calc(12vw  + 4rem) ;
+    height: 50px;
     border-radius: 10px;
-} 
-.download button a{
+    background-color: black;
+    margin-top: 1rem;
     display: flex;
-    text-decoration: none;
     align-items: center;
+    justify-content: center;
+}
+
+.top .right .download a{ 
+    padding: 10px 20px;
+    display: flex;
     color: white;
-    margin-left: 9px;
+    text-decoration: none;
 }
-.download button a h1{
-    margin-left: 0.8vw;
-    font-size: 0.9vw;
+.top .right .download a h1{
+    margin-left: .5rem;
 }
-/* .download button a,i{
-    font-size: 1vw;
-} */
+.top .right .download a h1, i{
+    font-size: calc(.5vw + .3rem)
+}
+
 
 
 
@@ -97,19 +99,20 @@ html, body{
         display: none;
     }
     .main .top .right .download {
-
+        width: calc(7vw + 2rem);
+        /* padding: .1rem; */
         text-align: center;
+        padding: 2px 9px;
     }
     .main .top .right .download a{
         text-decoration: none;
-        color: black;
     }
     .main .top .right .download h1{
         display: none;
     }
-
+    
     .main .top .right .download  i{
-        /* display: inline-block; */
-        font-size: 1.5rem;
+        color: white;
+        font-size: 19px;
     }
 }

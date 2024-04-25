@@ -20,6 +20,10 @@ html,body{
     position: relative;
 
 }
+.hero a{
+    text-decoration: none;
+    color: black;
+}
 
 .box{
     width: 23vmax;
@@ -56,59 +60,8 @@ html,body{
         background: linear-gradient(to right top, #526D82, #F4EEE0);
     }
 
-    /* -------------------------------- Aside ------------------------ */
-    .content .aside{
-        width: 50px;
-        min-width: 40px;
-    }
-    .user img{
-        height: 40px;
-    }
-    .user h1,p{
-        display: none;
-    }
-    .flex a{
-        padding: 10px;
-    }
-    .flex a h1{
-        display: none;
-    }
-    .main .top{
-        display: flex;
-        align-items: center;
-    }
-
-    .main .top .left h1{
-        font-size: 5vw;
-    }
-    .main .top .left p{
-        display: none;
-    }
-    .right .nav{
-        display: none;
-    }
-    .main .top .right .download {
-
-        text-align: center;
-    }
-    .main .top .right .download a{
-        text-decoration: none;
-        color: black;
-    }
-    .main .top .right .download h1{
-        display: none;
-    }
-
-    .main .top .right .download  i{
-        /* display: inline-block; */
-        font-size: 1.5rem;
-    }
-    
-    
-
-    .download button a h1{
-        display: none;
-    }
+    -------------------------------- Aside ------------------------
+     
 
     .main .hero .box{
         display: flex;
@@ -130,6 +83,5 @@ html,body{
     .main .hero .box i{
         font-size: calc(5vw + 1em) ;
     }
-
     
 }
