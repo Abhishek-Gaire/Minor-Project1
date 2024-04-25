@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <link rel="stylesheet" href="../../public/css/admin/aside.css">
-    <link rel="stylesheet" href="../../public/css/admin/top.css">
-    <link rel="stylesheet" href="../../public/css/admin/addVehicles.css">
+    <link rel="stylesheet" href="/public/css/admin/aside.css">
+    <link rel="stylesheet" href="/public/css/admin/top.css">
+    <link rel="stylesheet" href="/public/css/admin/addVehicles.css">
     <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 
 </head>
@@ -24,7 +24,7 @@
                     <div class="homepage flex">
                         <a href="/admin/dashboard">
                             <i class="fa-solid fa-house"></i>
-                            <h1>Homepage</h1></a>
+                            <h1>Dashboard</h1></a>
                     </div>
                     <div class="car flex">
                         <a href="/admin/cars">
@@ -62,18 +62,18 @@
                         <div class="download">
                             <a href="#">
                                 <i class="fa-solid fa-download"></i>
-                                    <h1>DOWNLOAD REPORTS</h1>
+                                <h1>DOWNLOAD REPORTS</h1>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="bottom">
                     <form action="/addVehicles" method="POST" enctype="multipart/form-data">
-                        <!-- <% if(errorMessage){ %>
+                        <% if(errorMessage){ %>
                             <div class="alert alert-danger">
                                 <%= errorMessage %>
                             </div>
-                        <% } %> -->
+                        <% } %>
                         <div class="datas">
                             <div class="data inter">
                                 <label for="name">Name of the Car:</label><br>
@@ -107,15 +107,15 @@
                         <div class="description">
                             <div class="data">
                                 <label for="description">Description of the Car:</label><br>
-                                <textarea id="description" name="description" rows="4" cols="50" colspan="2" required></textarea><br>
+                                <textarea id="description" name="descriptionCar" rows="4" cols="50" colspan="2" required></textarea><br>
                             </div>
                             <div class="data">
                                 <label for="description">Description of the Tyre:</label><br>
-                                <textarea id="description" name="description" rows="4" cols="50" colspan="2" required></textarea><br>
+                                <textarea id="description" name="descriptionTyre" rows="4" cols="50" colspan="2" required></textarea><br>
                             </div>
                             <div class="data">
                                 <label for="description">Description of the Engine:</label><br>
-                                <textarea id="description" name="description" rows="4" cols="50" colspan="2" required></textarea><br>
+                                <textarea id="description" name="descriptionEngine" rows="4" cols="50" colspan="2" required></textarea><br>
                             </div>
                             <div id="button">
                                 <button type="submit">Submit</button>
@@ -127,7 +127,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
 </body>
 </html>

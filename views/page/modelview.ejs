@@ -30,7 +30,6 @@
       </div>
       <div class="right_b">
         <p id="view_b">Perspective View</p>
-        <!-- <p id="buy">Buy Car</p>  -->
          <% if(isLoggedIn)  { %>
           <a href="/book-car?<%=models._id%>" id="buy_b">Book Car</a>
         <% } else{ %>
@@ -56,6 +55,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
   <script>
+    const response = axios.get("/api/modelData?id=<%= models._id %>").then(result=>{
+      const modelsData = result.data
+      console.log(modelsData);
+    })
+    
     const overlay_b = document.querySelector('.view_back_b')
     const viewCar = document.querySelector('#view_car')
     const perspective =  document.getElementById('view_b')
@@ -176,9 +180,5 @@
     }
     animate();
     </script>
-
-<script>
-  console.log('second script')
-  </script>
   </body>
 </html>

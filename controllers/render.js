@@ -1,5 +1,3 @@
-
-
 import { getCollectionName,getDataById } from "../Models/model.js";
 import { renderPage } from "../helper/appHelper.js";
 import { getCounterCollectionName } from "../Models/order.js";
@@ -40,6 +38,7 @@ const renderVehicles = async (req, res) => {
     try {
         const collection = await getCollectionName();
         const vehiclesData = await collection.find({}).toArray();
+        
         await renderPage(res, "/views/page/vehicles.ejs", { vehiclesData });
     } catch (err) {
         console.error(err);

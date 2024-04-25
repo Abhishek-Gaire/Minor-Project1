@@ -24,123 +24,43 @@
           <li id="sport">Sports</li>
         </ul>
       </div>
-      <!-- <div class="car_container">
-        <% if (vehiclesData) { %>
-          <div class="models">
-            <% vehiclesData.forEach(function(vehicle) { %>
-              <a href="/modelview?<%=vehicle._id%>" class="model">
-                <img src="<%= vehicle.imageUrl %>" alt="Image From Database">
-                <h2><%= vehicle.name %></h2>
-                <h2><%= vehicle.price %></h2>
-              </a>
-            <% }); %>
+    </div>
+    <div class="car_container">
+      <% if (vehiclesData) { %>
+        <% vehiclesData.forEach(function(vehicle) { %>
+          <% if(vehicle.type === 'suv'){ %>
+            <div class="suv whole_container">
+              <div class="single_container">
+                <a href="/modelview?<%=vehicle._id%>" class="model">
+                  <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
+                  <h2><%= vehicle.name %></h2>
+                  <h2>NRP <%= vehicle.price %></h2>
+                </a>
+              </div>
+            </div>
+          <% } else if(vehicle.type === "electric") { %>
+            <div class="electric whole_container">
+              <div class="single_container">
+                <a href="/modelview?<%=vehicle._id%>" class="model">
+                  <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
+                  <h2><%= vehicle.name %></h2>
+                  <h2>NRP <%= vehicle.price %></h2>
+                </a>
+              </div>
+            </div>
           <% } else { %>
-            <p>No images found in the Database</p>
-          <%} %>
-          </div>
-        -->
-      </div>
-        <div class="car_container">
-          <div class="suv whole_container">
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
+            <div class="sport whole_container">
+              <div class=" single_container">
+                <a href="/modelview?<%=vehicle._id%>" class="model">
+                  <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
+                  <h2><%= vehicle.name %></h2>
+                  <h2>NRP <%= vehicle.price %></h2>
+                </a>
+              </div>
             </div>
-            <!-- <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div> -->
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/logo-removebg-preview.png" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-          </div>
-          <div class="electric whole_container">
-            <div class="single_container">
-              <a href="#" class="model">
-                <img src="../../assets/images.jpg" alt="">  
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-          </div>
-          <div class="sport whole_container">
-            <div class=" single_container">
-              <a href="#" class="model">
-                <img src="../../assets/PP.jpg" alt="">
-                <h2>Car Name</h2>
-                <h2>Car Price</h2>
-              </a>
-            </div>
-
-          </div>
-          
-        </div>
+          <% } %>
+        <% }) %>
+      <% } %>
     </div>
   </div>
   <script>

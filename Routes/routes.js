@@ -37,6 +37,7 @@ const routes = {
         "/admin/cars": AdminControllers.getCarsAdmin,
         "/admin/manageUsers" :AdminControllers.getManageUsers,
         "/admin/bookedVehicles" :AdminControllers.getBookedCarAdmin,
+        "/admin/car-details": AdminControllers.getCarDetails,
         "/book-car":getBookCar,
         "/verify":getVerify,
         "/api/modelData": sendModelData,

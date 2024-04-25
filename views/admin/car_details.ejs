@@ -4,37 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Details</title>
+    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 </head>
 <body>
     <div class="container">
         <h1>Car Details Page</h1>
         <div class="details">
             <div class="detail">
-                <label for="name">Name of the Car:</label><br>
-                        <div class="data inter">
-                            <input type="text" id="name" name="name" required><br>
-                        </div>
-                        <label for="price">Price:</label><br>
-                        <div class="data inter">
-                            <input type="number" id="price" name="price" required><br>           
-                        </div>
-                        <label for="image">Image:</label><br>
-                        <div class="data">
-                            <input type="file" name="image" required><br>
-                        </div>
-                        <label for="year">Model Year:</label><br>
-                        <div class="data inter">
-                            <input type="number" name="year" required><br>
-                        </div>
+               <h1>Name:<%= vehicleData.name %></h1>
+               <p><b>Price: $<%= vehicleData.price %> </b></p> 
+               <img src="/<%=vehicleData.imageUrl%>" alt="car image"/>
             </div>
             <div class="description"></div>
         </div>
 
     </div>
     <a href="/admin">Dashboard</a>
-
-
-
-    name,price,model,year,stocks,description,image
 </body>
 </html>

@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import fs from "fs/promises"
-
-import { getCollectionName,createModel } from "../Models/model.js";
+import { ObjectId } from "mongodb";
+import { getCollectionName,createModel,getDataById } from "../Models/model.js";
 import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js";
 import { getCounterCollectionName,getOrderCollectionName } from "../Models/order.js";
 import { generateAdminToken } from "../helper/jwtHelper.js";
@@ -88,33 +88,55 @@ const getCarsAdmin = async(req,res) => {
         return res.end();
     }
     const collection = await getAdminCollectionName();
-    const adminData = await getAdminByEmail(collection,req.admin.id);
+    const modelCollection = await getCollectionName();
 
+    const adminData = await getAdminByEmail(collection,req.admin.id);
+    const modelData = await modelCollection.find({}).toArray();
     const filePath = "/views/admin/admin_car.ejs";
     const data = {
         title: "All Cars",
         adminData:adminData,
+        modelData:modelData,
     }
     await renderPage(res,filePath,data);
 }
 const postAddVehicles = async(req,res) => {
-    const filePath = "/views/admin/addVehicle.ejs";
     if(!req.admin){
         res.writeHead(302,{Location:"/login?adminExists=false"})
         return res.end();
     }
+    const filePath = "/views/admin/addVehicle.ejs";
 
     const collection = await getAdminCollectionName();
     const adminData = await getAdminByEmail(collection,req.admin.id);
+
+    const modelCollection = await getCollectionName();
 
     const formData = await parseFormDataWithImage(req);
 
     const {fields,files} = formData;
     const model3D = files.model[0];
     const imageFile = files.image[0];
-    const{name,price,year,description,typeNames} = fields;
+    const{name,price,year,descriptionCar,descriptionEngine,descriptionTyre,typeNames} = fields;
+    
     
     if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
+
+        const exists = await modelCollection.findOne({
+            name:name[0],
+            price:Number(price[0]),
+            modelYear:year[0],
+            type:typeNames[0]
+        });
+        if(exists){
+            console.log("modelExists");
+            await modelCollection.updateOne({_id:new ObjectId(exists._id)},{$set:{stocks:Number(exists.stocks)+1}});
+
+            res.writeHead(302,{Location:`/admin/car-details?id=${exists._id}`});
+            res.end();
+            return;
+        }
+
         const fileUploadPathForImages = "./assets/CarImages";
         const fileUploadPathForModels = "./assets/CarGLBModel";
 
@@ -138,19 +160,24 @@ const postAddVehicles = async(req,res) => {
         const newModel = {
             name:name[0],
             price:Number(price[0]),
-            description:description[0],
+            descriptionOfCar:descriptionCar[0],
             imageUrl:newPathForImages,
             modelUrl:newPathForModels,
             type:typeNames[0],
             modelYear:year[0],
+            descriptionOfEngine:descriptionEngine[0],
+            descriptionOfTyre:descriptionTyre[0],
+            stocks:1,
         }
         const uploaded = await createModel(ModelCollection,newModel);
+        const uploadedCarID = uploaded.insertedId.toString();
+        
         if (!uploaded) {
             res.writeHead(500,{Location:"/500-error"});
             res.end();
             return;
         }
-        res.writeHead(302,{Location:"/admin/car-details"})
+        res.writeHead(302,{Location:`/admin/car-details?id=${uploadedCarID}`});
         res.end();
     }
     const data = {
@@ -217,4 +244,27 @@ const postLogoutAdmin = async(req,res)=> {
     }
     console.log("Outside if in post Logout");
 }
-export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin};
+const getCarDetails = async(req,res) => {
+    if(!req.admin){
+        res.writeHead(302,{Location:'/login?adminExists=false'});
+        res.end();
+        return;
+    }
+    const filePath = "/views/admin/car_details.ejs";
+    const query = req.url.split("?")[1];
+    const id = query.split("=")[1];
+
+    const modelCollection = await getCollectionName();
+    const vehicleData = await getDataById(modelCollection,id);
+
+    if(!vehicleData){
+        res.writeHead(500,{Location:"/500-err0r"})
+        return res.end();
+    }
+
+    const data = {
+        vehicleData:vehicleData
+    };
+    await renderPage(res,filePath,data);
+}
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails};

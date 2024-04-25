@@ -34,6 +34,10 @@ html, body{
 .table td{
     padding: 1rem 2rem;
 }
+.table td a{
+    text-decoration: none;
+    color: black;
+}
 .table #A{
     background-color: hsla(0, 0%, 100%, 0.621);
 }

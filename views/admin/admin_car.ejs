@@ -22,7 +22,7 @@
                     <div class="homepage flex">
                         <a href="/admin/dashboard">
                             <i class="fa-solid fa-house"></i>
-                            <h1>Homepage</h1></a>
+                            <h1>Dashboard</h1></a>
                     </div>
                     <div class="car flex">
                         <a href="/admin/cars">
@@ -76,66 +76,16 @@
                                 <th>Model Year</th>
                                 <th>Stocks</th>
                             </tr>
-                            <tr id="A">
-                                <td>Fortuner</td>
-                                <td>Rs 1,13,56,000</td>
-                                <td>2021</td> 
-                                <td>3</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="A">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
-                            <tr id="B">
-                                <td>i20 Grand</td>
-                                <td>Rs 32,00,000</td>
-                                <td>2019</td>
-                                <td>2</td>
-                            </tr>
+                            <% modelData.forEach(function(model){ %>
+                                <tr>
+                                    <td>
+                                        <a href="/admin/car-details?id=<%=model._id%>"><%=model.name %></a>
+                                    </td>
+                                    <td><%=model.price %></td>
+                                    <td><%=model.modelYear %></td>
+                                    <td><%= model.stocks %></td>
+                                </tr>
+                            <% }) %>
                         </table>
                     </div>
                 </div>
