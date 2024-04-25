@@ -2,11 +2,12 @@ import bcrypt from "bcrypt";
 import fs from "fs/promises"
 
 import { getCollectionName,createModel } from "../Models/model.js";
-import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js"
+import {getAdminCollectionName,getAdminByEmail} from "../Models/admin.js";
+import { getCounterCollectionName,getOrderCollectionName } from "../Models/order.js";
 import { generateAdminToken } from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
-// import { setFlashMessage,getFlashMessage } from "../helper/flashMessage.js";
+
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -15,12 +16,22 @@ const getAdmin = async(req,res) => {
         return ;
     }
     const collection = await getAdminCollectionName();
+    const counterCollection = await getCounterCollectionName();
+    const modelCollection = await getCollectionName();
+    const bookedCollection =await getOrderCollectionName();
+
     const adminData = await getAdminByEmail(collection,req.admin.id);
+    let counterCount = await counterCollection.findOne({});
+    const models = await  modelCollection.find().toArray();
+    const bookedCar = await bookedCollection.find().toArray();
     
     const filePath = "/views/admin/admin2.ejs";
     const data = {
         title: "Admin Dashboard",
         adminData:adminData,
+        loadCount:counterCount.loadCount,
+        cars:models.length,
+        bookedCar:bookedCar.length,
     }
     await renderPage(res,filePath,data);
 }
@@ -101,11 +112,12 @@ const postAddVehicles = async(req,res) => {
     const {fields,files} = formData;
     const model3D = files.model[0];
     const imageFile = files.image[0];
-    const{name,price,description} = fields;
+    const{name,price,year,description,typeNames} = fields;
     
     if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
         const fileUploadPathForImages = "./assets/CarImages";
-        const fileUploadPathForModels = "./assets/CarGLBModel"
+        const fileUploadPathForModels = "./assets/CarGLBModel";
+
         const oldImageFileName = imageFile.originalFilename;
         const oldModelFileName = model3D.originalFilename;
 
@@ -129,6 +141,8 @@ const postAddVehicles = async(req,res) => {
             description:description[0],
             imageUrl:newPathForImages,
             modelUrl:newPathForModels,
+            type:typeNames[0],
+            modelYear:year[0],
         }
         const uploaded = await createModel(ModelCollection,newModel);
         if (!uploaded) {

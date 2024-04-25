@@ -4,14 +4,14 @@ import { renderPage } from "../helper/appHelper.js";
 
 const getBookCar = async(req,res)=> {
     
-    if(!req.user){
-        res.writeHead(302,{Location: "/login"});
-        res.end();
-        return ;
-    }
+    // if(!req.user){
+    //     res.writeHead(302,{Location: "/login"});
+    //     res.end();
+    //     return ;
+    // }
     const filePath = "/views/page/bookcar.ejs";
 
-    const userId = req.user.id;
+    // const userId = req.user.id;
 
     const vehicleID = req.url.split("?")[1];
 
@@ -22,11 +22,12 @@ const getBookCar = async(req,res)=> {
     const collection = await getCollectionName();
     const vehicleData = await getDataById(collection,vehicleID);
 
-    const users = await Users.getCollectionName();
-    const userData = await Users.getUserByID(users,userId);
+    // const users = await Users.getCollectionName();
+    // const userData = await Users.getUserByID(users,userId);
 
     const data = {
-        vehicleData,userData
+        vehicleData,
+        // userData
     }
     await renderPage(res,filePath,data);
 }

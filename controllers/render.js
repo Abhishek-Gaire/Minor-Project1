@@ -2,10 +2,11 @@
 
 import { getCollectionName,getDataById } from "../Models/model.js";
 import { renderPage } from "../helper/appHelper.js";
-
+import { getCounterCollectionName } from "../Models/order.js";
 
 const renderHomePage = async (req, res) => {
     try {
+
         const collection = await getCollectionName();
         const modelsData = await collection.find({}).toArray();
         const { names, heads, descriptions, prices, imageUrls,ids } = modelsData.reduce((acc, item) => {
@@ -17,6 +18,14 @@ const renderHomePage = async (req, res) => {
             acc.ids.push(item._id);
             return acc;
         }, { names: [], heads: [], descriptions: [], prices: [], imageUrls: [] ,ids:[]});
+
+        const counterCollection = await  getCounterCollectionName() ; 
+        await counterCollection.findOneAndUpdate(
+            {},
+            { $inc: { loadCount: 1 } }, // Increment the loadCount field by 1
+            { upsert: true, returnDocument: 'after' } // Create the document if it doesn't exist
+        );
+        
         if(!req.user){
             return await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,ids,isLoggedIn:false });
         } else{
@@ -40,7 +49,7 @@ const renderVehicles = async (req, res) => {
 const renderModelView = async (req, res) => {
     try {
         const vehicleID= req.url.split("?")[1];
-        console.log(vehicleID);
+        
         const collectionName = await getCollectionName();
         const vehicleData = await getDataById(collectionName,vehicleID);
 

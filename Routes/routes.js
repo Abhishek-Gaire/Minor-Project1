@@ -7,7 +7,7 @@ import * as AdminControllers from "../controllers/admin.js";
 import * as AuthControllers from"../controllers/login.js";
 
 import { getBookCar } from "../controllers/bookCar.js";
-
+import {sendModelData} from "../controllers/api/sendData.js"
 
 const routes = {
     "POST": {
@@ -39,6 +39,7 @@ const routes = {
         "/admin/bookedVehicles" :AdminControllers.getBookedCarAdmin,
         "/book-car":getBookCar,
         "/verify":getVerify,
+        "/api/modelData": sendModelData,
     }
 }; 
 

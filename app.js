@@ -22,7 +22,7 @@ const server = http.createServer(async (req, res) => {
     const { method } = req;
     
     if (method === 'GET'){ 
-        if(pathname ==="/modelview" ||  pathname=="/" || pathname==="/book-car"){
+        if(pathname ==="/modelview" ||  pathname=="/" ){
             console.log(`Inside GET and ${pathname}`);
             return  await extractTokenFromCookie(req, res, async () =>  {
                 return await authenticateUser(req, res, async () => {
@@ -70,7 +70,7 @@ const server = http.createServer(async (req, res) => {
     await serveStaticFile(req, res, filePath);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT =  process.env.PORT || 5000;
 
 connectToDB().then(() => {
     server.listen(PORT, () => {

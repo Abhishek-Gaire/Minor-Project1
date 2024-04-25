@@ -16,15 +16,13 @@
         <div class="content ">
             <div class="aside">
                 <div class="user">
-                    <img src="../../assets/images.jpg" alt="User Image">
+                    <img src="<%= adminData.imagePath %>" alt="User Image">
                     <h1>Name</h1>
-                    <p>Admin</p>
+                    <p><%= adminData.name %></p>
                 </div>
                 <div class="nav">
                     <div class="homepage flex">
-                        
                         <a href="/admin/dashboard">
-                            
                             <i class="fa-solid fa-house"></i>
                             <h1>Homepage</h1></a>
                     </div>
@@ -59,9 +57,6 @@
                     </div>
                     <div class="right">
                             <div class="nav">
-                                <!-- <i class="fa-regular fa-moon"></i> -->
-                                <!-- <i class="fa-regular fa-bell"></i> -->
-                                <!-- <i class="fa-solid fa-gear"></i> -->
                                 <i class="fa-regular fa-user"></i>
                         </div>
                         <div class="download">
@@ -74,11 +69,11 @@
                 </div>
                 <div class="bottom">
                     <form action="/addVehicles" method="POST" enctype="multipart/form-data">
-                        <!-- <% if(errorMessage){ %>
+                        <% if(errorMessage){ %>
                             <div class="alert alert-danger">
                                 <%= errorMessage %>
                             </div>
-                        <% } %> -->
+                        <% } %>
                         <label for="name">Name of the Car:</label><br>
                         <div class="data inter">
                             <input type="text" id="name" name="name" required><br>
@@ -87,24 +82,35 @@
                         <div class="data inter">
                             <input type="number" id="price" name="price" required><br>           
                         </div>
-                        <label for="image">Image</label><br>
+                        <label for="image">Image:</label><br>
                         <div class="data">
-                            <input type="file" name="image"><br>
+                            <input type="file" name="image" required><br>
+                        </div>
+                        <label for="year">Model Year:</label><br>
+                        <div class="data inter">
+                            <input type="number" name="year" required><br>
                         </div>
                         <label for="description">Description of the Car:</label><br>
                         <div class="data">
-                            <textarea id="description" name="description" rows="4" cols="50" colspan="2"></textarea><br>
+                            <textarea id="description" name="description" rows="4" cols="50" colspan="2" required></textarea><br>
                         </div>
-        
-                        <label for="3dModel">3D Model of the Car</label><br>
-                        <input type="file" name="model"><br>
+                        <label for="3dModel">3D Model of the Car:</label><br>
+                        <div class="data">
+                            <input type="file" name="model" required><br>
+                        </div>
+                        <label for="typeNames">Choose a Car Type:</label> 
+                        <div class="data">
+                            <select name="typeNames" id="typeNames"> 
+                                <option value="suv">SUV</option> 
+                                <option value="electric">Electric</option> 
+                                <option value="sports">Sports</option> 
+                            </select>
+                        </div>
                         <div id="button">
                             <button type="submit">Submit</button>
-
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </section>

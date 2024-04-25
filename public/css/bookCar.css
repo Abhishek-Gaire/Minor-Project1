@@ -14,6 +14,7 @@
     min-height: 50px;
 }
 
+
 .container{
     height: 100vh;
     width: 100%;
@@ -43,9 +44,10 @@
 .content img{
     height: calc(16vw + 1rem);
 }
-.content p{
-    /* background-color: red; */
-    /* text-align: center; */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 button{
     font-size: calc(.5vw + .5rem);
@@ -58,3 +60,47 @@ button{
     text-decoration: none;
     color: white;
 }
+/* .container .form{
+    display: none;
+} */
+/* <!-- <% if(userData) { %>
+    <h1>Welcome <%= userData.username %></h1> 
+<% } %> --> */
+.alert-form{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    height: 60vh;
+    width: 30vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 9;
+    background-color: white;
+    border-radius: 14px;
+}
+.overlay{
+    
+    background-color: rgba(255, 0, 0, 0.811);
+    backdrop-filter: blur(30px);
+    opacity: 0.1;
+    position: fixed;
+    display: none;
+    height: 100%;
+    width: 100%;
+    z-index: 8;
+ } 
+ form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    
+ }
+ form button:hover{
+    background-color: #4a4949;
+    color: white;
+    cursor: pointer;
+ }
+ 

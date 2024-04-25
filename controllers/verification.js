@@ -4,7 +4,7 @@ import{getUserByEmail,getCollectionName} from"../Models/user.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 
 const getVerify = async(req,res) => {
-  const query = req.url.split("?")[1];
+  const query = req.url.split("?")[1] ;
   if(!query){
     res.writeHead(302,{"Location":"/signup"});
     return res.end();
