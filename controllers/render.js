@@ -75,4 +75,8 @@ const renderContactPage = async (req, res) => {
         console.error(err);
     }
 };
-export { renderHomePage, renderModelView, renderVehicles,renderAboutPage,renderContactPage };
+const get500Error = async(req,res) => {
+    const filePath = "/views/500-error.html";
+    await renderPage(res,filePath,{data:''});
+}
+export { renderHomePage, renderModelView, renderVehicles,renderAboutPage,renderContactPage,get500Error };

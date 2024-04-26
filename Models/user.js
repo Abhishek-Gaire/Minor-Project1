@@ -23,7 +23,6 @@ const getUserByEmail = async (Users, email) => {
   } catch (error) {
     // Handle any errors
     console.error("Error fetching user by email:", error);
-    throw error; // Re-throw the error to be handled by the caller
   }
 };
 

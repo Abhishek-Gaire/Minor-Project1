@@ -1,43 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>3D Model of the Car</title>
-    <link rel="stylesheet" href="/public/css/modelview.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 
-  </head>
-  <body>
-    <div class="view_back_b">
-      <a href="">Back</a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Model of the Car</title>
+  <link rel="stylesheet" href="/public/css/modelview.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+
+</head>
+
+<body>
+  <div class="view_back_b">
+    <a href="">Back</a>
+  </div>
+  <div class="overlay_b">
+    <div class="left_b">
+      <a href="/">Back</a>
+      <div class="description">
+        <div class="car des">
+          <p>
+            <%= models.descriptionOfCar %>
+          </p>
+        </div>
+        <div class="engine des">
+          <p>
+            <%= models.descriptionOfEngine %>
+          </p>
+        </div>
+        <div class="tyre des">
+          <p>
+            <%= models.descriptionOfTyre %>
+          </p>
+        </div>
+      </div>
+      <button id="view_car">Next</button>
     </div>
-    <div class="overlay_b">
-      <div class="left_b">
-        <a href="/">Back</a>
-        <button id="view_car">Next</button>
-      </div>
 
-      <div class="middle_b">
-        <h2><%= models.name %></h2>
-        <p><%= models.description %></p>
-      </div>
-      <div class="model">
+    <div class="middle_b">
+      <h2>
+        <%= models.name %>
+      </h2>
+      <p>
+        <%= models.description %>
+      </p>
 
-      </div>
-      <div class="right_b">
-        <p id="view_b">Perspective View</p>
-         <% if(isLoggedIn)  { %>
-          <a href="/book-car?<%=models._id%>" id="buy_b">Book Car</a>
+    </div>
+    <div class="right_b">
+      <p id="view_b">Perspective View</p>
+      <% if(isLoggedIn) { %>
+        <a href="/book-car?<%=models._id%>" id="buy_b">Book Car</a>
         <% } else{ %>
           <a href="/login" id="buy_b">Login</a>
-        <%} %>
-      </div>
+          <%} %>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
     integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
     crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
@@ -46,7 +67,6 @@
     integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -56,14 +76,19 @@
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
   <script>
     const modelPath = "<%= models.modelUrl%>"
-    
+
+    const car = document.querySelector('.car')
+    const engine = document.querySelector('.engine')
+    const tyre = document.querySelector('.tyre')
+
+
     const overlay_b = document.querySelector('.view_back_b')
     const viewCar = document.querySelector('#view_car')
-    const perspective =  document.getElementById('view_b')
+    const perspective = document.getElementById('view_b')
     const overlay = document.querySelector('.overlay_b')
-    perspective.addEventListener('click',()=>{
+    perspective.addEventListener('click', () => {
       console.log('works')
-      overlay.style.visibility =  'hidden'
+      overlay.style.visibility = 'hidden'
       overlay_b.style.visibility = 'visible'
     })
     const sizes = {
@@ -73,50 +98,56 @@
     // Setup scene
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000)
-    // camera.position.set(1, 1.5, 4);
-    // camera.position.x= 0.4
-    camera.position.y = 1.1
+    camera.position.set(-0.4,0.7,4.7);
+    // camera.position.x = -0.5
+    // camera.position.y = 0.6
+    // camera.position.z = 4.7;
+
     // camera.position.z= -1
     const renderer = new THREE.WebGLRenderer({ antialis: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.setClearColor(0xffffff)
+    renderer.setClearColor('#585E69')
     renderer.shadowMap.enabled = true
     document.body.appendChild(renderer.domElement);
 
 
-    const alight = new THREE.AmbientLight(0xffffff,2)
+
+    const alight = new THREE.AmbientLight(0xffffff, 2)
     // scene.add(alight)
 
-    const light = new THREE.DirectionalLight(0xffffff, 3 );
-    light.position.set(-3, 4, 1);
+    const light = new THREE.DirectionalLight(0xffffff, 2);
+    light.position.set(3, 4, 1);
     scene.add(light);
-    // const light2 = new THREE.DirectionalLight(0xffffff, 1 );
-    // light.position.set(3, 4, 1);
-    // scene.add(light2);
+
+    const light2 = new THREE.DirectionalLight(0xffffff, 1);
+    light2.position.set(-6, 9, 1);
+    scene.add(light2);
+    // const helper = new THREE.DirectionalLightHelper(light2);
+    // scene.add(helper);
 
     let controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true
     controls.target.set(0, 0.75, 0)
     // console.log(OrbitControls)
-    
+
     window.addEventListener('resize', () => {
       // Update sizes
       sizes.width = window.innerWidth
       sizes.height = window.innerHeight
-      
+
       // Update camera
       camera.aspect = sizes.width / sizes.height
       camera.updateProjectionMatrix()
-      
+
       // Update renderer
       renderer.setSize(sizes.width, sizes.height)
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     })
-    
-    
+
+
     let position = 0
-    
+
     // Load the car model
     const loader = new THREE.GLTFLoader();
     // const loader = new GLTFLoader();
@@ -125,50 +156,63 @@
       carModel.rotation.x = Math.PI * 0.08;
       carModel.rotation.y = Math.PI * 0.2;
       scene.add(carModel);
-      
+
       viewCar.addEventListener('mouseup', () => {
-        switch(position){
-          case 0 :
-            moveCamera(-0.5,0.7,4.2)
-            rotateModel(0.3,Math.PI * -0.28,0)
+        switch (position) {
+          case 0:
+            moveCamera(-0.5, 0.5, 4)
+            rotateModel(0.3, Math.PI * -0.28,0)
             position = 1
+            car.style.visibility = 'hidden'
+            engine.style.visibility = 'visible'
+            tyre.style.visibility = 'hidden'
             console.log('works')
             break;
-          }
-          // gsap.to(camera.position,1,{
-            //   x : -0.5,
-            //   y : 0.7,
-            //   z : 4.2 
-            // },"anim")
-            // gsap.to(carModel.rotation,1,{
-              //   // x:0.3,
-              //   y : Math.PI * -0.28
-              // },"anim")
-              
-              
-              function moveCamera(x,y,z){
-                gsap.to(camera.position,1,{
-              x,
-              y,
-              z
-            },"anim")
-          }
 
-          function rotateModel(x,y,z){
-            gsap.to(carModel.rotation,1,{
-              x,
-              y,
-              z
-            },"anim")
-          }
-        })
+          case 1:
+            moveCamera(-1,1,3.5)
+            rotateModel(0, Math.PI * 0.7, 0)
+            car.style.visibility = 'hidden'
+            engine.style.visibility = 'hidden'
+            tyre.style.visibility = 'visible'
+            position = 2
+            break
+
+          case 2:
+          moveCamera(-0.4,0.7,4.7)
+          rotateModel(Math.PI * 0.08,Math.PI * 0.2,0)
+            car.style.visibility = 'visible'
+            engine.style.visibility = 'hidden'
+            tyre.style.visibility = 'hidden'
+            position = 0
+            break
+        }
+
+
+
+
+        function moveCamera(x, y, z) {
+          gsap.to(camera.position, 1, {
+            x,
+            y,
+            z
+          }, "anim")
+        }
+
+        function rotateModel(x, y, z) {
+          gsap.to(carModel.rotation, 1, {
+            x,
+            y,
+            z
+          }, "anim")
+        }
+      })
       console.log('working')
     });
     // let controls = new THREE.OrbitControls(camera,renderer.domElement)
-    
+
     // Position the camera
-    camera.position.z = 5;
-    
+
     // Render loop
     function animate() {
       requestAnimationFrame(animate);
@@ -176,6 +220,7 @@
       renderer.render(scene, camera);
     }
     animate();
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
