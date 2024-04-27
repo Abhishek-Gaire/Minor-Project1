@@ -63,3 +63,14 @@ html, body{
     white-space: nowrap;
     z-index: 999;
 }
+
+.edit{
+    /* text-align: center; */
+    display: flex;
+    /* background-color: black; */
+    justify-content: space-evenly;
+    
+}
+.edit a{
+    /* background-color: red; */
+}

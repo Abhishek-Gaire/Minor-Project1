@@ -216,6 +216,7 @@ const postAddVehicles = async(req,res) => {
         title: "Add Car",
         adminData:adminData,
         errorMessage:"Invalid File Type! Please upload an Image",
+        isEditing:false,
     }
     return await renderPage(res,filePath,data);
 }
@@ -338,18 +339,17 @@ const changeTopSelling = async(req,res) => {
     const modelID = query.split("=")[1];
 
     const modelCollection = await Models.getCollectionName();
-    const modelData = await Models.getDataById(modelCollection,
-    modelID);
+    
+    await modelCollection.updateOne({isHomePage:true},{$set:{
+        isHomePage:false
+    }})
 
-    const isHomePageUpdated = modelCollection.updateOne({_id:new ObjectId(modelID)},{$set:{"isHomePage":true}})
+    const isHomePageUpdated = modelCollection.updateOne({_id:new ObjectId(modelID)},{$set:{isHomePage:true}})
 
     if(isHomePageUpdated){
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write('<html><body><script>window.open("http://localhost:5173/", "_blank");</script></body></html>');
+        res.writeHead(302,{Location:"/admin/cars"})
         return res.end();
     }
-    
-
 }
 const changeStatus = async(req,res) => {
     if(!req.admin){

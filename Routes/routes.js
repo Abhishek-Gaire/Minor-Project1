@@ -46,7 +46,8 @@ const routes = {
         "/adminModelView":AdminControllers.getAdminModelView,
         "/admin/deleteModel":AdminControllers.deleteModel,
         "/admin/changeStatus":AdminControllers.changeStatus,
-        "/admin/cancelModel":AdminControllers.cancelModel
+        "/admin/cancelModel":AdminControllers.cancelModel,
+        "/admin/changeHomePage":AdminControllers.changeTopSelling,
     }
 }; 
 

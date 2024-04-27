@@ -121,7 +121,10 @@ form{
     margin-top: 2rem;
 }
 
-
+.colortype{
+    border: none;
+    margin: 1.5rem 0;
+}
 
 @media(max-width:650px){
     .container{
