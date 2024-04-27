@@ -19,7 +19,7 @@ const routes = {
         "/addVehicles": AdminControllers.postAddVehicles,
         "/logout":AuthControllers.postLogoutUser,
         "/adminLogin":AdminControllers.postLoginAdmin,
-        "/adminLogout":AdminControllers.postLogoutAdmin,
+        
         "/confirmBookCar":postBookCar,
     },
     "GET": {
@@ -43,6 +43,8 @@ const routes = {
         "/verify":getVerify,
         "/500-error":PageControllers.get500Error,
         "/api/modelData": sendModelData,
+        "/adminLogout":AdminControllers.postLogoutAdmin,
+        "/adminModelView":AdminControllers.getAdminModelView,
     }
 }; 
 

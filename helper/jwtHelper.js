@@ -6,7 +6,7 @@ const generateToken = async(id) =>{
 }
 
 const generateAdminToken = async(id) =>{
-  const adminToken = jwt.sign({ id }, process.env.ADMIN_SECRET_KEY, { expiresIn: '1h' });
+  const adminToken = jwt.sign({ id }, process.env.ADMIN_SECRET_KEY, { expiresIn: '5h' });
   return adminToken;
 }
 

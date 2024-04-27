@@ -54,8 +54,11 @@
                         <p>Signed Up Users</p>
                     </div>
                     <div class="right">
-                            <div class="nav">
-                                <i class="fa-regular fa-user"></i>
+                        <div class="nav">
+                            <i class="fa-regular fa-user" id ="dropdown"></i>
+                            <div class="dropdown-content">
+                                <a href="/adminLogout">Logout</a>
+                            </div>
                         </div>
                         <div class="download">
                             <a href="#">
@@ -116,5 +119,16 @@
         </div> 
     </div>        
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById("dropdown").addEventListener("click", ()=>{
+            const dropdown = document.querySelector(".dropdown-content")
+            if(dropdown.style.display === "none"){
+                console.log("inside if")
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        })
+    </script>
 </body>
 </html>

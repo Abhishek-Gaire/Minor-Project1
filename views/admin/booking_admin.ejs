@@ -57,8 +57,11 @@
                     </div>
                     <div class="right">
                             <div class="nav">
-                                <i class="fa-regular fa-user"></i>
-                        </div>
+                                <i class="fa-regular fa-user" id ="dropdown"></i>
+                                <div class="dropdown-content">
+                                    <a href="/adminLogout">Logout</a>
+                                </div>
+                            </div>
                         <div class="download">
                             <a href="#">
                                 <i class="fa-solid fa-download"></i>
@@ -75,6 +78,7 @@
                                 <th>Full Name</th>
                                 <th>Car</th>
                                 <th>Email</th>
+                                <th>Status</th>
                                 <th>Contact</th>
                             </tr>
                             <% orderData.forEach(function(data) { %>                                        <tr>
@@ -85,6 +89,7 @@
                                             <%=data.carName %>
                                         </td>
                                         <td> <%= data.email%> </td>
+                                        <td><%= data.status %></td>
                                         <td>
                                             <%= data.contactNumber %>
                                         </td>
@@ -101,5 +106,16 @@
     
         
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById("dropdown").addEventListener("click", ()=>{
+            const dropdown = document.querySelector(".dropdown-content")
+            if(dropdown.style.display === "none"){
+                console.log("inside if")
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        })
+    </script>
 </body>
 </html>

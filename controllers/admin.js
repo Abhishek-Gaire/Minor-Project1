@@ -8,7 +8,8 @@ import { getCounterCollectionName,getOrderCollectionName } from "../Models/order
 import { generateAdminToken } from "../helper/jwtHelper.js";
 import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
-import { getCollectionName ,getUserByID} from "../Models/user.js";
+import { getCollectionName } from "../Models/user.js";
+
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -42,16 +43,36 @@ const getAddVehicles = async(req,res) => {
         res.writeHead(302,{Location:"/login?adminExists=false"})
         return res.end();
     }
+    const filePath = "/views/admin/addVehicle.ejs";
     const collection = await getAdminCollectionName();
     const adminData = await getAdminByEmail(collection,req.admin.id);
-
-    const filePath = "/views/admin/addVehicle.ejs";
-    const data = {
-        title: "Admin Car",
-        adminData:adminData,
-        errorMessage:'',
+    const query = req.url.split("?")[1];
+    if(!query){
+        const data = {
+            title: "Admin Add Car",
+            adminData:adminData,
+            errorMessage:'',
+            isEditing: false,
+            models:'',
+        }
+        return await renderPage(res,filePath,data);
     }
-    await renderPage(res,filePath,data);
+    const isEdit= query.split("=")[1];
+    if(isEdit){
+        const modelId = query.split("&")[1].split("=")[1];
+        
+        const modelCollection = await Models.getCollectionName();
+        const modelData = await Models.getDataById(modelCollection,modelId);
+        const data = {
+            title: "Admin Edit Car",
+            adminData:adminData,
+            errorMessage:'',
+            isEditing: true,
+            models:modelData,
+        }
+        await renderPage(res,filePath,data);
+        return;
+    }
 }
 const getManageUsers = async(req,res) => {
     if(!req.admin){
@@ -136,7 +157,7 @@ const postAddVehicles = async(req,res) => {
         const exists = await modelCollection.findOne({
             name:name[0],
             price:Number(price[0]),
-            modelYear:year[0],
+            modelYear:Number(year[0]),
             type:typeNames[0]
         });
         if(exists){
@@ -174,7 +195,7 @@ const postAddVehicles = async(req,res) => {
             imageUrl:newPathForImages,
             modelUrl:newPathForModels,
             type:typeNames[0],
-            modelYear:year[0],
+            modelYear:Number(year[0]),
             descriptionOfEngine:descriptionEngine[0],
             descriptionOfTyre:descriptionTyre[0],
             stocks:1,
@@ -239,7 +260,6 @@ const postLoginAdmin = async (req, res) => {
 };
 const postLogoutAdmin = async(req,res)=> {
     const filePath= "/views/auth/login.ejs"
-    // console.log(req.token);
     if(req.adminToken){
       // console.log("Inside If");
       deleteCookie(res,"adminToken");
@@ -275,4 +295,20 @@ const getCarDetails = async(req,res) => {
     };
     await renderPage(res,filePath,data);
 }
-export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails};
+const getAdminModelView = async(req,res) => {
+    if(!req.admin){
+        res.writeHead(302,{Location:'/login?adminExists=false'});
+        res.end();
+        return;
+    }
+    const filePath  = "/views/admin/adminModelView.ejs";
+    const query = req.url.split("?")[1];
+    const id = query.split("=")[1];
+
+    const modelCollection = await Models.getCollectionName();
+    const modelData = await Models.getDataById(modelCollection,id);
+    
+    await renderPage(res,filePath,{models : modelData});
+
+}
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView};

@@ -56,8 +56,11 @@
                         <p>Add  a new car to the platform.</p>
                     </div>
                     <div class="right">
-                            <div class="nav">
-                                <i class="fa-regular fa-user"></i>
+                        <div class="nav">
+                            <i class="fa-regular fa-user" id ="dropdown"></i>
+                            <div class="dropdown-content">
+                                <a href="/adminLogout">Logout</a>
+                            </div>
                         </div>
                         <div class="download">
                             <a href="#">
@@ -68,7 +71,7 @@
                     </div>
                 </div>
                 <div class="bottom">
-                    <form action="/addVehicles" method="POST" enctype="multipart/form-data">
+                    <form action="/<%if(isEditing){ %>editVehicles <% }else { %> addVehicles <% } %>" method="POST" enctype="multipart/form-data">
                         <% if(errorMessage){ %>
                             <div class="alert alert-danger">
                                 <%= errorMessage %>
@@ -77,27 +80,27 @@
                         <div class="datas">
                             <div class="data inter">
                                 <label for="name">Name of the Car:</label><br>
-                                <input type="text" id="name" name="name" required><br>
+                                <input type="text" id="name" name="name" value="<% if(isEditing) { %><%=models.name %> <%} %>" required autocomplete="additional-name"><br>
                             </div>
                             <div class="data inter">
                                 <label for="price">Price:</label><br>
-                                <input type="number" id="price" name="price" required><br>           
+                                <input type="number" id="price" name="price" value="<% if(isEditing) {%> <%=models.price%> <%} %>" required><br>           
                             </div>
                             <div class="data file">
                                 <label for="image">Image:</label><br>
-                                <input type="file" name="image" required><br>
+                                <input type="file" id= "image" name="image" required><br>
                             </div>
                             <div class="data inter">
                                 <label for="year">Model Year:</label><br>
-                                <input type="number" name="year" required><br>
+                                <input type="number" name="year" id="year" value="<% if(isEditing) {%> <%=Number(models.modelYear) %> <%} %>" required><br>
                             </div>
                             <div class="data file">
-                                <label for="3dModel">3D Model of the Car:</label><br>
-                                <input type="file" name="model" required><br>
+                                <label for="model">3D Model of the Car:</label><br>
+                                <input type="file" name="model" id="model" required><br>
                             </div>
                             <div class="data">
                                 <label for="typeNames">Choose a Car Type:</label> 
-                                <select name="typeNames" id="typeNames"> 
+                                <select name="typeNames" id="typeNames" > 
                                     <option value="suv">SUV</option> 
                                     <option value="electric">Electric</option> 
                                     <option value="sports">Sports</option> 
@@ -106,19 +109,22 @@
                         </div>
                         <div class="description">
                             <div class="data">
-                                <label for="description">Description of the Car:</label><br>
-                                <textarea id="description" name="descriptionCar" rows="4" cols="50" colspan="2" required></textarea><br>
+                                <label for="descriptionCar">Description of the Car:</label><br>
+                                <textarea name="descriptionCar" id= "descriptionCar" rows="4" cols="50" colspan="2"><% if(isEditing){ %> <%=models.descriptionOfCar %><%} %></textarea><br>
                             </div>
                             <div class="data">
-                                <label for="description">Description of the Tyre:</label><br>
-                                <textarea id="description" name="descriptionTyre" rows="4" cols="50" colspan="2" required></textarea><br>
+                                <label for="descriptionTyre">Description of the Tyre:</label><br>
+                                <textarea name="descriptionTyre" id="descriptionTyre" rows="4" cols="50" colspan="2"><% if(isEditing) {%> <%=models.descriptionOfTyre %> <%} %></textarea><br>
                             </div>
                             <div class="data">
-                                <label for="description">Description of the Engine:</label><br>
-                                <textarea id="description" name="descriptionEngine" rows="4" cols="50" colspan="2" required></textarea><br>
+                                <label for="descriptionEngine">Description of the Engine:</label><br>
+                                <textarea name="descriptionEngine" id="descriptionEngine" rows="4" cols="50" colspan="2"><% if(isEditing) {%> <%=models.descriptionOfEngine %> <%} %></textarea><br>
                             </div>
+                            <% if(isEditing) { %>
+                                <input type="hidden" value="<%= models._id %>" name="modelId">
+                            <% } %>
                             <div id="button">
-                                <button type="submit">Submit</button>
+                                <button class="btn" type="submit"><% if(isEditing){ %>Update Model<% } else { %>Add Model<% } %></button>
                             </div>
                         </div>
                         
@@ -129,5 +135,16 @@
         </div>
     </div>
     <script src="https://kit.fontawesome.com/fd6ad446c7.js" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById("dropdown").addEventListener("click", ()=>{
+            const dropdown = document.querySelector(".dropdown-content")
+            if(dropdown.style.display === "none"){
+                console.log("inside if")
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        })
+    </script>
 </body>
 </html>

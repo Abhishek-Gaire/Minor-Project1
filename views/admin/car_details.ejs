@@ -10,12 +10,19 @@
     <div class="container">
         <h1>Car Details Page</h1>
         <div class="details">
+            <button><a href="/adminModelView?id=<%=vehicleData._id %>">Check Model</a></button>
+            <button><a href="/admin/addVehicles?edit=true&id=<%=vehicleData._id%>">Edit Vehicles</a></button>
             <div class="detail">
                <h1>Name:<%= vehicleData.name %></h1>
                <p><b>Price: $<%= vehicleData.price %> </b></p> 
                <img src="/<%=vehicleData.imageUrl%>" alt="car image"/>
+               <h1>Type:<%= vehicleData.type %></h1>
             </div>
-            <div class="description"></div>
+            <div class="description">
+                <p>Description Of Car:<%= vehicleData.descriptionOfCar %></p>
+                <p>Description Of Engine:<%= vehicleData.descriptionOfEngine %></p>
+                <p>Description Of Tyre:<%= vehicleData.descriptionOfTyre %></p>
+            </div>
         </div>
 
     </div>
