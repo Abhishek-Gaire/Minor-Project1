@@ -62,12 +62,6 @@
                                     <a href="/adminLogout">Logout</a>
                                 </div>
                             </div>
-                        <div class="download">
-                            <a href="#">
-                                <i class="fa-solid fa-download"></i>
-                                    <h1>DOWNLOAD REPORTS</h1>
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div class="bottom">
@@ -78,7 +72,7 @@
 
                             <div>
                                 <div class="dropdown">
-                                    <button onclick="toggleDropdown()" class="dropbtn">Select Status</button>
+                                    <button onclick="toggleDropdown()" class="dropbtn"><i class="fa-solid fa-arrow-up-short-wide"></i></button>
                                     <div id="statusDropdown" class="dropdown-content">
                                         <h4 onclick="filterStatus('all')"  id="all">All</h4>
                                         <h4 onclick="filterStatus('pending')" id="pending">Pending</h4>
@@ -95,7 +89,7 @@
 
 
                             <!-- <div class="filter">
-                                <i class="fa-solid fa-arrow-up-short-wide"></i>
+                                
                             </div> -->
                         </div>
                         <div class="maintable">
@@ -106,6 +100,7 @@
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Contact</th>
+                                    <th>Action</th>
                                 </tr>
                                     <% orderData.forEach(function(data) { %>                                        <tr>
                                                 <td>
@@ -118,6 +113,19 @@
                                                 
                                                 <td>
                                                     <%= data.contactNumber %>
+                                                </td>
+                                                <td>
+                                                    <div id="action">
+                                                        <% if(data.status !== "cancel"){ %>
+                                                            <a href="/admin/changeStatus?id=<%=data._id%>&<%=data.status %>">
+                                                                <i class="fa-solid fa-edit"></i>
+                                                            </a>
+                                                            <a href="/admin/cancelModel?id=<%=data._id%>">
+                                                                <i class="fa-solid fa-trash">
+                                                                </i>
+                                                            </a>
+                                                        <% } %>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         <% }) %>  
@@ -163,7 +171,7 @@
                                 
                                 <tr> 
                                 <% orderData.forEach(function(data) { %> 
-                                    <% if(data.status == "approve"){ %>
+                                    <% if(data.status == "approved"){ %>
                                             <td> 
                                                 <%=data.FullName %>
                                             </td>
@@ -262,26 +270,23 @@
 
 
 
-// Function to toggle the dropdown menu
 function toggleDropdown() {
     var dropdownContent = document.getElementById("statusDropdown");
     dropdownContent.classList.toggle("show");
 }
 
-// Function to update selected status and display it on the HTML container
 function filterStatus(status) {
-    var statusText = getStatusText(status); // Get the text corresponding to the status
+    var statusText = getStatusText(status);
     var statusContainer = document.getElementById("statusValue");
 
     if (statusContainer) {
-        statusContainer.textContent = statusText; // Update the content of the status container
+        statusContainer.textContent = statusText; 
         console.log("Selected status: " + statusText);
     } else {
         console.error("Status container element not found.");
     }
 }
 
-// Function to get status text based on status key
 function getStatusText(status) {
     switch (status) {
         case 'all':

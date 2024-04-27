@@ -30,7 +30,7 @@ const server = http.createServer(async (req, res) => {
                 });
             })
         }
-        else if(pathname === "/admin" || pathname ==="/admin/dashboard" || pathname === "/admin/addVehicles" || pathname === "/admin/cars" || pathname === "/admin/manageUsers" || pathname === "/admin/bookedVehicles" || pathname==="/admin/car-details" || pathname==="/adminLogout" || pathname === "/adminModelView" || pathname === "/admin/deleteModel")
+        else if(pathname === "/admin" || pathname ==="/admin/dashboard" || pathname === "/admin/addVehicles" || pathname === "/admin/cars" || pathname === "/admin/manageUsers" || pathname === "/admin/bookedVehicles" || pathname==="/admin/car-details" || pathname==="/adminLogout" || pathname === "/adminModelView" || pathname === "/admin/deleteModel" || pathname === "/admin/changeStatus" || pathname === "/admin/cancelModel" || pathname === "/admin/changeHomePage")
         {
             console.log(`Inside GET and ${pathname}`);
             return await extractAdminTokenFromCookie(req,res,async() =>{

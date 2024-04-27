@@ -22,7 +22,6 @@
                     <img src="<%= vehicleData.imageUrl %>" alt="Image From Database">
                     <h2>Price <%= vehicleData.price %></h2>
                     <p>Description :<%= vehicleData.descriptionOfCar %></p>
-                    
                 <%} %>
             </div>
             <div class="alert form">
@@ -31,11 +30,11 @@
                     <input type="hidden" name="userId" value="<%= userData._id %>"/>
                     <div class="data">
                         <label for="FirstName">First Name:</label><br>
-                        <input type="text" name="firstName" id="FirstName" required><br>
+                        <input type="text" name="firstName" id="FirstName" value="<%= (userData.firstName || '') %>" required><br>
                     </div>
                     <div class="data">
                         <label for="LastName">Last Name:</label><br>
-                        <input type="text" name="lastName" id="LastName" required><br>
+                        <input type="text" name="lastName" id="LastName" value="<%= (userData.lastName || '') %>" required><br>
                     </div>
                     <div class="data colortype">
                                 <label for="typeNames">Choose a color of car:</label> 
@@ -51,11 +50,11 @@
                     </div>
                     <div class="data">
                         <lab el for="Address">Address:</lab><br>
-                        <input type="text" name="address" id="Address" placeholder="Street Number and Street Name" required><br>
+                        <input type="text" name="address" id="Address" placeholder="Street Number and Street Name" value="<%= (userData.address || '') %>" required><br>
                     </div>
                     <div class="data">
                         <label for="contactNumber">Contact Number:</label><br>
-                        <input type="number" name="phoneNumber" id="contactNumber" required> <br>
+                        <input type="number" name="phoneNumber" id="contactNumber" value="<%= (userData.contactNumber || '') %>" required> <br>
                     </div>
                     <button type="submit">Confirm Your Booking</button>
                 </form>

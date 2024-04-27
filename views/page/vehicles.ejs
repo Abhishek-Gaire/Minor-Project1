@@ -6,7 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
-  <title>Webpage</title>
+  <title>All Vehicles</title>
   <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 
 </head>
@@ -36,7 +36,7 @@
                   <h2><%= vehicle.name %></h2>
                   <p>NRP <%= vehicle.price %></p>
                   <div id="stock">
-                    <h3>Stocks: 3</h3>
+                    <h3>Stocks: <%=vehicle.stocks %> Available</h3>
                   </div>
                 </a>
               </div>
@@ -52,6 +52,9 @@
                   <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
                   <h2><%= vehicle.name %></h2>
                   <p>NRP <%= vehicle.price %></p>
+                  <div id="stock">
+                    <h3>Stocks: <%=vehicle.stocks %> Available</h3>
+                  </div>
                 </a>
               </div>
               <% } %>
@@ -66,6 +69,9 @@
                   <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
                   <h2><%= vehicle.name %></h2>
                   <p>NRP <%= vehicle.price %></p>
+                  <div id="stock">
+                    <h3>Stocks: <%=vehicle.stocks %> Available</h3>
+                  </div>
                 </a>
               </div>
               <% } %>

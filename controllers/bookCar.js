@@ -6,6 +6,8 @@ import * as Orders from "../Models/order.js"
 
 import { renderPage } from "../helper/appHelper.js";
 import { parseFormData } from "../helper/appHelper.js";
+import { transporter } from "../helper/nodemailerHelper.js";
+
 
 const getBookCar = async(req,res)=> {
     
@@ -44,6 +46,7 @@ const postBookCar = async(req,res) => {
     const address = formData.address;
     const phoneNumber = formData.phoneNumber;
     const email = formData.email;
+    const color = formData.color;
 
     const userID = formData.userId;
     const vehicleID = formData.vehicleId;
@@ -81,9 +84,23 @@ const postBookCar = async(req,res) => {
         res.end();
         return;
     }
+    const mailOptions = {
+        from: "projectMinor1@gmail.com",
+        to: `${email}`,
+        subject:"Booked Car Successful",
+        text:`Dear ${firstName}, Your booking of the car ${carName} of price${price} with selected color of ${color} has been successfully booked.`
+    }
+    transporter.sendMail(mailOptions, async(error, info) => {
+        if (error) {
+          console.error('Error sending verification email:', error);
+          res.writeHead(500,{Location:'/500-error'}).end();
+          return;
+        } else {
+          console.log('Verification email sent:', info.response);
+        }
+    });
     // Redirect to the success page
     res.writeHead(302,{Location:`/modelview?${vehicleID}`});
     res.end();
-
 }
 export{getBookCar,postBookCar};
