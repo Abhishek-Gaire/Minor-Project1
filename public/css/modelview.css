@@ -4,7 +4,24 @@
   box-sizing: border-box;
   /* color: rgb(153, 83, 83); */
   background-color: transparent;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Neue Montreal'
+}
+.overlay_admin{
+  position: absolute;
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 3rem;
+}
+
+
+
+.overlay_admin a{
+  font-size: calc(1vw + 1rem);
+  text-decoration: none;
+  color:black
+  
 }
 
 .overlay_b {
@@ -155,3 +172,4 @@
   text-align: end;
   padding-right: 3rem;
 }
+

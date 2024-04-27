@@ -202,6 +202,9 @@ body {
   width: 45%;
   font-size: calc(1vw + .5rem);
  }
+ .car img{
+  height: 10px;
+ }
 
 
 .content h1{
@@ -245,7 +248,7 @@ body {
   /* right: 9rem; */
   /* top: 4rem; */
   /* z-index: 4; */
-  height: calc(35vw + 5rem);
+  height: calc(27vw + 5rem);
   rotate: -2deg;
   overflow: hidden;
 }

@@ -73,11 +73,30 @@
                 <div class="bottom">
                     <div class="table">
                         <div id="head">
-                            <h1>List Of Orders</h1>
-                            <div class="filter">
-                                <i class="fa-solid fa-arrow-up-short-wide"></i>
                             
+                            <h1>List Of Orders</h1>
+
+                            <div>
+                                <div class="dropdown">
+                                    <button onclick="toggleDropdown()" class="dropbtn">Select Status</button>
+                                    <div id="statusDropdown" class="dropdown-content">
+                                        <h4 onclick="filterStatus('all')"  id="all">All</h4>
+                                        <h4 onclick="filterStatus('pending')" id="pending">Pending</h4>
+                                        <h4 onclick="filterStatus('approve')" id="approve">Approve</h4>
+                                        <h4 onclick="filterStatus('cancel')" id="cancel">Cancel</h4>
+                                    </div>
+                                </div>
+                            
+                                <!-- Container to display selected status -->
+                                <div id="selectedStatusContainer" class="selected-status">Selected Status: <span id="statusValue">None</span></div>
+
                             </div>
+                        
+
+
+                            <!-- <div class="filter">
+                                <i class="fa-solid fa-arrow-up-short-wide"></i>
+                            </div> -->
                         </div>
                         <div class="maintable">
                             <table class="all sectable">
@@ -88,21 +107,22 @@
                                     <th>Status</th>
                                     <th>Contact</th>
                                 </tr>
-                                <% orderData.forEach(function(data) { %>                                        <tr>
-                                            <td> 
-                                                <%=data.FullName %>
-                                            </td>
-                                            <td>
-                                                <%=data.carName %>
-                                            </td>
-                                            <td> <%= data.email%> </td>
-                                            <td><%= data.status %></td>
-                                            
-                                            <td>
-                                                <%= data.contactNumber %>
-                                            </td>
-                                        </tr>
-                                    <% }) %>  
+                                    <% orderData.forEach(function(data) { %>                                        <tr>
+                                                <td>
+                                                    <%=data.FullName %></td>
+                                                <td>
+                                                    <%=data.carName %>
+                                                </td>
+                                                <td><%= data.email%> </td>
+                                                <td><%= data.status %></td>
+                                                
+                                                <td>
+                                                    <%= data.contactNumber %>
+                                                </td>
+                                            </tr>
+                                        <% }) %>  
+
+                                
                             </table>
                             <table class="pending sectable">
                                 <tr>
@@ -212,10 +232,73 @@
         const pending = document.querySelector('.pending')
         const approve = document.querySelector('.approve')
         const cancel = document.querySelector('.cancel')
-        document.querySelector('.filter').addEventListener('click',()=>{
+        document.querySelector('#pending').addEventListener('click',()=>{
             all.style.visibility = 'hidden'
             pending.style.visibility = 'visible'
+            approve.style.visibility = 'hidden'
+            cancel.style.visibility = 'hidden'
         })
+        document.querySelector('#approve').addEventListener('click',()=>{
+            all.style.visibility = 'hidden'
+            pending.style.visibility = 'hidden'
+            approve.style.visibility = 'visible'
+            cancel.style.visibility = 'hidden'
+        })
+        document.querySelector('#cancel').addEventListener('click',()=>{
+            all.style.visibility = 'hidden'
+            pending.style.visibility = 'hidden'
+            approve.style.visibility = 'hidden'
+            cancel.style.visibility = 'visible'
+        })
+        document.querySelector('#all').addEventListener('click',()=>{
+            all.style.visibility = 'visible'
+            pending.style.visibility = 'hidden'
+            approve.style.visibility = 'hidden'
+            cancel.style.visibility = 'hidden'
+        })
+
+
+
+
+
+
+// Function to toggle the dropdown menu
+function toggleDropdown() {
+    var dropdownContent = document.getElementById("statusDropdown");
+    dropdownContent.classList.toggle("show");
+}
+
+// Function to update selected status and display it on the HTML container
+function filterStatus(status) {
+    var statusText = getStatusText(status); // Get the text corresponding to the status
+    var statusContainer = document.getElementById("statusValue");
+
+    if (statusContainer) {
+        statusContainer.textContent = statusText; // Update the content of the status container
+        console.log("Selected status: " + statusText);
+    } else {
+        console.error("Status container element not found.");
+    }
+}
+
+// Function to get status text based on status key
+function getStatusText(status) {
+    switch (status) {
+        case 'all':
+            return 'All';
+        case 'pending':
+            return 'Pending';
+        case 'approve':
+            return 'Approve';
+        case 'cancel':
+            return 'Cancel';
+        default:
+            return 'Unknown';
+    }
+}
+
+
+
     </script>
 </body>
 </html>
