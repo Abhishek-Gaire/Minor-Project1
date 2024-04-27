@@ -23,6 +23,7 @@
                     <h2>Price <%= vehicleData.price %></h2>
                     <p>Description :<%= vehicleData.descriptionOfCar %></p>
                 <%} %>
+                <p style="color: red;"><%= message %></p>
             </div>
             <div class="alert form">
                 <form action="/confirmBookCar" method="post">
@@ -38,10 +39,10 @@
                     </div>
                     <div class="data colortype">
                                 <label for="typeNames">Choose a color of car:</label> 
-                                <select name="typeNames" id="typeNames" > 
-                                    <option value="suv">White</option> 
-                                    <option value="electric">Black</option> 
-                                    <option value="sports">Blue</option> 
+                                <select name="color" id="typeNames" > 
+                                    <option value="white">White</option> 
+                                    <option value="black">Black</option> 
+                                    <option value="blue">Blue</option> 
                                 </select>
                             </div>
                     <div class="data">
@@ -59,7 +60,6 @@
                     <button type="submit">Confirm Your Booking</button>
                 </form>
             </div>
-
         </div>
     </div>
 </body>

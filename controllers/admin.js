@@ -10,14 +10,6 @@ import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
 import { getCollectionName } from "../Models/user.js";
 
-const sortDatas = async (req,res) => {
-    // if(!req.admin){
-    //     res.writeHead(302,{Location:"/login?adminExists=false"})
-    //     res.end();
-    //     return ;
-    // }
-    
-}
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -121,7 +113,6 @@ const getBookedCarAdmin = async(req,res) => {
         adminData:adminData,
         orderData:orders,
     }
-    sortDatas()
     await renderPage(res,filePath,data);
 }
 const getCarsAdmin = async(req,res) => {
@@ -171,7 +162,6 @@ const postAddVehicles = async(req,res) => {
             type:typeNames[0]
         });
         if(exists){
-            console.log("modelExists");
             await modelCollection.updateOne({_id:new ObjectId(exists._id)},{$set:{stocks:Number(exists.stocks)+1}});
 
             res.writeHead(302,{Location:`/admin/car-details?id=${exists._id}`});
