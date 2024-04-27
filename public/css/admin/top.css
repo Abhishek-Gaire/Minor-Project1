@@ -25,8 +25,9 @@ html, body{
     font-size: calc(1vw + .4rem);
 }
 .top .right .nav{
-    padding-right: 2rem;
+    margin-right: 6rem;
     text-align: end;
+    position: relative;
 }
 .top .right .nav i{
     font-size: 1.2rem;
@@ -61,13 +62,15 @@ html, body{
     display: none;
     position: absolute;
     background-color: #000000;
-    min-width: 250px;
+    min-width: 130px;
     z-index: 1;
+    margin-top: 0.5rem;
 }
 
 .dropdown-content a {
     color: white;
-    padding: 30px 16px;
+    padding: 10px 26px;
+    /* margin-top: 1rem; */
     text-align: center;
     text-decoration: none;
     display: block;

@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Neue Montreal'
 }
 html, body{
     height: 100%;
@@ -19,11 +20,39 @@ html, body{
     padding: 1rem 2rem;
     border-radius: 20px;
     backdrop-filter: blur(5px);
-    background-color: white;
+    /* background-color: white; */
     background: linear-gradient(to right bottom, rgba(255,255,255,0.7),rgba(255,255,255,0.3));
     overflow: auto;
     
 }
+.table #head{
+    display: flex;
+    justify-content: space-between;
+}
+#head i{
+    font-size: 2rem;
+}
+
+.maintable{
+    position: relative;
+}
+.table{
+    /* position: relative; */
+    width: 100%;
+
+}
+.sectable{
+    position: absolute  ;
+    top: 0;
+    left: 0;
+}
+
+.maintable  .pending,.approve, .cancel{
+    /* background-color: red; */
+    position: absolute;
+    visibility:hidden;
+}
+
 
 .table table{
     width: 100%;
@@ -34,10 +63,66 @@ html, body{
 }
 .table td{
     padding: 1rem 2rem;
+    text-align: center;
+}
+td #action{
+    width: 80px;
+    display: flex;
+    justify-content: space-between;
+}
+td #action a{
+    text-decoration: none;
+    color: black;
 }
 .table #A{
-    background-color: hsla(0, 0%, 100%, 0.621);
+    /* background-color: hsla(0, 0%, 100%, 0.621); */
 }
+
+/* ------------------- Dropdown ----------------------- */
+/* Style the dropdown button */
+.dropbtn {
+    background: none;
+    /* color: white; */
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+/* .dropbtn:hover, .dropbtn:focus {
+    background-color: #3e8e41;
+} */
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: grey;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    text-align: center;
+}
+
+/* Links inside the dropdown */
+.dropdown-content h4 {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border: 1px solid white;
+}
+
+
+.show {display:block;}
+
 
 @media (max-width:600px){
 

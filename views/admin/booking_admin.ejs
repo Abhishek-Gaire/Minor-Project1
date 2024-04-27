@@ -66,45 +66,158 @@
                 </div>
                 <div class="bottom">
                     <div class="table">
-                        <h1>List Of Orders</h1><br>
-                        <table>
-                            <tr>
-                                <th>Full Name</th>
-                                <th>Car</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Contact</th>
-                                <th>Actions</th>
-                            </tr>
-                            <% orderData.forEach(function(data) { %>                                        <tr>
-                                        <td> 
-                                            <%=data.FullName %>
-                                        </td>
-                                        <td>
-                                            <%=data.carName %>
-                                        </td>
-                                        <td> <%= data.email%> </td>
-                                        <td><%= data.status %></td>
-                                        
-                                        <td>
-                                            <%= data.contactNumber %>
-                                        </td>
-                                        <td>
-                                            <% if(data.status !== "cancel"){ %>
-                                                <a href="/admin/changeStatus?id=<%=data._id%>&<%=data.status %>">
-                                                    <i class="fa-solid fa-edit"></i>
-                                                </a>
-                                                <a href="/admin/cancelModel?id=<%=data._id%>">
-                                                    <i class="fa-solid fa-trash">
-                                                    </i>
-                                                </a>
-                                            <% } %>
-                                        </td>
-                                    </tr>
-                                <% }) %>
-                           
+                        <div id="head">
                             
-                        </table>
+                            <h1>List Of Orders</h1>
+
+                            <div>
+                                <div class="dropdown">
+                                    <button onclick="toggleDropdown()" class="dropbtn"><i class="fa-solid fa-arrow-up-short-wide"></i></button>
+                                    <div id="statusDropdown" class="dropdown-content">
+                                        <h4 onclick="filterStatus('all')"  id="all">All</h4>
+                                        <h4 onclick="filterStatus('pending')" id="pending">Pending</h4>
+                                        <h4 onclick="filterStatus('approve')" id="approve">Approve</h4>
+                                        <h4 onclick="filterStatus('cancel')" id="cancel">Cancel</h4>
+                                    </div>
+                                </div>
+                            
+                                <!-- Container to display selected status -->
+                                <div id="selectedStatusContainer" class="selected-status">Selected Status: <span id="statusValue">None</span></div>
+
+                            </div>
+                        
+
+
+                            <!-- <div class="filter">
+                                
+                            </div> -->
+                        </div>
+                        <div class="maintable">
+                            <table class="all sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                    <th>Action</th>
+                                </tr>
+                                    <% orderData.forEach(function(data) { %>                                        <tr>
+                                                <td>
+                                                    <%=data.FullName %></td>
+                                                <td>
+                                                    <%=data.carName %>
+                                                </td>
+                                                <td><%= data.email%> </td>
+                                                <td><%= data.status %></td>
+                                                
+                                                <td>
+                                                    <%= data.contactNumber %>
+                                                </td>
+                                                <td>
+                                                    <div id="action">
+                                                        <% if(data.status !== "cancel"){ %>
+                                                            <a href="/admin/changeStatus?id=<%=data._id%>&<%=data.status %>">
+                                                                <i class="fa-solid fa-edit"></i>
+                                                            </a>
+                                                            <a href="/admin/cancelModel?id=<%=data._id%>">
+                                                                <i class="fa-solid fa-trash">
+                                                                </i>
+                                                            </a>
+                                                        <% } %>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        <% }) %>  
+
+                                
+                            </table>
+                            <table class="pending sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                </tr>
+                                
+                                <tr> 
+                                <% orderData.forEach(function(data) { %> 
+                                    <% if(data.status == "pending"){ %>
+                                            <td> 
+                                                <%=data.FullName %>
+                                            </td>
+                                            <td>
+                                                <%=data.carName %>
+                                            </td>
+                                            <td> <%= data.email%> </td>
+                                            <td><%= data.status %></td>
+                                            
+                                            <td>
+                                                <%= data.contactNumber %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    <% }) %>  
+                            </table>
+                            <table class="approve sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                </tr>
+                                
+                                <tr> 
+                                <% orderData.forEach(function(data) { %> 
+                                    <% if(data.status == "approved"){ %>
+                                            <td> 
+                                                <%=data.FullName %>
+                                            </td>
+                                            <td>
+                                                <%=data.carName %>
+                                            </td>
+                                            <td> <%= data.email%> </td>
+                                            <td><%= data.status %></td>
+                                            
+                                            <td>
+                                                <%= data.contactNumber %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    <% }) %>  
+                            </table>
+                            <table class="cancel sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                </tr>
+                                
+                                <tr> 
+                                <% orderData.forEach(function(data) { %> 
+                                    <% if(data.status == "cancel"){ %>
+                                            <td> 
+                                                <%=data.FullName %>
+                                            </td>
+                                            <td>
+                                                <%=data.carName %>
+                                            </td>
+                                            <td> <%= data.email%> </td>
+                                            <td><%= data.status %></td>
+                                            
+                                            <td>
+                                                <%= data.contactNumber %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    <% }) %>  
+                            </table>
+
+                        </div>
                     </div>
                 </div>
             </div> 
@@ -123,7 +236,74 @@
                 dropdown.style.display = "none";
             }
         })
-        
+        const all = document.querySelector('.all')
+        const pending = document.querySelector('.pending')
+        const approve = document.querySelector('.approve')
+        const cancel = document.querySelector('.cancel')
+        document.querySelector('#pending').addEventListener('click',()=>{
+            all.style.visibility = 'hidden'
+            pending.style.visibility = 'visible'
+            approve.style.visibility = 'hidden'
+            cancel.style.visibility = 'hidden'
+        })
+        document.querySelector('#approve').addEventListener('click',()=>{
+            all.style.visibility = 'hidden'
+            pending.style.visibility = 'hidden'
+            approve.style.visibility = 'visible'
+            cancel.style.visibility = 'hidden'
+        })
+        document.querySelector('#cancel').addEventListener('click',()=>{
+            all.style.visibility = 'hidden'
+            pending.style.visibility = 'hidden'
+            approve.style.visibility = 'hidden'
+            cancel.style.visibility = 'visible'
+        })
+        document.querySelector('#all').addEventListener('click',()=>{
+            all.style.visibility = 'visible'
+            pending.style.visibility = 'hidden'
+            approve.style.visibility = 'hidden'
+            cancel.style.visibility = 'hidden'
+        })
+
+
+
+
+
+
+function toggleDropdown() {
+    var dropdownContent = document.getElementById("statusDropdown");
+    dropdownContent.classList.toggle("show");
+}
+
+function filterStatus(status) {
+    var statusText = getStatusText(status);
+    var statusContainer = document.getElementById("statusValue");
+
+    if (statusContainer) {
+        statusContainer.textContent = statusText; 
+        console.log("Selected status: " + statusText);
+    } else {
+        console.error("Status container element not found.");
+    }
+}
+
+function getStatusText(status) {
+    switch (status) {
+        case 'all':
+            return 'All';
+        case 'pending':
+            return 'Pending';
+        case 'approve':
+            return 'Approve';
+        case 'cancel':
+            return 'Cancel';
+        default:
+            return 'Unknown';
+    }
+}
+
+
+
     </script>
 </body>
 </html>
