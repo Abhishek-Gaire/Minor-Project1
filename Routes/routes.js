@@ -7,7 +7,7 @@ import * as AdminControllers from "../controllers/admin.js";
 import * as AuthControllers from"../controllers/login.js";
 
 import { getBookCar,postBookCar } from "../controllers/bookCar.js";
-import {sendModelData} from "../controllers/api/sendData.js"
+
 
 const routes = {
     "POST": {
@@ -42,9 +42,9 @@ const routes = {
         "/book-car":getBookCar,
         "/verify":getVerify,
         "/500-error":PageControllers.get500Error,
-        "/api/modelData": sendModelData,
         "/adminLogout":AdminControllers.postLogoutAdmin,
         "/adminModelView":AdminControllers.getAdminModelView,
+        "/admin/deleteModel":AdminControllers.deleteModel,
     }
 }; 
 

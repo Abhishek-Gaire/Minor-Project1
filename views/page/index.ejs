@@ -56,34 +56,18 @@
     <div class="page2" data-scroll data-scroll-speed="2">
       <h1 class="head">Our Top Selling</h1>
       <div class="models">
-        <% if (imageUrls &&  names ) { %>
-                
+        <% models.forEach(function(model){ %>
           <div class="car">
             <div class="content">
-              <h1> <%=names[0]%></h1>
-              <h3><%=heads[0]%></h3>
-              <p> <%=descriptions[0]%></p>
+              <h1> <%=model.name%></h1>
+              <p> <%=model.descriptionOfCar%></p>
               <div class="btn">
-                <a href="/modelview?<%= ids[0] %>"><button>Explore More</button></a>
+                <a href="/modelview?<%= model._id %>"><button>Explore More</button></a>
               </div>
             </div>
-            <img src="<%= imageUrls[0] %>" alt="Image From Database">
+            <img src="<%= model.imageUrl %>" alt="Image From Database">
           </div>
-          <div class="car">
-            <img src="<%= imageUrls[1] %>" alt="Image From Database">
-            <div class="content">
-              <h1> <%=names[1]%></h1>
-              <h3><%=heads[1]%></h3>
-              <p> <%=descriptions[1]%></p>
-              <div class="btn">
-                <a href="/modelview?<%=ids[1] %>"><button>Explore More</button></a>
-              </div>
-            </div>
-          </div>
-                  
-        <% } else { %>
-          <p>No images found in the Database</p>
-        <%} %>
+        <% })  %>
       </div>
                   
     </div>

@@ -6,16 +6,7 @@ const renderHomePage = async (req, res) => {
     try {
 
         const collection = await getCollectionName();
-        const modelsData = await collection.find({}).toArray();
-        const { names, heads, descriptions, prices, imageUrls,ids } = modelsData.reduce((acc, item) => {
-            acc.names.push(item.name);
-            acc.heads.push(item.head);
-            acc.descriptions.push(item.description);
-            acc.prices.push(item.price);
-            acc.imageUrls.push(item.imageUrl);
-            acc.ids.push(item._id);
-            return acc;
-        }, { names: [], heads: [], descriptions: [], prices: [], imageUrls: [] ,ids:[]});
+        const modelsData = await collection.find({isHomePage:true}).toArray();
 
         const counterCollection = await  getCounterCollectionName() ; 
         await counterCollection.findOneAndUpdate(
@@ -25,9 +16,9 @@ const renderHomePage = async (req, res) => {
         );
         
         if(!req.user){
-            return await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,ids,isLoggedIn:false });
+            return await renderPage( res, "/views/page/index.ejs", {isLoggedIn:false,models:modelsData });
         } else{
-            return await renderPage( res, "/views/page/index.ejs", { names, heads, descriptions, prices, imageUrls,ids,isLoggedIn:true });
+            return await renderPage( res, "/views/page/index.ejs", { isLoggedIn:true,models:modelsData});
         }
     } catch (err) {
         console.error(err);

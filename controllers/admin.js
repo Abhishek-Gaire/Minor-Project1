@@ -311,4 +311,21 @@ const getAdminModelView = async(req,res) => {
     await renderPage(res,filePath,{models : modelData});
 
 }
-export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView};
+const deleteModel = async(req,res) => {
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end();
+    }
+    const query = req.url.split("?")[1];
+    const modelID = query.split("=")[1];
+
+    const modelCollection = await Models.getCollectionName();
+
+    const deleted = await modelCollection.deleteOne({_id: new ObjectId(modelID)});
+
+    if(deleted){
+        res.writeHead(302,{Location:"/admin/cars"});
+        return res.end();
+    }
+}
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel};
