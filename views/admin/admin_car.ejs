@@ -89,15 +89,19 @@
                                     <td><%=model.modelYear %></td>
                                     <td><%=model.stocks %></td>
                                     <td>
-                                        <a href="/admin/deleteModel?id=<%=model._id%>"  class="icon-link" data-name="Delete">
-                                            <i id="delete" class="fa-solid fa-trash"></i>
-                                        </a>
-                                        <a href="/admin/addVehicles?edit=true&id=<%=model._id%>" class="icon-link" data-name="Edit">
-                                            <i id="edit" class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="/admin/changeHomePage?id=<%=model._id%>" class="icon-link" data-name="Add To Home Page">
-                                            <i id="homePage" class="fa fa-exchange"></i>
-                                        </a>
+                                        <div class="edit">
+                                            <a href="/admin/deleteModel?id=<%=model._id%>"  class="icon-link" data-name="Delete">
+                                                <i id="delete" class="fa-solid fa-trash"></i>
+                                            </a>
+                                            <a href="/admin/addVehicles?edit=true&id=<%=model._id%>" class="icon-link" data-name="Edit">
+                                                <i id="edit" class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="/admin/changeHomePage?id=<%=model._id%>" class="icon-link" data-name="Add To Home Page">
+                                                <i id="homePage" class="fa fa-exchange"></i>
+                                            </a>
+                                        </div>
+                                        
+                                        
                                     </td>
                                 </tr>
                             <% }) %>

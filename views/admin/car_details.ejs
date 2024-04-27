@@ -4,26 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Details</title>
+    <link rel="stylesheet" href="../../public/css/admin/carDetail.css">
     <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
 </head>
 <body>
+    <a href="/"  id="logo"><img src="/assets/logo-removebg-preview.png" alt=""></a>
     <div class="container">
-        <h1>Car Details Page</h1>
-        <div class="details">
-            <button><a href="/adminModelView?id=<%=vehicleData._id %>">Check Model</a></button>
-            <button><a href="/admin/addVehicles?edit=true&id=<%=vehicleData._id%>">Edit Vehicles</a></button>
-            <div class="detail">
-               <h1>Name:<%= vehicleData.name %></h1>
-               <p><b>Price: $<%= vehicleData.price %> </b></p> 
-               <img src="/<%=vehicleData.imageUrl%>" alt="car image"/>
-               <h1>Type:<%= vehicleData.type %></h1>
+        <div class="content">
+            <h1>Car Details Page</h1>
+            <div class="details">
+                <button><a href="/adminModelView?id=<%=vehicleData._id %>">Check Model</a></button>
+                <button><a href="/admin/addVehicles?edit=true&id=<%=vehicleData._id%>">Edit Vehicles</a></button>
+                <div class="detail">
+                   <h1>Name:<%= vehicleData.name %></h1>
+                   <p><b>Price: $<%= vehicleData.price %> </b></p> 
+                   <img src="/<%=vehicleData.imageUrl%>" alt="car image"/>
+                   <h1>Type:<%= vehicleData.type %></h1>
+                </div>
+                <div class="description">
+                    <p><h2>Description Of Car :</h2><%= vehicleData.descriptionOfCar %></p>
+                    <p><h2>Description Of Engine :</h2><%= vehicleData.descriptionOfEngine %></p>
+                    <p><h2>Description Of Tyre :</h2><%= vehicleData.descriptionOfTyre %></p>
+                </div>
             </div>
-            <div class="description">
-                <p>Description Of Car:<%= vehicleData.descriptionOfCar %></p>
-                <p>Description Of Engine:<%= vehicleData.descriptionOfEngine %></p>
-                <p>Description Of Tyre:<%= vehicleData.descriptionOfTyre %></p>
-            </div>
-        </div>
+        </div>        
 
     </div>
     <a href="/admin">Dashboard</a>

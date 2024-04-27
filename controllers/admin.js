@@ -11,6 +11,7 @@ import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper
 import { getCollectionName } from "../Models/user.js";
 
 
+
 const getAdmin = async(req,res) => {
     if(!req.admin){
         res.writeHead(302,{Location:"/login?adminExists=false"})
