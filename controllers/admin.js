@@ -10,7 +10,14 @@ import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
 import { getCollectionName } from "../Models/user.js";
 
-
+const sortDatas = async (req,res) => {
+    // if(!req.admin){
+    //     res.writeHead(302,{Location:"/login?adminExists=false"})
+    //     res.end();
+    //     return ;
+    // }
+    
+}
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -107,12 +114,14 @@ const getBookedCarAdmin = async(req,res) => {
     const orders = await orderCollection.find({}).toArray();
 
 
+
     const filePath = "/views/admin/booking_admin.ejs";
     const data = {
         title: "Booked Cars",
         adminData:adminData,
         orderData:orders,
     }
+    sortDatas()
     await renderPage(res,filePath,data);
 }
 const getCarsAdmin = async(req,res) => {

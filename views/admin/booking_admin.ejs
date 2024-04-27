@@ -72,33 +72,124 @@
                 </div>
                 <div class="bottom">
                     <div class="table">
-                        <h1>List Of Orders</h1><br>
-                        <table>
-                            <tr>
-                                <th>Full Name</th>
-                                <th>Car</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Contact</th>
-                            </tr>
-                            <% orderData.forEach(function(data) { %>                                        <tr>
-                                        <td> 
-                                            <%=data.FullName %>
-                                        </td>
-                                        <td>
-                                            <%=data.carName %>
-                                        </td>
-                                        <td> <%= data.email%> </td>
-                                        <td><%= data.status %></td>
-                                        
-                                        <td>
-                                            <%= data.contactNumber %>
-                                        </td>
-                                    </tr>
-                                <% }) %>
-                           
+                        <div id="head">
+                            <h1>List Of Orders</h1>
+                            <div class="filter">
+                                <i class="fa-solid fa-arrow-up-short-wide"></i>
                             
-                        </table>
+                            </div>
+                        </div>
+                        <div class="maintable">
+                            <table class="all sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                </tr>
+                                <% orderData.forEach(function(data) { %>                                        <tr>
+                                            <td> 
+                                                <%=data.FullName %>
+                                            </td>
+                                            <td>
+                                                <%=data.carName %>
+                                            </td>
+                                            <td> <%= data.email%> </td>
+                                            <td><%= data.status %></td>
+                                            
+                                            <td>
+                                                <%= data.contactNumber %>
+                                            </td>
+                                        </tr>
+                                    <% }) %>  
+                            </table>
+                            <table class="pending sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                </tr>
+                                
+                                <tr> 
+                                <% orderData.forEach(function(data) { %> 
+                                    <% if(data.status == "pending"){ %>
+                                            <td> 
+                                                <%=data.FullName %>
+                                            </td>
+                                            <td>
+                                                <%=data.carName %>
+                                            </td>
+                                            <td> <%= data.email%> </td>
+                                            <td><%= data.status %></td>
+                                            
+                                            <td>
+                                                <%= data.contactNumber %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    <% }) %>  
+                            </table>
+                            <table class="approve sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                </tr>
+                                
+                                <tr> 
+                                <% orderData.forEach(function(data) { %> 
+                                    <% if(data.status == "approve"){ %>
+                                            <td> 
+                                                <%=data.FullName %>
+                                            </td>
+                                            <td>
+                                                <%=data.carName %>
+                                            </td>
+                                            <td> <%= data.email%> </td>
+                                            <td><%= data.status %></td>
+                                            
+                                            <td>
+                                                <%= data.contactNumber %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    <% }) %>  
+                            </table>
+                            <table class="cancel sectable">
+                                <tr>
+                                    <th>Full Name</th>
+                                    <th>Car</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Contact</th>
+                                </tr>
+                                
+                                <tr> 
+                                <% orderData.forEach(function(data) { %> 
+                                    <% if(data.status == "cancel"){ %>
+                                            <td> 
+                                                <%=data.FullName %>
+                                            </td>
+                                            <td>
+                                                <%=data.carName %>
+                                            </td>
+                                            <td> <%= data.email%> </td>
+                                            <td><%= data.status %></td>
+                                            
+                                            <td>
+                                                <%= data.contactNumber %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    <% }) %>  
+                            </table>
+
+                        </div>
                     </div>
                 </div>
             </div> 
@@ -117,7 +208,14 @@
                 dropdown.style.display = "none";
             }
         })
-        
+        const all = document.querySelector('.all')
+        const pending = document.querySelector('.pending')
+        const approve = document.querySelector('.approve')
+        const cancel = document.querySelector('.cancel')
+        document.querySelector('.filter').addEventListener('click',()=>{
+            all.style.visibility = 'hidden'
+            pending.style.visibility = 'visible'
+        })
     </script>
 </body>
 </html>
