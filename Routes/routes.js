@@ -45,6 +45,8 @@ const routes = {
         "/adminLogout":AdminControllers.postLogoutAdmin,
         "/adminModelView":AdminControllers.getAdminModelView,
         "/admin/deleteModel":AdminControllers.deleteModel,
+        "/admin/changeStatus":AdminControllers.changeStatus,
+        "/admin/cancelModel":AdminControllers.cancelModel
     }
 }; 
 

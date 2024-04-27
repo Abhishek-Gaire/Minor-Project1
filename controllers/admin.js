@@ -11,6 +11,7 @@ import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper
 import { getCollectionName } from "../Models/user.js";
 
 
+
 const getAdmin = async(req,res) => {
     if(!req.admin){
         res.writeHead(302,{Location:"/login?adminExists=false"})
@@ -328,4 +329,72 @@ const deleteModel = async(req,res) => {
         return res.end();
     }
 }
-export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel};
+const changeTopSelling = async(req,res) => {
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end()
+    }
+    const query = req.url.split("?")[1];
+    const modelID = query.split("=")[1];
+
+    const modelCollection = await Models.getCollectionName();
+    const modelData = await Models.getDataById(modelCollection,
+    modelID);
+
+    const isHomePageUpdated = modelCollection.updateOne({_id:new ObjectId(modelID)},{$set:{"isHomePage":true}})
+
+    if(isHomePageUpdated){
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write('<html><body><script>window.open("http://localhost:5173/", "_blank");</script></body></html>');
+        return res.end();
+    }
+    
+
+}
+const changeStatus = async(req,res) => {
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end()
+    }
+    
+    const query = req.url.split("?")[1];
+    
+    const modelId = query.split("=")[1].split("&")[0];
+    
+    const status = query.split("&")[1];
+    
+    const orderCollection = await getOrderCollectionName();
+
+    if(status === "pending"){
+        await orderCollection.updateOne({_id:new ObjectId(modelId)},{
+            $set:{status:"approved"}
+        })
+        res.writeHead(302,{Location:"/admin/bookedVehicles"})
+        return res.end();
+    } else if(status === "approved"){
+        await orderCollection.updateOne({_id:new ObjectId(modelId)},{
+            $set:{status:"pending"}
+        })
+        res.writeHead(302,{Location:"/admin/bookedVehicles"});
+        return res.end();
+    } else {
+        res.writeHead(302,{Location:"/admin/bookedVehicles"})
+        return res.end();
+    }
+}
+const cancelModel = async(req,res) => {
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end()
+    }
+    const query = req.url.split("?")[1];
+    const modelId = query.split("=")[1];
+    const ordersCollection = await getOrderCollectionName();
+
+    await ordersCollection.updateOne({_id:new ObjectId(modelId)},{
+        $set:{status:"cancel"}
+    })
+    res.writeHead(302,{Location:"/admin/bookedVehicles"});
+    res.end();
+}
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel,changeTopSelling ,changeStatus,cancelModel};

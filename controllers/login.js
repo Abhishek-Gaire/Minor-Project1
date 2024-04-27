@@ -90,7 +90,13 @@ const postSignUP = async (req, res) => {
   // // Validation for username
   if (!validator.isAlphanumeric(username) || validator.isEmpty(username)) {
     const errorMessage ='Username is not valid';
-    return await renderPage(res,filePath,{errorMessage});
+    const data = {
+      errorMessage:errorMessage,
+      username:username,
+      email:email,
+      password:password,
+    }
+    return await renderPage(res,filePath,data);
   }
 
   // Validation for email
@@ -115,7 +121,7 @@ const postSignUP = async (req, res) => {
     res.end();
     return;
   } 
- 
+  const verificationCode = generateVerificationCode();
   const sendingMail = mailOptions(email,verificationCode);
 
   transporter.sendMail(sendingMail, async(error, info) => {
@@ -129,7 +135,7 @@ const postSignUP = async (req, res) => {
     }
   });
 
-  const verificationCode = generateVerificationCode();
+  
   // Hashing the password
   const hashedPassword = await bcrypt.hash(password, 12);
   
@@ -145,15 +151,19 @@ const postSignUP = async (req, res) => {
   await createUser(Users, newUser);
 
   const token = await generateToken(email);
-  console.log(token);
   res.writeHead(302,{Location: `/verify?token=${token}`});
   res.end();
 };
 
 const getSignUP = async(req,res) => {
   const filePath = "/views/auth/signup.ejs";
-  const errorMessage ='';
-  await renderPage(res,filePath,{errorMessage});
+  const data = {
+    errorMessage:'',
+    username:'',
+    password:'',
+    email:''
+  }
+  await renderPage(res,filePath,data);
 }
 
 const postLogoutUser = async(req,res)=> {

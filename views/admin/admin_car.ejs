@@ -61,12 +61,6 @@
                                 <a href="/adminLogout">Logout</a>
                             </div>
                         </div>
-                        <div class="download">
-                            <a href="#">
-                                <i class="fa-solid fa-download"></i>
-                                    <h1>DOWNLOAD REPORTS</h1>
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div class="bottom">
@@ -95,9 +89,11 @@
                                         <a href="/admin/addVehicles?edit=true&id=<%=model._id%>" class="icon-link" data-name="Edit">
                                             <i id="edit" class="fas fa-edit"></i>
                                         </a>
-                                        <a href="/admin/changeHomePage?id=<%=model._id%>" class="icon-link" data-name="Add To Home Page">
-                                            <i id="homePage" class="fa fa-exchange"></i>
-                                        </a>
+                                        <% if(!model.isHomePage)  { %> 
+                                            <a href="/admin/changeHomePage?id=<%=model._id%>" class="icon-link" data-name="Add To Home Page">
+                                                <i id="homePage" class="fa fa-exchange"></i>
+                                            </a>
+                                        <% } %>
                                     </td>
                                 </tr>
                             <% }) %>

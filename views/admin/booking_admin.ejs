@@ -62,12 +62,6 @@
                                     <a href="/adminLogout">Logout</a>
                                 </div>
                             </div>
-                        <div class="download">
-                            <a href="#">
-                                <i class="fa-solid fa-download"></i>
-                                    <h1>DOWNLOAD REPORTS</h1>
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div class="bottom">
@@ -80,6 +74,7 @@
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Contact</th>
+                                <th>Actions</th>
                             </tr>
                             <% orderData.forEach(function(data) { %>                                        <tr>
                                         <td> 
@@ -92,6 +87,17 @@
                                         <td><%= data.status %></td>
                                         <td>
                                             <%= data.contactNumber %>
+                                        </td>
+                                        <td>
+                                            <% if(data.status !== "cancel"){ %>
+                                                <a href="/admin/changeStatus?id=<%=data._id%>&<%=data.status %>">
+                                                    <i class="fa-solid fa-edit"></i>
+                                                </a>
+                                                <a href="/admin/cancelModel?id=<%=data._id%>">
+                                                    <i class="fa-solid fa-trash">
+                                                    </i>
+                                                </a>
+                                            <% } %>
                                         </td>
                                     </tr>
                                 <% }) %>
