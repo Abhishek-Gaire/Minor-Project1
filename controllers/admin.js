@@ -237,9 +237,9 @@ const postEditVehicles = async(req,res) =>{
     const {fields,files} = formData;
     const model3D = files.model[0];
     const imageFile = files.image[0];
-    const{name,price,year,descriptionCar,descriptionEngine,descriptionTyre,typeNames} = fields;
-        
-        
+    const{name,price,year,descriptionCar,descriptionEngine,descriptionTyre,typeNames,modelID} = fields;
+    
+    const id = modelID[0].replace(/ /g, "");
     if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
     
         const exists = await modelCollection.findOne({
@@ -276,7 +276,7 @@ const postEditVehicles = async(req,res) =>{
         // Move the 3d model to the CarGLBModel folder
         await fs.rename(model3D.filepath, newPathForModels);
     
-        const newModel = {
+        const uploaded = await modelCollection.updateOne({_id:new ObjectId(id)},{$set:{
             name:name[0],
             price:Number(price[0]),
             descriptionOfCar:descriptionCar[0],
@@ -287,16 +287,9 @@ const postEditVehicles = async(req,res) =>{
             descriptionOfEngine:descriptionEngine[0],
             descriptionOfTyre:descriptionTyre[0],
             stocks:1,
-        }
-        const uploaded = await Models.createModel(modelCollection,newModel);
-        const uploadedCarID = uploaded.insertedId.toString();
-            
-        if (!uploaded) {
-            res.writeHead(500,{Location:"/500-error"});
-            res.end();
-            return;
-        }
-        res.writeHead(302,{Location:`/admin/car-details?id=${uploadedCarID}`});
+        }})
+      
+        res.writeHead(302,{Location:`/admin/car-details?id=${id}`});
         res.end();
     }
     const data = {

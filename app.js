@@ -52,7 +52,7 @@ const server = http.createServer(async (req, res) => {
                 });
             })
         } else if(pathname === "/addVehicles" || pathname === "/editVehicles"){
-            console.log("inside post and addVehicles")
+            console.log(`inside post and ${pathname}`)
             return await extractAdminTokenFromCookie(req, res, async () =>  {
                 return await authenticateAdmin(req, res, async () => {
                     return await routes[method][pathname](req, res);       
