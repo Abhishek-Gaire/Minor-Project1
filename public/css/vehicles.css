@@ -95,6 +95,11 @@ li{
     margin: 0.5rem 0 0.5rem 0;
     font-weight: 600;
 }
+.single_container #stock{
+    margin-top: 1rem;
+    text-align: end;
+
+}
 .single_container p{
     font-size: calc(.7vw + .7rem);
 }
