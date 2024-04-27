@@ -19,6 +19,7 @@ const routes = {
         "/addVehicles": AdminControllers.postAddVehicles,
         "/logout":AuthControllers.postLogoutUser,
         "/adminLogin":AdminControllers.postLoginAdmin,
+        "/editVehicles":AdminControllers.postEditVehicles,
         
         "/confirmBookCar":postBookCar,
     },

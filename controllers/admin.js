@@ -220,6 +220,94 @@ const postAddVehicles = async(req,res) => {
     }
     return await renderPage(res,filePath,data);
 }
+const postEditVehicles = async(req,res) =>{
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end();
+    }
+    const filePath = "/views/admin/addVehicle.ejs";
+    
+    const collection = await getAdminCollectionName();
+    const adminData = await getAdminByEmail(collection,req.admin.id);
+    
+    const modelCollection = await Models.getCollectionName();
+    
+    const formData = await parseFormDataWithImage(req);
+    
+    const {fields,files} = formData;
+    const model3D = files.model[0];
+    const imageFile = files.image[0];
+    const{name,price,year,descriptionCar,descriptionEngine,descriptionTyre,typeNames} = fields;
+        
+        
+    if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
+    
+        const exists = await modelCollection.findOne({
+            name:name[0],
+            price:Number(price[0]),
+            modelYear:Number(year[0]),
+            type:typeNames[0]
+        });
+        if(exists){
+                
+        await modelCollection.updateOne({_id:new ObjectId(exists._id)},{$set:{stocks:Number(exists.stocks)+1}});
+    
+            res.writeHead(302,{Location:`/admin/car-details?id={exists._id}`});
+            res.end();
+            return;
+        }
+    
+        const fileUploadPathForImages = "./assets/CarImages";
+        const fileUploadPathForModels = "./assets/CarGLBModel";
+    
+        const oldImageFileName = imageFile.originalFilename;
+        const oldModelFileName = model3D.originalFilename;
+    
+        const date = getDate();
+    
+        const imageName = `${date}-${oldImageFileName}`;
+        const modelName = `${date}-${oldModelFileName}`;
+    
+        const newPathForImages = `${fileUploadPathForImages}/${imageName}`;
+        const newPathForModels = `${fileUploadPathForModels}/${modelName}`;
+    
+        // Move the imagFile to the images folder
+        await fs.rename(imageFile.filepath, newPathForImages);
+        // Move the 3d model to the CarGLBModel folder
+        await fs.rename(model3D.filepath, newPathForModels);
+    
+        const newModel = {
+            name:name[0],
+            price:Number(price[0]),
+            descriptionOfCar:descriptionCar[0],
+            imageUrl:newPathForImages,
+            modelUrl:newPathForModels,
+            type:typeNames[0],
+            modelYear:Number(year[0]),
+            descriptionOfEngine:descriptionEngine[0],
+            descriptionOfTyre:descriptionTyre[0],
+            stocks:1,
+        }
+        const uploaded = await Models.createModel(modelCollection,newModel);
+        const uploadedCarID = uploaded.insertedId.toString();
+            
+        if (!uploaded) {
+            res.writeHead(500,{Location:"/500-error"});
+            res.end();
+            return;
+        }
+        res.writeHead(302,{Location:`/admin/car-details?id=${uploadedCarID}`});
+        res.end();
+    }
+    const data = {
+        title: "Add Car",
+        adminData:adminData,
+        errorMessage:"Invalid File Type! Please upload an Image",
+        isEditing:false,
+    }
+    return await renderPage(res,filePath,data);
+     
+}
 const postLoginAdmin = async (req, res) => {
 
     const filePath = "/views/auth/login.ejs";
@@ -397,4 +485,4 @@ const cancelModel = async(req,res) => {
     res.writeHead(302,{Location:"/admin/bookedVehicles"});
     res.end();
 }
-export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel,changeTopSelling ,changeStatus,cancelModel};
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel,changeTopSelling ,changeStatus,cancelModel,postEditVehicles};
