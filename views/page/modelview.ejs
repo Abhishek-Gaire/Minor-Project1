@@ -25,7 +25,7 @@
           <h2>Description of car</h2>
           <div>
 
-            <img src="../../assets/black-big-car-side-view.png" alt="">
+            <img src="/assets/black-big-car-side-view.png" alt="">
           </div>
           <p>
             <%= models.descriptionOfCar %>
@@ -34,7 +34,7 @@
         <div class="engine des">
           <h2>Description of engine</h2>
           <div>
-            <img src="../../assets/car-engine.png" alt="">
+            <img src="/assets/car-engine.png" alt="">
           </div>
           <p>
             <%= models.descriptionOfEngine %>
@@ -43,7 +43,7 @@
         <div class="tyre des">
           <h2>Description of tyre</h2>
           <div>
-            <img src="../../assets/wheel.png" alt="">
+            <img src="/assets/wheel.png" alt="">
 
           </div>
           <p>
@@ -86,7 +86,7 @@
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
   <script>
     const modelPath = "<%= models.modelUrl%>"
-    const fullPath = './assets/CarGLBModel/3-0-2024-generic_sedan_2010_-_low_poly_model.glb';
+    // const fullPath = './assets/CarGLBModel/3-0-2024-generic_sedan_2010_-_low_poly_model.glb';
     const pathParts = modelPath.split('/');
 
     const filename = pathParts[pathParts.length - 1];
@@ -233,7 +233,7 @@
       });
     }
 
-     else if(filename == '3-0-2024-toyota_fortuner_2021.glb' || filename == '3-0-2024-bmw_e92.glb' || filename == '3-0-2024-hyundai loniq.glb'){
+     else if(filename == '3-0-2024-toyota_fortuner_2021.glb' || filename == '3-0-2024-bmw_e92.glb' || filename == '3-0-2024-Hyundai_Ioniq.glb'){
       loader.load(modelPath, function (gltf) {
         let carModel = gltf.scene;
         carModel.rotation.x = Math.PI * 0.08;

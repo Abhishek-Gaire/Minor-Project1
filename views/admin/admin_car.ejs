@@ -81,7 +81,9 @@
                                     </td>
                                     <td><%=model.price %></td>
                                     <td><%=model.modelYear %></td>
-                                    <td><%=model.stocks %></td>
+                                    <td>
+                                        <%=model.stocks %>
+                                    </td>
                                     <td>
                                         <div class="edit">
                                             <a href="/admin/deleteModel?id=<%=model._id%>"  class="icon-link" data-name="Delete">
@@ -95,6 +97,12 @@
                                                     <i id="homePage" class="fa fa-exchange"></i>
                                                 </a>
                                             <% } %>
+                                            <a href="/admin/addStocks?id=<%=model._id%>" class="icon-link" data-name="Add Stocks">
+                                                <i id="add" class="fa-solid fa-add"></i>
+                                            </a>
+                                            <a href="/admin/removeStocks?id=<%=model._id%>" class="icon-link" data-name="Remove Stocks">
+                                                <i id="remove" class="fa-solid fa-subtract"></i>
+                                            </a>
                                         </div>
                                         
                                         
