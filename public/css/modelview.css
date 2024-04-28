@@ -46,7 +46,7 @@
 
 .overlay_b .description {
   /* height: auto; */
-  margin-top: -15rem;
+  margin-top: -28rem;
   position: relative;
 }
 
@@ -65,6 +65,12 @@
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   position: absolute;
+}
+.des div{
+  text-align: center;
+}
+.des img{
+  height: 160px;
 }
 
 .left_b #view_car {
@@ -129,7 +135,8 @@
   cursor: pointer;
 }
 .des p{
-  margin-top: 1rem;
+  /* margin-top: -rem; */
+  font-size: 1.2rem;
 }
 
 .overlay_b .right_b #buy_b {

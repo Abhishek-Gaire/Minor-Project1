@@ -23,18 +23,29 @@
       <div class="description">
         <div class="car des">
           <h2>Description of car</h2>
+          <div>
+
+            <img src="../../assets/black-big-car-side-view.png" alt="">
+          </div>
           <p>
             <%= models.descriptionOfCar %>
           </p>
         </div>
         <div class="engine des">
           <h2>Description of engine</h2>
+          <div>
+            <img src="../../assets/car-engine.png" alt="">
+          </div>
           <p>
             <%= models.descriptionOfEngine %>
           </p>
         </div>
         <div class="tyre des">
-        <h2>Description of tyre</h2>
+          <h2>Description of tyre</h2>
+          <div>
+            <img src="../../assets/wheel.png" alt="">
+
+          </div>
           <p>
             <%= models.descriptionOfTyre %>
           </p>
@@ -75,10 +86,19 @@
   <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
   <script>
     const modelPath = "<%= models.modelUrl%>"
+    const fullPath = './assets/CarGLBModel/3-0-2024-generic_sedan_2010_-_low_poly_model.glb';
+    const pathParts = modelPath.split('/');
+
+    const filename = pathParts[pathParts.length - 1];
+    console.log(filename)
+
+
 
     const car = document.querySelector('.car')
     const engine = document.querySelector('.engine')
     const tyre = document.querySelector('.tyre')
+
+    const description = document.querySelector('.description')
 
 
     const overlay_b = document.querySelector('.view_back_b')
@@ -86,8 +106,9 @@
     const perspective = document.getElementById('view_b')
     const overlay = document.querySelector('.overlay_b')
     perspective.addEventListener('click', () => {
-      console.log('works')
+      // console.log('works')
       overlay.style.visibility = 'hidden'
+      description.style.visibility = 'hidden'
       overlay_b.style.visibility = 'visible'
     })
     const sizes = {
@@ -97,7 +118,7 @@
     // Setup scene
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 1000)
-    camera.position.set(-0.4,0.7,4.7);
+    camera.position.set(-0.3, 0.8, 4.7);
     // camera.position.x = -0.5
     // camera.position.y = 0.6
     // camera.position.z = 4.7;
@@ -122,8 +143,7 @@
     const light2 = new THREE.DirectionalLight(0xffffff, 1);
     light2.position.set(-6, 9, 1);
     scene.add(light2);
-    // const helper = new THREE.DirectionalLightHelper(light2);
-    // scene.add(helper);
+   
 
     let controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true
@@ -149,66 +169,194 @@
 
     // Load the car model
     const loader = new THREE.GLTFLoader();
-    // const loader = new GLTFLoader();
-    loader.load(modelPath, function (gltf) {
-      let carModel = gltf.scene;
-      carModel.rotation.x = Math.PI * 0.08;
-      carModel.rotation.y = Math.PI * 0.2;
-      console.log(carModel);
-      scene.add(carModel);
+    // camera.position.z = 9
+    console.log(modelPath)
+    if(filename == '3-0-2024-generic_sedan_2010_-_low_poly_model.glb'){
+      light.intensity = 0.2
+      loader.load(modelPath, gltf => {
+        let carModel = gltf.scene;
+        // console.log('worksall')
+        camera.position.x =  -76;
+        camera.position.y =  99;
+        camera.position.z =  155;
 
-      viewCar.addEventListener('mouseup', () => {
-        switch (position) {
-          case 0:
-            moveCamera(-0.5, 0.5, 4)
-            rotateModel(0.3, Math.PI * -0.28,0)
-            position = 1
-            car.style.visibility = 'hidden'
-            engine.style.visibility = 'visible'
-            tyre.style.visibility = 'hidden'
-            console.log('works')
-            break;
+        carModel.rotation.y = Math.PI * 0.5
+        scene.add(carModel)
 
-          case 1:
-            moveCamera(-1,1,3.5)
-            rotateModel(0, Math.PI * 0.7, 0)
-            car.style.visibility = 'hidden'
-            engine.style.visibility = 'hidden'
-            tyre.style.visibility = 'visible'
-            position = 2
-            break
+           viewCar.addEventListener('mouseup', () => {
+          switch (position) {
+            case 0:
+              moveCamera(80, 69, 120)
+              // rotateModel(0.3, Math.PI * -0.28, 0)
+              position = 1
+              car.style.visibility = 'hidden'
+              engine.style.visibility = 'visible'
+              tyre.style.visibility = 'hidden'
+              console.log('works')
+              break;
+  
+            case 1:
+              moveCamera(-69, 50,100)
+              rotateModel(0, Math.PI * 1.1, 0)
+              car.style.visibility = 'hidden'
+              engine.style.visibility = 'hidden'
+              tyre.style.visibility = 'visible'
+              position = 2
+              break
+  
+            case 2:
+              moveCamera(-69, 99, 155)
+              rotateModel(0, Math.PI * 0.5, 0)
+              car.style.visibility = 'visible'
+              engine.style.visibility = 'hidden'
+              tyre.style.visibility = 'hidden'
+              position = 0
+              break
+          }
+  
+          function moveCamera(x, y, z) {
+            gsap.to(camera.position, 1, {
+              x,
+              y,
+              z
+            }, "anim")
+          }
+  
+          function rotateModel(x, y, z) {
+            gsap.to(carModel.rotation, 1, {
+              x,
+              y,
+              z
+            }, "anim")
+          }
+        })
+      });
+    }
 
-          case 2:
-          moveCamera(-0.4,0.7,4.7)
-          rotateModel(Math.PI * 0.08,Math.PI * 0.2,0)
-            car.style.visibility = 'visible'
-            engine.style.visibility = 'hidden'
-            tyre.style.visibility = 'hidden'
-            position = 0
-            break
-        }
+     else if(filename == '3-0-2024-toyota_fortuner_2021.glb' || filename == '3-0-2024-bmw_e92.glb' || filename == '3-0-2024-hyundai loniq.glb'){
+      loader.load(modelPath, function (gltf) {
+        let carModel = gltf.scene;
+        carModel.rotation.x = Math.PI * 0.08;
+        carModel.rotation.y = Math.PI * 0.2;
+        // console.log(carModel);
+        scene.add(carModel);
+  
+        viewCar.addEventListener('mouseup', () => {
+          switch (position) {
+            case 0:
+              moveCamera(-0.5, 0.5, 4)
+              rotateModel(0.3, Math.PI * -0.28, 0)
+              position = 1
+              car.style.visibility = 'hidden'
+              engine.style.visibility = 'visible'
+              tyre.style.visibility = 'hidden'
+              console.log('works')
+              break;
+  
+            case 1:
+              moveCamera(-1, 1, 3.5)
+              rotateModel(0, Math.PI * 0.7, 0)
+              car.style.visibility = 'hidden'
+              engine.style.visibility = 'hidden'
+              tyre.style.visibility = 'visible'
+              position = 2
+              break
+  
+            case 2:
+              moveCamera(-0.4, 0.7, 4.7)
+              rotateModel(Math.PI * 0.08, Math.PI * 0.2, 0)
+              car.style.visibility = 'visible'
+              engine.style.visibility = 'hidden'
+              tyre.style.visibility = 'hidden'
+              position = 0
+              break
+          }
+  
+  
+  
+  
+          function moveCamera(x, y, z) {
+            gsap.to(camera.position, 1, {
+              x,
+              y,
+              z
+            }, "anim")
+          }
+  
+          function rotateModel(x, y, z) {
+            gsap.to(carModel.rotation, 1, {
+              x,
+              y,
+              z
+            }, "anim")
+          }
+        })
+      });
 
+    }
+     else if(filename == '3-0-2024-compass.glb' || filename == '3-0-2024-santafae.glb'){
+      loader.load(modelPath, function (gltf) {
+        let carModel = gltf.scene;
+        carModel.rotation.x = Math.PI * 0.08;
+        carModel.rotation.y = Math.PI * 0.2;
+        // console.log(carModel);
+        scene.add(carModel);
+  
+        viewCar.addEventListener('mouseup', () => {
+          switch (position) {
+            case 0:
+              moveCamera(-0.5, 0.5, 4)
+              rotateModel(0.3, Math.PI * -0.28, 0)
+              position = 1
+              car.style.visibility = 'hidden'
+              engine.style.visibility = 'visible'
+              tyre.style.visibility = 'hidden'
+              console.log('works')
+              break;
+  
+            case 1:
+              moveCamera(-1, 1, 3.5)
+              rotateModel(0, Math.PI * 0.7, 0)
+              car.style.visibility = 'hidden'
+              engine.style.visibility = 'hidden'
+              tyre.style.visibility = 'visible'
+              position = 2
+              break
+  
+            case 2:
+              moveCamera(-0.4, 0.7, 4.7)
+              rotateModel(Math.PI * 0.08, Math.PI * 0.2, 0)
+              car.style.visibility = 'visible'
+              engine.style.visibility = 'hidden'
+              tyre.style.visibility = 'hidden'
+              position = 0
+              break
+          }
+  
+  
+  
+  
+          function moveCamera(x, y, z) {
+            gsap.to(camera.position, 1, {
+              x,
+              y,
+              z
+            }, "anim")
+          }
+  
+          function rotateModel(x, y, z) {
+            gsap.to(carModel.rotation, 1, {
+              x,
+              y,
+              z
+            }, "anim")
+          }
+        })
+      });
 
+    }
 
-
-        function moveCamera(x, y, z) {
-          gsap.to(camera.position, 1, {
-            x,
-            y,
-            z
-          }, "anim")
-        }
-
-        function rotateModel(x, y, z) {
-          gsap.to(carModel.rotation, 1, {
-            x,
-            y,
-            z
-          }, "anim")
-        }
-      })
-      console.log('working')
-    });
+    
     // let controls = new THREE.OrbitControls(camera,renderer.domElement)
 
     // Position the camera
