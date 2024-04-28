@@ -10,14 +10,6 @@ import { renderPage,parseFormData } from "../helper/appHelper.js";
 import {getDate,parseFormDataWithImage,deleteCookie} from "../helper/adminHelper.js"
 import { getCollectionName } from "../Models/user.js";
 
-const sortDatas = async (req,res) => {
-    // if(!req.admin){
-    //     res.writeHead(302,{Location:"/login?adminExists=false"})
-    //     res.end();
-    //     return ;
-    // }
-    
-}
 
 const getAdmin = async(req,res) => {
     if(!req.admin){
@@ -121,7 +113,6 @@ const getBookedCarAdmin = async(req,res) => {
         adminData:adminData,
         orderData:orders,
     }
-    sortDatas()
     await renderPage(res,filePath,data);
 }
 const getCarsAdmin = async(req,res) => {
@@ -171,7 +162,6 @@ const postAddVehicles = async(req,res) => {
             type:typeNames[0]
         });
         if(exists){
-            console.log("modelExists");
             await modelCollection.updateOne({_id:new ObjectId(exists._id)},{$set:{stocks:Number(exists.stocks)+1}});
 
             res.writeHead(302,{Location:`/admin/car-details?id=${exists._id}`});
@@ -228,6 +218,71 @@ const postAddVehicles = async(req,res) => {
         isEditing:false,
     }
     return await renderPage(res,filePath,data);
+}
+const postEditVehicles = async(req,res) =>{
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end();
+    }
+    const filePath = "/views/admin/addVehicle.ejs";
+    
+    const collection = await getAdminCollectionName();
+    const adminData = await getAdminByEmail(collection,req.admin.id);
+    
+    const modelCollection = await Models.getCollectionName();
+    
+    const formData = await parseFormDataWithImage(req);
+    
+    const {fields,files} = formData;
+    const model3D = files.model[0];
+    const imageFile = files.image[0];
+    const{name,price,year,descriptionCar,descriptionEngine,descriptionTyre,typeNames,modelID} = fields;
+    
+    const id = modelID[0].replace(/ /g, "");
+    if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
+    
+        const fileUploadPathForImages = "./assets/CarImages";
+        const fileUploadPathForModels = "./assets/CarGLBModel";
+    
+        const oldImageFileName = imageFile.originalFilename;
+        const oldModelFileName = model3D.originalFilename;
+    
+        const date = getDate();
+    
+        const imageName = `${date}-${oldImageFileName}`;
+        const modelName = `${date}-${oldModelFileName}`;
+    
+        const newPathForImages = `${fileUploadPathForImages}/${imageName}`;
+        const newPathForModels = `${fileUploadPathForModels}/${modelName}`;
+    
+        // Move the imagFile to the images folder
+        await fs.rename(imageFile.filepath, newPathForImages);
+        // Move the 3d model to the CarGLBModel folder
+        await fs.rename(model3D.filepath, newPathForModels);
+    
+        await modelCollection.updateOne({_id:new ObjectId(id)},{$set:{
+            name:name[0],
+            price:Number(price[0]),
+            descriptionOfCar:descriptionCar[0],
+            imageUrl:newPathForImages,
+            modelUrl:newPathForModels,
+            type:typeNames[0],
+            modelYear:Number(year[0]),
+            descriptionOfEngine:descriptionEngine[0],
+            descriptionOfTyre:descriptionTyre[0],
+        }})
+      
+        res.writeHead(302,{Location:`/admin/car-details?id=${id}`});
+        res.end();
+    }
+    const data = {
+        title: "Add Car",
+        adminData:adminData,
+        errorMessage:"Invalid File Type! Please upload an Image",
+        isEditing:false,
+    }
+    return await renderPage(res,filePath,data);
+     
 }
 const postLoginAdmin = async (req, res) => {
 
@@ -304,7 +359,7 @@ const getCarDetails = async(req,res) => {
     const data = {
         vehicleData:vehicleData
     };
-    await renderPage(res,filePath,data);
+    return await renderPage(res,filePath,data);
 }
 const getAdminModelView = async(req,res) => {
     if(!req.admin){
@@ -406,4 +461,4 @@ const cancelModel = async(req,res) => {
     res.writeHead(302,{Location:"/admin/bookedVehicles"});
     res.end();
 }
-export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel,changeTopSelling ,changeStatus,cancelModel};
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel,changeTopSelling ,changeStatus,cancelModel,postEditVehicles};

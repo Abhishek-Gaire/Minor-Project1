@@ -92,6 +92,8 @@
                                 <label for="model">3D Model of the Car:</label><br>
                                 <input type="file" name="model" id="model" required><br>
                             </div>
+                            <input type="hidden" value="<% if(isEditing) {%> <%=models._id%> <%} %>" name="modelID">
+
                             <div class="data">
                                 <label for="typeNames">Choose a Car Type:</label> 
                                 <select name="typeNames" id="typeNames" > 

@@ -29,12 +29,22 @@ const getBookCar = async(req,res)=> {
     const collection = await getCollectionName();
     const vehicleData = await getDataById(collection,vehicleID);
 
+    const isAvailable = vehicleData.stocks;
     const users = await Users.getCollectionName();
     const userData = await Users.getUserByID(users,userId);
 
+    if(isAvailable === 0){
+        const data = {
+            vehicleData,
+            userData,
+            message:"This car is not available at the moment!"
+        }
+        await renderPage(res,filePath,data);
+    }
     const data = {
         vehicleData,
-        userData
+        userData,
+        message:''
     }
     await renderPage(res,filePath,data);
 }
@@ -56,6 +66,11 @@ const postBookCar = async(req,res) => {
     const orderCollection = await Orders.getOrderCollectionName();
 
     const modelData = await getDataById(modelCollection,vehicleID);
+    await modelCollection.updateOne({_id:new ObjectId(vehicleID)}, {
+        $set:{
+            stocks:Number(modelData.stocks) -1,
+        }
+    })
     const userUpdated = await userCollection.updateOne({
         _id: new ObjectId(userID)},{
             $set:{
@@ -76,6 +91,7 @@ const postBookCar = async(req,res) => {
         carName:modelData.name,
         email:email,
         contactNumber:phoneNumber,
+        colorOfCar:color,
         status:"pending",
         createdAt: new Date()
     });
@@ -88,7 +104,7 @@ const postBookCar = async(req,res) => {
         from: "projectMinor1@gmail.com",
         to: `${email}`,
         subject:"Booked Car Successful",
-        text:`Dear ${firstName}, Your booking of the car ${carName} of price${price} with selected color of ${color} has been successfully booked.`
+        text:`Dear ${firstName}, Your booking of the car ${modelData.name} of price${modelData.price} with selected color of ${color} has been successfully booked.`
     }
     transporter.sendMail(mailOptions, async(error, info) => {
         if (error) {
