@@ -82,7 +82,9 @@ button{
     text-decoration: none;
     color: white;
 }
-
+.whole #noStocks{
+    display: none;
+}
 form > * {
     margin-top: .5rem;
 }

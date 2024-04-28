@@ -22,10 +22,6 @@ const getBookCar = async(req,res)=> {
 
     const vehicleID = req.url.split("?")[1];
 
-    if(!vehicleID){
-        const errorMessage = "No Vehicle with that ID exists";
-        return await renderPage(res,filePath,{errorMessage});
-    }
     const collection = await getCollectionName();
     const vehicleData = await getDataById(collection,vehicleID);
 
@@ -37,14 +33,16 @@ const getBookCar = async(req,res)=> {
         const data = {
             vehicleData,
             userData,
-            message:"This car is not available at the moment!"
+            message:"This car is not available at the moment!",
+            isAvailable:false
         }
         await renderPage(res,filePath,data);
     }
     const data = {
         vehicleData,
         userData,
-        message:''
+        message:'',
+        isAvailable:true,
     }
     await renderPage(res,filePath,data);
 }

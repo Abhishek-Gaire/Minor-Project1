@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirm Book Car</title>
     <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
-    <link rel="stylesheet" href="../../public/css/bookCar.css">
+    <link rel="stylesheet" href="/public/css/bookCar.css">
    
 </head>
 <body>
@@ -26,7 +26,7 @@
                 <%} %>
                 <p style="color: red;"><%= message %></p>
             </div>
-            <div class="alert form">
+            <div id="<% if(isAvailable){%> hasStocks <% } else {%> noStocks <%}%>"class="alert form" >
                 <form action="/confirmBookCar" method="post">
                     <input type="hidden" name="vehicleId" value="<%= vehicleData._id %>"/>
                     <input type="hidden" name="userId" value="<%= userData._id %>"/>
@@ -59,8 +59,10 @@
                         <input type="number" name="phoneNumber" id="contactNumber" value="<%= (userData.contactNumber || '') %>" required> <br>
                     </div>
                     <button type="submit">Confirm Your Booking</button>
+                    
                 </form>
             </div>
+           
         </div>
     </div> -->
 </body>

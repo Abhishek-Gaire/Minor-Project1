@@ -49,6 +49,8 @@ const routes = {
         "/admin/changeStatus":AdminControllers.changeStatus,
         "/admin/cancelModel":AdminControllers.cancelModel,
         "/admin/changeHomePage":AdminControllers.changeTopSelling,
+        "/admin/addStocks":AdminControllers.addStocks,
+        "/admin/removeStocks":AdminControllers.removeStocks,
     }
 }; 
 
