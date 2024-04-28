@@ -461,4 +461,48 @@ const cancelModel = async(req,res) => {
     res.writeHead(302,{Location:"/admin/bookedVehicles"});
     res.end();
 }
-export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel,changeTopSelling ,changeStatus,cancelModel,postEditVehicles};
+const addStocks = async(req,res)=>{
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end()
+    }
+    const query = req.url.split("?")[1];
+    const modelId = query.split("=")[1];
+
+    const modelCollection = await Models.getCollectionName();
+
+    const added = modelCollection.findOneAndUpdate({_id:new ObjectId(modelId)},
+    {
+        $inc:{stocks:1},
+    });
+
+    if(!added){
+        res.writeHead(500,{Location:"/500-error"});
+        return res.end();
+    }
+    res.writeHead(302,{Location:"/admin/cars"})
+    res.end();
+}
+
+const removeStocks = async(req,res)=>{
+    if(!req.admin){
+        res.writeHead(302,{Location:"/login?adminExists=false"})
+        return res.end()
+    }
+    const query = req.url.split("?")[1];
+    const modelId = query.split("=")[1];
+
+    const modelCollection = await Models.getCollectionName();
+
+    const modelData = await Models.getDataById(modelCollection,modelId);
+    await modelCollection.findOneAndUpdate({_id:new ObjectId(modelId)}, 
+    {
+        $set:{
+            stocks:Number(modelData.stocks) -1,
+        }
+    })
+
+    res.writeHead(302,{Location:"/admin/cars"})
+    res.end();
+}
+export {getAdmin,getAddVehicles,postAddVehicles,postLoginAdmin,getManageUsers,getBookedCarAdmin,getCarsAdmin,postLogoutAdmin,getCarDetails,getAdminModelView,deleteModel,changeTopSelling ,changeStatus,cancelModel,postEditVehicles,addStocks,removeStocks};
