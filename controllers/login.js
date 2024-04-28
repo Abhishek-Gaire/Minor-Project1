@@ -102,13 +102,25 @@ const postSignUP = async (req, res) => {
   // Validation for email
   if (!validator.isEmail(email)) {
     const errorMessage ='Email is not valid';
-    return await renderPage(res,filePath,{errorMessage});
+    const data = {
+      errorMessage:errorMessage,
+      username:username,
+      email:email,
+      password:password,
+    }
+    return await renderPage(res,filePath,data);
   }
 
   // Validation for password
   if (!validator.isStrongPassword(password)) {
     const errorMessage ='Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
-    await renderPage(res,filePath,{errorMessage});
+    const data = {
+      errorMessage:errorMessage,
+      username:username,
+      email:email,
+      password:password,
+    }
+    await renderPage(res,filePath,data);
     return;
   }
 
