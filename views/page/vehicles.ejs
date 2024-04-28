@@ -32,7 +32,7 @@
           <% if(vehicle.type === 'suv'){ %>
               <div class="single_container">
                 <a href="/modelview?<%=vehicle._id%>" class="model">
-                  <img src="<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
+                  <img src="/<%= vehicle.imageUrl %>" alt="Single Image from Database"/>
                   <h2><%= vehicle.name %></h2>
                   <p>NRP <%= vehicle.price %></p>
                   <div id="stock">
