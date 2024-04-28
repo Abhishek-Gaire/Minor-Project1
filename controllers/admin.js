@@ -241,21 +241,6 @@ const postEditVehicles = async(req,res) =>{
     const id = modelID[0].replace(/ /g, "");
     if(imageFile.mimetype === "image/png" || imageFile.mimetype === "image/jpeg" || imageFile.mimetype === "image/jpg"){
     
-        const exists = await modelCollection.findOne({
-            name:name[0],
-            price:Number(price[0]),
-            modelYear:Number(year[0]),
-            type:typeNames[0]
-        });
-        if(exists){
-                
-        await modelCollection.updateOne({_id:new ObjectId(exists._id)},{$set:{stocks:Number(exists.stocks)+1}});
-    
-            res.writeHead(302,{Location:`/admin/car-details?id={exists._id}`});
-            res.end();
-            return;
-        }
-    
         const fileUploadPathForImages = "./assets/CarImages";
         const fileUploadPathForModels = "./assets/CarGLBModel";
     
@@ -275,7 +260,7 @@ const postEditVehicles = async(req,res) =>{
         // Move the 3d model to the CarGLBModel folder
         await fs.rename(model3D.filepath, newPathForModels);
     
-        const uploaded = await modelCollection.updateOne({_id:new ObjectId(id)},{$set:{
+        await modelCollection.updateOne({_id:new ObjectId(id)},{$set:{
             name:name[0],
             price:Number(price[0]),
             descriptionOfCar:descriptionCar[0],
@@ -285,7 +270,6 @@ const postEditVehicles = async(req,res) =>{
             modelYear:Number(year[0]),
             descriptionOfEngine:descriptionEngine[0],
             descriptionOfTyre:descriptionTyre[0],
-            stocks:1,
         }})
       
         res.writeHead(302,{Location:`/admin/car-details?id=${id}`});
@@ -375,7 +359,7 @@ const getCarDetails = async(req,res) => {
     const data = {
         vehicleData:vehicleData
     };
-    await renderPage(res,filePath,data);
+    return await renderPage(res,filePath,data);
 }
 const getAdminModelView = async(req,res) => {
     if(!req.admin){
