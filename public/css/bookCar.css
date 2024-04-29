@@ -7,7 +7,7 @@
 html,body{
     height: 100%;
     width: 100%;
-    background-color: gray;
+    /* background-color: gray; */
 }
 #logo{
     position: absolute;
@@ -148,4 +148,103 @@ form{
     .data{
         min-width: 220px;
     }
+}
+
+
+
+.top{
+    height: 65vh;
+    width: 100%;
+    position: relative;
+    border: 2px solid white;
+}
+.top img{
+    height: 450px;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    z-index: 9;
+}
+.head{
+    width: 30%;
+    position: absolute;
+    right: 10%;
+    top: 7%;
+    text-align: end;
+}
+.head p,h1{
+    margin-top: 20px;
+}
+.clip{
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    clip-path: polygon(0 86%, 100% 44%, 100% 100%, 0% 100%);
+    z-index: 3;
+}
+.inclip{
+    text-align: end;
+    width: 20%;
+    position: absolute;
+    right:10%;
+    bottom: 20%;
+    /* background-color: aqua; */
+    z-index: 5;
+}
+.inclip h2{
+    margin-top: 10px;
+}
+
+.bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 2rem;
+}
+.box{
+    width: 30%;
+    height: 65vh;
+    /* background-color: antiquewhite; */
+    text-align: center;
+    padding: 1rem 2rem;
+    background : linear-gradient(135deg, rgba(255,255,255,0.1),rgba(255,255,255,0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    position: relative;
+}
+
+.box img{
+    height: 170px;
+}
+.box > * {
+    margin-top: 10px;
+}
+.form{
+    /* border: 2px solid red; */
+    width:100%;
+    padding: 0 0 2rem 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    
+    
+}
+form{
+    width: 50%;
+    border: 2px solid black;
+    padding: 2rem 4rem;
+    background : linear-gradient(135deg, rgba(255,255,255,0.1),rgba(255,255,255,0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    position: relative;
+
 }
