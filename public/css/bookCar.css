@@ -14,11 +14,11 @@ html,body{
     top: 0.9vw;
     left: 2.6vw;
     z-index: 9;
+    text-decoration: none;
+    color: black;
+    font-size: large;
 }
-#logo img{
-    height: 5.2vw;
-    min-height: 50px;
-}
+
 
 .container{
     height: 100vh;
@@ -82,10 +82,7 @@ button{
     text-decoration: none;
     color: white;
 }
-.whole #noStocks{
-    display: none;
-    cursor: not-allowed;
-}
+
 form > * {
     margin-top: .5rem;
 }

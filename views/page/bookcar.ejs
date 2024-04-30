@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Book Car</title>
-    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+    <title>Book Car</title>
+    <link rel="icon" type="image/x-icon" href="/assets/otherImages/logo-removebg-preview.png">
     <link rel="stylesheet" href="/public/css/bookCar.css">
    
 </head>
 <body>
-    <a href="/" id="logo"><img src="/assets/logo-removebg-preview.png" alt="Go to Home Page"></a>
+    <a href="/modelview?<%=vehicleData._id%>" id="logo">Go Back</a>
     <div class="top">
         <img src="<%= vehicleData.imageUrl %>" alt="Image From Database">
         <div class="head">
             <% if(userData) { %>
                 <h1>Welcome <%= userData.username %></h1> 
             <% } %>
+            <h1>Name</h1>
             <h1><%= vehicleData.name %></h1>
-            <!-- <p>The Toyota Fortuner is a popular SUV produced by the Japanese automaker Toyota. It's known for its ruggedness, reliability, and off-road capabilities.</p> -->
         </div>
         <div class="clip">
             <div class="inclip">
                 <h1>Price</h1>
-                <h2>NPR 24375000</h2>
+                <h2>NPR <%= vehicleData.price %></h2>
                 <p style="color: red;"><%= message %></p>
             </div>
         </div>
@@ -30,111 +30,28 @@
     <div class="bottom">
         <div class="left box">
             <% if(vehicleData) { %>
-            <img src="../../assets/black-big-car-side-view.png" alt="">
+            <img src="/assets/otherImages/black-big-car-side-view.png" alt="">
             <h1>About car</h1>
             <p><%= vehicleData.descriptionOfCar %></p>
         </div>
         <div class="right box">
-            <img src="../../assets/wheel.png" alt="">
+            <img src="/assets/otherImages/wheel.png" alt="">
             <h1>Tyre</h1>
             <p><%= vehicleData.descriptionOfTyre %></p>
         </div>
         <div class="left box">
-            <img src="../../assets/car-engine.png" alt="">
+            <img src="/assets/otherImages/car-engine.png" alt="">
             <h1>Engine</h1>
             <p><%= vehicleData.descriptionOfEngine %></p>
             <%} %>
         </div>
-    </div>
-    <div id="<% if(isAvailable){%> hasStocks <% } else {%> noStocks <%}%>"class="alert form" >
-        <form action="/confirmBookCar" method="post">
-            <input type="hidden" name="vehicleId" value="<%= vehicleData._id %>"/>
-            <input type="hidden" name="userId" value="<%= userData._id %>"/>
-            <div class="data">
-                <label for="FirstName">First Name:</label><br>
-                <input type="text" name="firstName" id="FirstName" value="<%= (userData.firstName || '') %>" required><br>
-            </div>
-            <div class="data">
-                <label for="LastName">Last Name:</label><br>
-                <input type="text" name="lastName" id="LastName" value="<%= (userData.lastName || '') %>" required><br>
-            </div>
-            <div class="data colortype">
-                        <label for="typeNames">Choose a color of car:</label> 
-                        <select name="color" id="typeNames" > 
-                            <option value="white">White</option> 
-                            <option value="black">Black</option> 
-                            <option value="blue">Blue</option> 
-                        </select>
-                    </div>
-            <div class="data">
-                <label for="email">Email</label><br>
-                <input type="email" name="email" id="email" value="<%=userData.email%>" readonly><br>
-            </div>
-            <div class="data">
-                <lab el for="Address">Address:</lab><br>
-                <input type="text" name="address" id="Address" placeholder="Street Number and Street Name" value="<%= (userData.address || '') %>" required><br>
-            </div>
-            <div class="data">
-                <label for="contactNumber">Contact Number:</label><br>
-                <input type="number" name="phoneNumber" id="contactNumber" value="<%= (userData.contactNumber || '') %>" required> <br>
-            </div>
-            <button type="submit">Confirm Your Booking</button>
-            
-        </form>
-    </div>
-    <!-- <div class="container">
-        <div class="whole">
-            <div class="content">
-                <h1>Is this information about your car correct?</h1> 
-                <% if(userData) { %>
-                    <h1>Welcome <%= userData.username %></h1> 
-                <% } %>
-                <% if(vehicleData) { %>
-                    <h2>Name: <%= vehicleData.name %></h2>
-                    <img src="<%= vehicleData.imageUrl %>" alt="Image From Database">
-                    <h2>Price <%= vehicleData.price %></h2>
-                    <p>Description :<%= vehicleData.descriptionOfCar %></p>
-                <%} %>
-                <p style="color: red;"><%= message %></p>
-            </div>
-            <div id="<% if(isAvailable){%> hasStocks <% } else {%> noStocks <%}%>"class="alert form" >
-                <form action="/confirmBookCar" method="post">
-                    <input type="hidden" name="vehicleId" value="<%= vehicleData._id %>"/>
-                    <input type="hidden" name="userId" value="<%= userData._id %>"/>
-                    <div class="data">
-                        <label for="FirstName">First Name:</label><br>
-                        <input type="text" name="firstName" id="FirstName" value="<%= (userData.firstName || '') %>" required><br>
-                    </div>
-                    <div class="data">
-                        <label for="LastName">Last Name:</label><br>
-                        <input type="text" name="lastName" id="LastName" value="<%= (userData.lastName || '') %>" required><br>
-                    </div>
-                    <div class="data colortype">
-                                <label for="typeNames">Choose a color of car:</label> 
-                                <select name="color" id="typeNames" > 
-                                    <option value="white">White</option> 
-                                    <option value="black">Black</option> 
-                                    <option value="blue">Blue</option> 
-                                </select>
-                            </div>
-                    <div class="data">
-                        <label for="email">Email</label><br>
-                        <input type="email" name="email" id="email" value="<%=userData.email%>" readonly><br>
-                    </div>
-                    <div class="data">
-                        <lab el for="Address">Address:</lab><br>
-                        <input type="text" name="address" id="Address" placeholder="Street Number and Street Name" value="<%= (userData.address || '') %>" required><br>
-                    </div>
-                    <div class="data">
-                        <label for="contactNumber">Contact Number:</label><br>
-                        <input type="number" name="phoneNumber" id="contactNumber" value="<%= (userData.contactNumber || '') %>" required> <br>
-                    </div>
-                    <button type="submit">Confirm Your Booking</button>
-                    
-                </form>
-            </div>
-           
+        <div class="alert form">
+            <form action="/<% if(isAvailable) { %>booking?hasStocks=true <% }else{%> booking?hasStocks=false <%} %>" method="post">
+                <input type="hidden" name="vehicleId"  value=<%= vehicleData._id %> />
+                <button type="submit">Confirm</button>
+            </form>
         </div>
-    </div> -->
+        
+    </div>
 </body>
 </html>

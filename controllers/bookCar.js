@@ -46,7 +46,43 @@ const getBookCar = async(req,res)=> {
     }
     await renderPage(res,filePath,data);
 }
-const postBookCar = async(req,res) => {
+const postBooking = async(req,res) => {
+    if(!req.user){
+        res.writeHead(302,{Location: "/login"});
+        res.end();
+        return ;
+    }
+    const query = req.url.split("?")[1];
+    const hasStocks = query.split("=")[1];
+    console.log(hasStocks);
+    const formData = await parseFormData(req);
+    const modelId = formData.vehicleId;
+    const userId = req.user.id;
+
+    const userCollection = await Users.getCollectionName();
+    const userData = await Users.getUserByID(userCollection,userId)
+    const filePath = "/views/page/confirmBookCar.ejs";
+    if(hasStocks){
+        const data = {
+            userData:userData,
+            modelId:modelId,
+            hasStocks:true,
+        }
+        return await renderPage(res,filePath,data);
+    }
+    const data = {
+        userData:userData,
+        modelId:modelId,
+        hasStocks:false,
+    }
+    return await renderPage(res,filePath,data);    
+}
+const postConfirmBookCar = async(req,res) => {
+    if(!req.user){
+        res.writeHead(302,{Location: "/login"});
+        res.end();
+        return ;
+    }
     const formData = await parseFormData(req);
 
     const firstName  = formData.firstName;
@@ -55,8 +91,8 @@ const postBookCar = async(req,res) => {
     const phoneNumber = formData.phoneNumber;
     const email = formData.email;
     const color = formData.color;
-
-    const userID = formData.userId;
+    const stocks = formData.stocks || '';
+    const userID = req.user.id;
     const vehicleID = formData.vehicleId;
 
     const modelCollection = await getCollectionName();
@@ -64,6 +100,7 @@ const postBookCar = async(req,res) => {
     const orderCollection = await Orders.getOrderCollectionName();
 
     const modelData = await getDataById(modelCollection,vehicleID);
+    
     await modelCollection.updateOne({_id:new ObjectId(vehicleID)}, {
         $set:{
             stocks:Number(modelData.stocks) -1,
@@ -117,4 +154,4 @@ const postBookCar = async(req,res) => {
     res.writeHead(302,{Location:`/modelview?${vehicleID}`});
     res.end();
 }
-export{getBookCar,postBookCar};
+export{getBookCar,postConfirmBookCar,postBooking};

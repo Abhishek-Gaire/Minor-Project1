@@ -44,8 +44,8 @@ const server = http.createServer(async (req, res) => {
         }
     }
     else {
-        if(pathname === "/logout"){
-            console.log("inside post and /logout")
+        if(pathname === "/logout" || pathname === "/booking" || pathname === "/confirmBookCar"){
+            console.log(`inside post and ${pathname}`)
             return await extractTokenFromCookie(req, res, async () =>  {
                 return await authenticateUser(req, res, async () => {
                     return await routes[method][pathname](req, res);       

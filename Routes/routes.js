@@ -6,7 +6,7 @@ import * as AdminControllers from "../controllers/admin.js";
 
 import * as AuthControllers from"../controllers/login.js";
 
-import { getBookCar,postBookCar } from "../controllers/bookCar.js";
+import { getBookCar,postBooking,postConfirmBookCar } from "../controllers/bookCar.js";
 
 
 const routes = {
@@ -20,8 +20,8 @@ const routes = {
         "/logout":AuthControllers.postLogoutUser,
         "/adminLogin":AdminControllers.postLoginAdmin,
         "/editVehicles":AdminControllers.postEditVehicles,
-        
-        "/confirmBookCar":postBookCar,
+        "/booking":postBooking,
+        "/confirmBookCar":postConfirmBookCar,
     },
     "GET": {
         "/":PageControllers.renderHomePage,
