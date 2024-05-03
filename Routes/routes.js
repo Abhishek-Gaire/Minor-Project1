@@ -6,7 +6,7 @@ import * as AdminControllers from "../controllers/admin.js";
 
 import * as AuthControllers from"../controllers/login.js";
 
-import { getBookCar,postBooking,postConfirmBookCar } from "../controllers/bookCar.js";
+import { getBookCar,postBooking,postConfirmBookCar,cancelBooking } from "../controllers/bookCar.js";
 
 
 const routes = {
@@ -51,6 +51,7 @@ const routes = {
         "/admin/changeHomePage":AdminControllers.changeTopSelling,
         "/admin/addStocks":AdminControllers.addStocks,
         "/admin/removeStocks":AdminControllers.removeStocks,
+        "/cancelBooking":cancelBooking,
     }
 }; 
 

@@ -74,8 +74,9 @@ const renderPage = async(res,templatePath,message) =>{
   const filePath = path.join(__dirname, templatePath);
   
   const fileData = await fsPromises.readFile(filePath,"utf8");
+  
   const renderedHTML = ejs.render(fileData,message);
-
+  
   return res.end(renderedHTML);
 }
 

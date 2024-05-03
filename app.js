@@ -22,7 +22,7 @@ const server = http.createServer(async (req, res) => {
     const { method } = req;
     
     if (method === 'GET'){ 
-        if(pathname ==="/modelview" ||  pathname=="/" || pathname==="/book-car"){
+        if(pathname ==="/modelview" ||  pathname=="/" || pathname==="/book-car" || pathname === "/cancelBooking"){
             console.log(`Inside GET and ${pathname}`);
             return  await extractTokenFromCookie(req, res, async () =>  {
                 return await authenticateUser(req, res, async () => {

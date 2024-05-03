@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../public/css/admin/aside.css">
     <link rel="stylesheet" href="../../public/css/admin/top.css">
     <link rel="stylesheet" href="../../public/css/admin/booking_admin.css">
-    <link rel="icon" type="image/x-icon" href="/assets/logo-removebg-preview.png">
+    <link rel="icon" type="image/x-icon" href="/assets/otherImages/logo-removebg-preview.png">
 </head>
 <body>
     <div class="container">
@@ -100,6 +100,7 @@
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Contact</th>
+                                    <th>Payment</th>
                                     <th>Action</th>
                                 </tr>
                                     <% orderData.forEach(function(data) { %>                                        <tr>
@@ -113,6 +114,9 @@
                                                 
                                                 <td>
                                                     <%= data.contactNumber %>
+                                                </td>
+                                                <td>
+                                                    <%= data.advancePayment %>
                                                 </td>
                                                 <td>
                                                     <div id="action">

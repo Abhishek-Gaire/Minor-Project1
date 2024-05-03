@@ -46,8 +46,10 @@
             <%} %>
         </div>
         <div class="alert form">
-            <form action="/<% if(isAvailable) { %>booking?hasStocks=true <% }else{%> booking?hasStocks=false <%} %>" method="post">
+            <form action="<% if(isAvailable) { %>/booking?hS=true <% }else{%> /booking?hS=false <%} %>" method="post">
                 <input type="hidden" name="vehicleId"  value=<%= vehicleData._id %> />
+                <label for="advancePayment">Advance Payment</label>
+                <input type="number" name="advancePayment" id="advancePayment" value="1000">
                 <button type="submit">Confirm</button>
             </form>
         </div>
