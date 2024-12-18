@@ -1,197 +1,181 @@
-
 import validator from "validator";
 import bcrypt from "bcrypt";
-
-import{
-  getUserByEmail, getCollectionName,createUser,
-} from"../Models/user.js";
-import { 
-  generateToken,generateVerificationCode
+import {
+  getUserByEmail,
+  getCollectionName,
+  createUser,
+} from "../Models/user.js";
+import {
+  generateToken,
+  generateVerificationCode,
 } from "../helper/jwtHelper.js";
-import { renderPage,parseFormData } from "../helper/appHelper.js";
-import { mailOptions,transporter } from "../helper/nodemailerHelper.js";
+import { renderPage, parseFormData } from "../helper/appHelper.js";
+import { mailOptions, transporter } from "../helper/nodemailerHelper.js";
 import { deleteCookie } from "../helper/adminHelper.js";
 
-
 const postLoginUser = async (req, res) => {
-  const filePath = "/views/auth/login.ejs";
+  try {
+    const filePath = "/views/auth/login.ejs";
 
-  const  formData = await parseFormData(req);
-    
-  const {email,password} = formData;
-    
-  const Users = await getCollectionName();
+    const { email, password } = await parseFormData(req);
 
-  // Fetch user from the database by email
-  const user = await getUserByEmail(Users, email);
-    
-  if (!user){
-    const data = {
-      message : "No user with that email exists!",
-      admin:false,
+    const Users = await getCollectionName();
+    const user = await getUserByEmail(Users, email);
+
+    if (!user) {
+      return renderPage(res, filePath, {
+        message: "No user with that email exists!",
+        admin: false,
+      });
     }
-    return await renderPage(res,filePath,data);
-  }
- 
-  const matched =  await bcrypt.compare(password, user.password);
-  if (matched) {
-    // Generate JWT token
-    const token = await generateToken(user._id);
 
-    // Set JWT token in a cookie
-    res.setHeader('Set-Cookie', `userToken=${token}; HttpOnly`);
+    const matched = await bcrypt.compare(password, user.password);
 
-    res.writeHead(302, { Location:"/" });
-    res.end();
-  } else {
-    //Invalid Credentials
-    const data = {
-      message : "Invalid Password",
-      admin:false,
+    if (matched) {
+      const token = await generateToken(user._id);
+      res.setHeader("Set-Cookie", `userToken=${token}; HttpOnly`);
+      res.writeHead(302, { Location: "/" });
+      return res.end();
+    } else {
+      return renderPage(res, filePath, {
+        message: "Invalid Password",
+        admin: false,
+      });
     }
-    await renderPage(res,filePath,data);
+  } catch (error) {
+    console.error("Error in postLoginUser:", error);
   }
 };
-const getLogin = async(req,res) => {
-  // console.log(req.searchParams);
-  const fullQuery = req.url.split("?")[1];
-  // console.log(fullQuery);
-  const filePath = "/views/auth/login.ejs";
-  if(!fullQuery){
-    const data = {
-      message:'',
-      admin:false,
+const getLogin = async (req, res) => {
+  try {
+    const fullQuery = req.url.split("?")[1];
+    const filePath = "/views/auth/login.ejs";
+
+    if (!fullQuery) {
+      return renderPage(res, filePath, { message: "", admin: false });
     }
-    return await renderPage(res,filePath,data);
-  }
-  const query = fullQuery.split("=")[0];
-  // console.log(query)
-  if(query === "userExists"){
-    const data = {
-      message:"User Already Exists",
-      admin:false,
+
+    const query = fullQuery.split("=")[0];
+
+    if (query === "userExists") {
+      return renderPage(res, filePath, {
+        message: "User Already Exists",
+        admin: false,
+      });
     }
-    return await renderPage(res,filePath,data)
+
+    return renderPage(res, filePath, {
+      message: "Welcome to Admin Login",
+      admin: true,
+    });
+  } catch (error) {
+    console.error("Error in getLogin:", error);
   }
-  const data = {
-    message:"Welcome to Admin Login",
-    admin:true,
-  }
-  return await renderPage(res,filePath,data);
-}
+};
 
 const postSignUP = async (req, res) => {
-  const filePath = "/views/auth/signup.ejs";
-  
-  const formData = await parseFormData(req);
-   
-  const {username,email,password}= formData;
+  try {
+    const filePath = "/views/auth/signup.ejs";
 
-  // // Validation for username
-  if (!validator.isAlphanumeric(username) || validator.isEmpty(username)) {
-    const errorMessage ='Username is not valid';
-    const data = {
-      errorMessage:errorMessage,
-      username:username,
-      email:email,
-      password:password,
+    const { username, email, password } = await parseFormData(req);
+
+    const validationErrors = validateSignupFields(username, email, password);
+
+    if (validationErrors) {
+      return renderPage(res, filePath, {
+        ...validationErrors,
+        username,
+        email,
+        password,
+      });
     }
-    return await renderPage(res,filePath,data);
-  }
 
-  // Validation for email
-  if (!validator.isEmail(email)) {
-    const errorMessage ='Email is not valid';
-    const data = {
-      errorMessage:errorMessage,
-      username:username,
-      email:email,
-      password:password,
-    }
-    return await renderPage(res,filePath,data);
-  }
+    const Users = await getCollectionName();
+    const existingUser = await getUserByEmail(Users, email);
 
-  // Validation for password
-  if (!validator.isStrongPassword(password)) {
-    const errorMessage ='Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.';
-    const data = {
-      errorMessage:errorMessage,
-      username:username,
-      email:email,
-      password:password,
-    }
-    await renderPage(res,filePath,data);
-    return;
-  }
-
-  const Users = await getCollectionName();
-    
-  const existingUser = await getUserByEmail(Users, email);
-    
-  if (existingUser) {
-    res.writeHead(302, { Location: "/login?userExists=true" });
-    res.end();
-    return;
-  } 
-  const verificationCode = generateVerificationCode();
-  const sendingMail = mailOptions(email,verificationCode);
-
-  transporter.sendMail(sendingMail, async(error, info) => {
-    if (error) {
-      console.error('Error sending verification email:', error);
-      const errorMessage = "Email is not valid!  Please try again with another email";
-      await renderPage(res,filePath,{errorMessage});
+    if (existingUser) {
+      res.writeHead(302, { Location: "/login?userExists=true" });
+      res.end();
       return;
-    } else {
-      console.log('Verification email sent:', info.response);
     }
-  });
+    const verificationCode = generateVerificationCode();
+    const sendingMail = mailOptions(email, verificationCode);
 
-  
-  // Hashing the password
-  const hashedPassword = await bcrypt.hash(password, 12);
-  
-  const newUser = {
-    username: username,
-    email: email,
-    password: hashedPassword,
-    verified: false,
-    verificationCode: verificationCode,
-    resetToken: null,
-  };
+    transporter.sendMail(sendingMail, async (error) => {
+      if (error) {
+        console.error("Error sending verification email:", error);
+        return renderPage(res, filePath, {
+          errorMessage:
+            "Email is not valid! Please try again with another email",
+        });
+      }
+    });
 
-  await createUser(Users, newUser);
+    const hashedPassword = await bcrypt.hash(password, 12);
+    const newUser = {
+      username: username,
+      email: email,
+      password: hashedPassword,
+      verified: false,
+      verificationCode: verificationCode,
+      resetToken: null,
+    };
 
-  const token = await generateToken(email);
-  res.writeHead(302,{Location: `/verify?token=${token}`});
-  res.end();
+    await createUser(Users, newUser);
+    const token = await generateToken(email);
+    res.writeHead(302, { Location: `/verify?token=${token}` });
+    res.end();
+  } catch (error) {
+    console.error("Error in postSignUP:", error);
+  }
 };
 
-const getSignUP = async(req,res) => {
-  const filePath = "/views/auth/signup.ejs";
-  const data = {
-    errorMessage:'',
-    username:'',
-    password:'',
-    email:''
+const getSignUP = async (req, res) => {
+  try {
+    const filePath = "/views/auth/signup.ejs";
+    await renderPage(res, filePath, {
+      errorMessage: "",
+      username: "",
+      password: "",
+      email: "",
+    });
+  } catch (error) {
+    console.error("Error in getSignUP:", error);
   }
-  await renderPage(res,filePath,data);
-}
+};
 
-const postLogoutUser = async(req,res)=> {
-  const filePath= "/views/auth/login.ejs"
-  // console.log(req.token);
-  if(req.token){
-    // console.log("Inside If");
-    deleteCookie(res,"userToken");
-    const data = {
-      message :"You are successfully logged out",
-      admin:false,
+const postLogoutUser = async (req, res) => {
+  try {
+    const filePath = "/views/auth/login.ejs";
+    if (req.token) {
+      deleteCookie(res, "userToken");
+      return renderPage(res, filePath, {
+        message: "You are successfully logged out",
+        admin: false,
+      });
     }
-    await renderPage (res,filePath,data);
-    return;
+  } catch (error) {
+    console.error("Error in postLogoutUser:", error);
   }
-  console.log("Outside if in post Logout");
-}
-export {postSignUP,postLoginUser,getLogin,getSignUP,postLogoutUser};
+};
 
+const validateSignupFields = (username, email, password) => {
+  if (!validator.isAlphanumeric(username) || validator.isEmpty(username)) {
+    return { errorMessage: "Username is not valid" };
+  }
+
+  if (!validator.isEmail(email)) {
+    return { errorMessage: "Email is not valid" };
+  }
+
+  if (!validator.isStrongPassword(password)) {
+    return {
+      errorMessage:
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+    };
+  }
+
+  return null;
+};
+
+export { postSignUP, postLoginUser, getLogin, getSignUP, postLogoutUser };

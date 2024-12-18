@@ -8,83 +8,107 @@ import { connectToDB, closeDB } from "./helper/database.js";
 import { serveStaticFile } from "./helper/appHelper.js";
 import { routes } from "./Routes/routes.js";
 
-import { extractTokenFromCookie,authenticateUser } from "./middleware/userAuth.js";
-import {extractAdminTokenFromCookie,authenticateAdmin}  from './middleware/adminAuth.js';
+import {
+  extractTokenFromCookie,
+  authenticateUser,
+} from "./middleware/userAuth.js";
+import {
+  extractAdminTokenFromCookie,
+  authenticateAdmin,
+} from "./middleware/adminAuth.js";
 
 dotenv.config();
 
 const __dirname = path.resolve();
+const PORT = process.env.PORT || 5000;
 
-const server = http.createServer(async (req, res) => {
-    
-    const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-    const { pathname } = parsedUrl;
-    const { method } = req;
-    
-    if (method === 'GET'){ 
-        if(pathname ==="/modelview" ||  pathname=="/" || pathname==="/book-car" || pathname === "/cancelBooking"){
-            console.log(`Inside GET and ${pathname}`);
-            return  await extractTokenFromCookie(req, res, async () =>  {
-                return await authenticateUser(req, res, async () => {
-                    return await routes[method][pathname](req, res);       
-                });
-            })
-        }
-        else if(pathname === "/admin" || pathname ==="/admin/dashboard" || pathname === "/admin/addVehicles" || pathname === "/admin/cars" || pathname === "/admin/manageUsers" || pathname === "/admin/bookedVehicles" || pathname==="/admin/car-details" || pathname==="/adminLogout" || pathname === "/adminModelView" || pathname === "/admin/deleteModel" || pathname === "/admin/changeStatus" || pathname === "/admin/cancelModel" || pathname === "/admin/changeHomePage" || pathname === "/admin/addStocks" || pathname === "/admin/removeStocks")
-        {
-            console.log(`Inside GET and ${pathname}`);
-            return await extractAdminTokenFromCookie(req,res,async() =>{
-                return await authenticateAdmin(req,res,async() => {
-                    return await routes[method][pathname](req,res);
-                })
-            })
-        } else if(routes[method] && routes[method][pathname]){
-            console.log(`Inside GET and ${pathname}`);
-            return await routes[method][pathname](req, res);
-        }
-    }
-    else {
-        if(pathname === "/logout" || pathname === "/booking" || pathname === "/confirmBookCar"){
-            console.log(`inside post and ${pathname}`)
-            return await extractTokenFromCookie(req, res, async () =>  {
-                return await authenticateUser(req, res, async () => {
-                    return await routes[method][pathname](req, res);       
-                });
-            })
-        } else if(pathname === "/addVehicles" || pathname === "/editVehicles"){
-            console.log(`inside post and ${pathname}`)
-            return await extractAdminTokenFromCookie(req, res, async () =>  {
-                return await authenticateAdmin(req, res, async () => {
-                    return await routes[method][pathname](req, res);       
-                });
-            })
-        }
-        else if(routes[method] && routes[method][pathname]){
-            console.log(`Inside POST and ${pathname}`);
-            return await routes[method][pathname](req, res);
-        }
-    }
-    
-    let filePath;
-    filePath = path.join(__dirname ,pathname);
-    await serveStaticFile(req, res, filePath);
-});
-
-const PORT =  process.env.PORT || 5000;
-
-connectToDB().then(() => {
-    server.listen(PORT, () => {
-        console.log(`Server running at http://localhost:${PORT}`);
+// Middleware function for handling user authentication
+const userMiddleware = async (req, res, next) => {
+  try {
+    await extractTokenFromCookie(req, res, async () => {
+      await authenticateUser(req, res, next);
     });
-});
-
-const handleShutdown = async () => {
-    await closeDB().then(()=> {
-        console.log("Server Shutting Down");
-    });
-    process.exit();
+  } catch (err) {
+    console.error("User authentication failed:", err);
+    res.writeHead(401, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Unauthorized" }));
+  }
 };
 
-process.on("exit", handleShutdown);
+// Middleware function for handling admin authentication
+const adminMiddleware = async (req, res, next) => {
+  try {
+    await extractAdminTokenFromCookie(req, res, async () => {
+      await authenticateAdmin(req, res, next);
+    });
+  } catch (err) {
+    console.error("Admin authentication failed:", err);
+    res.writeHead(401, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Unauthorized" }));
+  }
+};
+
+// Centralized route handler
+const handleRoute = async (req, res) => {
+  const { method, url } = req;
+  const parsedUrl = new URL(url, `http://${req.headers.host}`);
+  const { pathname } = parsedUrl;
+
+  const routeHandler = routes[method]?.[pathname];
+  if (!routeHandler) {
+    // If route not found, serve static files or return 404
+    const filePath = path.join(__dirname, pathname);
+    if (!(await serveStaticFile(req, res, filePath))) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Not Found" }));
+    }
+    return;
+  }
+
+  // Apply middleware based on the route type
+  if (pathname.startsWith("/admin")) {
+    await adminMiddleware(req, res, () => routeHandler(req, res));
+  } else if (pathname.startsWith("/")) {
+    await userMiddleware(req, res, () => routeHandler(req, res));
+  } else {
+    await routeHandler(req, res);
+  }
+};
+
+// Create HTTP server
+const server = http.createServer(async (req, res) => {
+  try {
+    await handleRoute(req, res);
+  } catch (err) {
+    console.error("Server Error:", err);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal Server Error" }));
+  }
+});
+
+// Start the server
+connectToDB()
+  .then(() => {
+    server.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err);
+    process.exit(1);
+  });
+
+// Graceful shutdown
+const handleShutdown = async () => {
+  try {
+    await closeDB();
+    console.log("Database connection closed. Server shutting down...");
+  } catch (err) {
+    console.error("Error during shutdown:", err);
+  } finally {
+    process.exit();
+  }
+};
+
 process.on("SIGINT", handleShutdown);
 process.on("SIGTERM", handleShutdown);

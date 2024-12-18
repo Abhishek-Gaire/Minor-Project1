@@ -1,30 +1,19 @@
+import { db } from "../helper/database.js";
 
-import {db} from "../helper/database.js";
-
-
-const getAdminCollectionName = () => {
-  const collection = db.collection("Admin");
-  return collection;
+// Generic helper to retrieve a collection
+const getCollection = (collectionName) => {
+  return db.collection(collectionName);
 };
 
-const getAdminByEmail = async (collection, email) => {
-    try {
-      // Retrieve user data from the database by email
-      const user = await collection.findOne({ email }) || null;
-      
-      // If user exists, return user data
-      if (user) {
-        return user;
-      } else {
-        // If user does not exist, return null
-        return null;
-      }
-    } catch (error) {
-      // Handle any errors
-      console.error("Error fetching user by email:", error);
-      throw error; // Re-throw the error to be handled by the caller
-    }
-  };
-export {
-  getAdminCollectionName,getAdminByEmail
+// Retrieve an admin by email
+const getAdminByEmail = async (adminCollection, email) => {
+  try {
+    const admin = await adminCollection.findOne({ email });
+    return admin || null; // Return admin data if found, otherwise null
+  } catch (error) {
+    console.error(`Error fetching admin by email (${email}):`, error);
+    throw new Error("Unable to fetch admin by email.");
+  }
 };
+
+export { getCollection, getAdminByEmail };

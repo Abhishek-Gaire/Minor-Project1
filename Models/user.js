@@ -1,57 +1,72 @@
 import { ObjectId } from "mongodb";
-import {db} from "../helper/database.js";
+import { db } from "../helper/database.js";
 
-
-
-const getCollectionName = () => {
-  const collection = db.collection("Users");
-  return collection;
+// Helper function to get a collection
+const getCollection = (collectionName) => {
+  return db.collection(collectionName);
 };
 
-const getUserByEmail = async (Users, email) => {
+// Retrieve user by email
+const getUserByEmail = async (users, email) => {
   try {
-    // Retrieve user data from the database by email
-    const user = await Users.findOne({ email }) || null;
-    
-    // If user exists, return user data
-    if (user) {
-      return user;
-    } else {
-      // If user does not exist, return null
-      return null;
-    }
+    const user = await users.findOne({ email });
+    return user || null; // Return user if found, otherwise null
   } catch (error) {
-    // Handle any errors
     console.error("Error fetching user by email:", error);
+    throw new Error("Unable to fetch user by email.");
   }
 };
 
-const createUser = async (Users, userData) => {
-  return Users.insertOne(userData);
+// Create a new user
+const createUser = async (users, userData) => {
+  try {
+    const result = await users.insertOne(userData);
+    return result.insertedId; // Return the ID of the newly created user
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw new Error("Unable to create user.");
+  }
 };
-const getUserByToken = async(Users,token) => {
-  return Users.findOne({ resetToken:token });
-}
 
+// Retrieve user by token
+const getUserByToken = async (users, token) => {
+  try {
+    const user = await users.findOne({ resetToken: token });
+    return user || null; // Return user if found, otherwise null
+  } catch (error) {
+    console.error("Error fetching user by token:", error);
+    throw new Error("Unable to fetch user by token.");
+  }
+};
 
-const addToken = async (token,users, userId) => {
+// Add or update a token for a user
+const addToken = async (users, token, userId) => {
   try {
     const userID = new ObjectId(userId);
-    // Update the user document where the userId matches
-    await users.updateOne({_id:userID},{ $set: { resetToken: token } },{ upsert: true });
-    console.log("Update Successful");
-    return true;    
+    const result = await users.updateOne(
+      { _id: userID },
+      { $set: { resetToken: token } },
+      { upsert: true }
+    );
+    return result.modifiedCount > 0 || result.upsertedCount > 0; // Return true if successful
   } catch (error) {
-    // An error occurred during the update
     console.error("Error adding token:", error);
-    return false;
+    throw new Error("Unable to add token to user.");
   }
 };
-const getUserByID = async (Users, userID) => {
-  return Users.findOne({ _id: new ObjectId(userID) });
+
+// Retrieve user by ID
+const getUserByID = async (users, userId) => {
+  try {
+    const user = await users.findOne({ _id: new ObjectId(userId) });
+    return user || null; // Return user if found, otherwise null
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw new Error("Unable to fetch user by ID.");
+  }
 };
 export {
-  getCollectionName,
+  getCollection,
   getUserByEmail,
   createUser,
   getUserByID,

@@ -1,45 +1,59 @@
 import jwt from "jsonwebtoken";
-// Middleware function to extract JWT token from request headers
-const extractAdminTokenFromCookie = (req, res, next) => {
-  const cookieHeader = req.headers.cookie;
 
+// Helper function to parse cookies from the cookie header
+const parseCookies = (cookieHeader) => {
+  const cookies = {};
   if (cookieHeader) {
-    const cookies = cookieHeader.split(';');
-
-    for (const cookie of cookies) {
-      
-      const [name, value] = cookie.trim().split('=');
-      
-      if (name === 'adminToken') {
-        
-        req.adminToken = value;
-        return next(); 
+    cookieHeader.split(";").forEach((cookie) => {
+      const [name, value] = cookie.trim().split("=");
+      if (name && value) {
+        cookies[name] = value;
       }
-    }
+    });
   }
-  req.adminToken = null;
-  next();
-}
-  
-  // Middleware function to authenticate user based on JWT token
-const authenticateAdmin = (req, res, next) => {
+  return cookies;
+};
 
-  if(req.adminToken){
-    try {
-      const decoded = jwt.verify(req.adminToken, process.env.ADMIN_SECRET_KEY);
-      req.admin = decoded; // User has been successfully verified and added to the request object
-      next(); // Move to the next middleware or route handler
-    } catch (error) {
-      console.log(error);
-      res.writeHead(401);
-      res.end("No Access");
-    }
-    
-  }else{
-    req.admin = null;
+// Middleware to extract admin JWT token from cookies
+const extractAdminTokenFromCookie = (req, res, next) => {
+  try {
+    const cookieHeader = req.headers.cookie;
+    const cookies = parseCookies(cookieHeader);
+    req.adminToken = cookies.adminToken || null; // Set adminToken or null if not found
+  } catch (error) {
+    console.error("Error parsing admin cookies:", error);
+    req.adminToken = null; // Ensure token is null if an error occurs
+  }
+  next(); // Proceed to the next middleware
+};
+
+// Middleware to authenticate admin based on the JWT token
+const authenticateAdmin = (req, res, next) => {
+  if (!req.adminToken) {
+    req.admin = null; // No token, continue without authentication
     return next();
   }
-}
 
-export {extractAdminTokenFromCookie,authenticateAdmin};
+  try {
+    // Validate the presence of ADMIN_SECRET_KEY
+    const secretKey = process.env.ADMIN_SECRET_KEY;
+    if (!secretKey) {
+      console.error(
+        "ADMIN_SECRET_KEY is not defined in environment variables."
+      );
+      res.writeHead(500, { "Content-Type": "text/plain" });
+      return res.end("Internal Server Error");
+    }
 
+    // Verify and decode the admin token
+    const decoded = jwt.verify(req.adminToken, secretKey);
+    req.admin = decoded; // Attach decoded admin data to request object
+    next(); // Proceed to the next middleware or route handler
+  } catch (error) {
+    console.error("JWT verification failed for admin:", error.message);
+    res.writeHead(401, { "Content-Type": "text/plain" });
+    res.end("Unauthorized Access");
+  }
+};
+
+export { extractAdminTokenFromCookie, authenticateAdmin };

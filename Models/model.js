@@ -1,19 +1,31 @@
 import { ObjectId } from "mongodb";
-import {db} from "../helper/database.js";
+import { db } from "../helper/database.js";
 
-
-const getCollectionName = () => {
-  const collection = db.collection("Models");
-  return collection;
+// Generic helper to retrieve a collection
+const getCollection = (collectionName) => {
+  return db.collection(collectionName);
 };
 
-const getDataById = async(collection,id) => {
-  return await collection.findOne({_id: new ObjectId(id)});
-}
+// Retrieve a model by ID
+const getDataById = async (modelsCollection, id) => {
+  try {
+    const data = await modelsCollection.findOne({ _id: new ObjectId(id) });
+    return data || null; // Return the data if found, otherwise null
+  } catch (error) {
+    console.error(`Error fetching data by ID (${id}):`, error);
+    throw new Error("Unable to fetch data by ID.");
+  }
+};
 
-const createModel = async (collection, modelData) => {
-  return collection.insertOne(modelData);
+// Create a new model
+const createModel = async (modelsCollection, modelData) => {
+  try {
+    const result = await modelsCollection.insertOne(modelData);
+    return result.insertedId; // Return the ID of the newly created model
+  } catch (error) {
+    console.error("Error creating model:", error);
+    throw new Error("Unable to create model.");
+  }
 };
-export {
-  getCollectionName,getDataById, createModel
-};
+
+export { getCollection, getDataById, createModel };

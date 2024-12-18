@@ -1,34 +1,19 @@
+import { db } from "../helper/database.js";
 
-import {db} from "../helper/database.js";
-
-const getCounterCollectionName = () => {
-  const collection = db.collection("Counters");
-  return collection;
-}
-const getOrderCollectionName = () => {
-  const collection = db.collection("Orders");
-  return collection;
+// Generic helper to retrieve a collection
+const getCollection = (collectionName) => {
+  return db.collection(collectionName);
 };
 
-const getOrderByEmail = async (collection, email) => {
+// Retrieve order by email
+const getOrderByEmail = async (ordersCollection, email) => {
   try {
-    // Retrieve user data from the database by email
-    const order = await collection.findOne({ email }) || null;
-      
-    // If user exists, return user data
-    if (order) {
-      return order;
-    } else {
-      // If user does not exist, return null
-      return null;
-    }
+    const order = await ordersCollection.findOne({ email });
+    return order || null; // Return order if found, otherwise null
   } catch (error) {
-    // Handle any errors
-    console.error("Error fetching order by email:", error);
-    throw error; // Re-throw the error to be handled by the caller
+    console.error(`Error fetching order by email (${email}):`, error);
+    throw new Error("Unable to fetch order by email.");
   }
 };
 
-export {
-  getOrderCollectionName,getOrderByEmail,getCounterCollectionName
-};
+export { getCollection, getOrderByEmail };
